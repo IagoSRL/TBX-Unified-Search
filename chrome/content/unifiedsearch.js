@@ -103,6 +103,11 @@ var unifiedsearch = {
 	loadFilterAutoComplete: function(gsbox, qfbox) {
 		gsbox.controller.input = gsbox;
 		gsbox.controller.startSearch(qfbox.value);
+		
+		// Study the showPopup function in gsbox.popup
+		//for (let ip in gsbox.popup)
+		//	Application.console.log("PopUp: " + ip + "=" + gsbox.popup[ip]);
+		
 		//let popup = document.getElementById("PopupGlodaAutocomplete");
 		/*Application.console.log("Popup: " + gsbox.popup.id);
 		let st = window.getComputedStyle(qfbox, null);
@@ -128,6 +133,8 @@ var unifiedsearch = {
 				else
 					unifiedsearch.resetFilter();
 		} else {
+			// Hide the autocomplete popup
+			gsbox.popup.hidePopup();
 			// if autocomplete is disabled and filtering enable, filter must be executed now
 			if (this.options.enableFilteringInSearchBox &&
 				this.options.incompatibleFilteringAndAutoComplete)
