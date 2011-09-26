@@ -1,0 +1,5 @@
+content   unifiedsearch                 chrome/content/
+skin      unifiedsearch   classic/1.0   chrome/skin/
+locale    unifiedsearch   en-US         chrome/locale/en-US/
+locale    unifiedsearch   es-ES         chrome/locale/es-ES/
+overlay chrome://messenger/content/messenger.xul   chrome://unifiedsearch/content/unifiedsearch.xul

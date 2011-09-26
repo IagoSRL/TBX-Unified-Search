@@ -6,6 +6,9 @@ __________________________________________
 Large name:
 	Unified Search Thunderbird Extension
 
+Name Notes:
+	In the project name, 'TBX' means Thunderbird Extension, to abbreviate and avoid confusion with other projects that use 'Unified Search' as name but have very differents purposes.
+
 Web page:
 	https://addons.mozilla.org/thunderbird/addon/unified-search-187593/
 
@@ -36,3 +39,14 @@ Description:
 	- You can place the widget wherever you want.
 
 	See the extension options for more minor features!
+
+Compillation:
+	Just like anothers Mozilla (Firefox or Thunderbird) extensions, compress with zip format the project folders and files and set the '.xpi' extension to the name of the compressed file: unified-search.xpi, for example.
+
+Installation:
+	Open Mozilla Thunderbird, go to menu Tools->Add-Ons->Extensions, click the button 'Install..' and select the compressed file 'unified-search.xpi', press ok when 'add-on install window' appear and restart Thunderbird.
+	Just installed, defaults Thunderbird widgets (global search and quick filter) will be enhanced with 'unified' features, but you can avoid use it and start using de 'Unified Search widget' going to Thunderbird menu View->Toolbars->Customize and drag&drop the widget in your toollbar; you can remove the standard global search box or hide it using Unified Search options.
+
+Configuration:
+	Go to menu Tools->Add-ons->Extensions, click over Unified Search, button 'Preferences'. Select options you want and press Ok.
+

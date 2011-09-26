@@ -1,0 +1,7 @@
+<!ENTITY prefwindow.title "Unified Search preferences">
+<!ENTITY pane1.title "Unified Search preferences">
+
+<!ENTITY searchShorcuts.label "Key shorcuts to launch a Global Search inside the Quick Filter Box:">
+<!ENTITY searchShorcut.altEnter "Alt + Enter">
+<!ENTITY searchShorcut.ctrlEnter "Control + Enter">
+<!ENTITY searchShorcut.enter "Enter">
