@@ -17,3 +17,9 @@
 <!ENTITY autoComplete.enableInFilterBox "Enable autocomplete suggestions in quick filter box">
 <!ENTITY enableSearchTransfer.label "Copy the text from the search box to the filter box when press Ctrl+F (and apply the filter)">
 <!ENTITY enableFilterTransfer.label "Copy the text from the filter box to the search box when press Ctrl+K (and show the autocomplete suggestions)">
+
+<!ENTITY hideFilterBox.label "Hide and disable the quick filter box (you can use the global search box with 'quick filtering' enabled instead)">
+<!ENTITY hideSearchBox.label "Hide and disable the global search box (you can use the quick filter box with 'global search shortcuts' enabled instead)">
+<!ENTITY enableFilteringInSearchBox.label "Enable 'Quick Filtering' in search box">
+<!ENTITY incompatibleFilteringAndAutoComplete.label "AutoComplete and 'Quick Filtering' must be incompatible: if autocomplete suggestions are enabled, the filter will not be applied, and viceversa">
+<!ENTITY autoShowFilterBar.label "When filtering in search box is enabled, the filter bar must be showed automatically when do some filter and hidden when not">

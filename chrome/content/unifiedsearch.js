@@ -80,16 +80,69 @@ var unifiedsearch = {
 		unifiedsearch.openGlobalSearch(aSearch);
 	},
 	
+	filterFromSearchBox: function(gsbox) {
+		// get quick filter box
+		let quickFilter = document.getElementById("qfb-qs-textbox");
+		// only if the text change
+		if (quickFilter.value != gsbox.value) {
+			// transfer text from global-search to quick-filter box
+			quickFilter.value = gsbox.value;
+			// do the filter (without delay?!)
+			quickFilter.doCommand();
+		}
+		if (unifiedsearch.options.autoShowFilterBar)
+			QuickFilterBarMuxer._showFilterBar(gsbox.value != '');
+	},
+	
 	// load and show autocomplete suggestions from global -gloda- search
 	loadSearchAutoComplete: function(gsbox) {
 		gsbox.controller.input = gsbox;
 		gsbox.controller.startSearch(gsbox.value);
+	},
+	// load and show autocomplete suggestions from global -gloda- search near to quick filter box
+	loadFilterAutoComplete: function(gsbox, qfbox) {
+		gsbox.controller.input = gsbox;
+		gsbox.controller.startSearch(qfbox.value);
+		//let popup = document.getElementById("PopupGlodaAutocomplete");
+		/*Application.console.log("Popup: " + gsbox.popup.id);
+		let st = window.getComputedStyle(qfbox, null);
+		gsbox.popup.style.position = "absolute";
+		gsbox.popup.style.display = "block";
+		gsbox.popup.style.top = qfbox.offsetTop;
+		gsbox.popup.style.left = qfbox.offsetLeft;
+		Application.console.log("left: " + st.left);
+		Application.console.log("pop: " + gsbox.popup.style.position);
+		Application.console.log("pop: " + gsbox.popup.style.left);
+		Application.console.log("pop: " + gsbox.popup.style.top);*/
 	},
 	switchSearchAutoComplete: function(gsbox) {
 		this.options.enableAutoCompleteInSearchBox = !(gsbox.disableAutoComplete = !gsbox.disableAutoComplete);
 		if (!gsbox.disableAutoComplete) {
 			// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
 			this.loadSearchAutoComplete(gsbox);
+			// if autocomplete is enable and filtering enable, filter results must be cleared now
+			if (this.options.enableFilteringInSearchBox &&
+				this.options.incompatibleFilteringAndAutoComplete)
+				if (this.options.autoShowFilterBar)
+					unifiedsearch.closeFilter();
+				else
+					unifiedsearch.resetFilter();
+		} else {
+			// if autocomplete is disabled and filtering enable, filter must be executed now
+			if (this.options.enableFilteringInSearchBox &&
+				this.options.incompatibleFilteringAndAutoComplete)
+				this.filterFromSearchBox(gsbox);
+		}
+	},
+	/* Really, the autocomplete feature only exits in the global search box, here I try to move this autocomplete
+		to be near the filter box to seams be their autocomplete -with global suggestions, of course- */
+	switchFilterAutoComplete: function(qfbox) {
+		let gsbox = document.getElementById("searchInput");
+		this.options.enableAutoCompleteInFilterBox = !this.options.enableAutoCompleteInFilterBox;
+		gsbox.disableAutoComplete = !this.options.enableAutoCompleteInFilterBox;
+		if (!gsbox.disableAutoComplete) {
+			// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
+			this.loadFilterAutoComplete(gsbox, qfbox);
 		}
 	},
 
@@ -124,6 +177,11 @@ var unifiedsearch = {
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
 				unifiedsearch.doGlobalSearch(this);		
 			}
+			else if (unifiedsearch.options.autoCompleteShortcut_altA &&
+					aEvent.keyCode == KeyEvent.DOM_VK_A) {
+				// TODO function code of switchFilterAutoComplete: dificult and maybe unnecessary to implement
+				//unifiedsearch.switchFilterAutoComplete(this);
+			}
 		}
 		// Without modifiers: Only pressing 'Enter':
 		else if (unifiedsearch.options.searchShortcut_enter && 
@@ -136,28 +194,53 @@ var unifiedsearch = {
 	
 	// Global search box key handler
 	globalSearchBoxHandler: function(aEvent) {
-		if (aEvent.ctrlKey) {
-			// Press 'F' or 'f'
-			if (unifiedsearch.options.enableSearchTransfer &&
-				aEvent.keyCode == KeyEvent.DOM_VK_F) {
-				// get quick filter box
-				let quickFilter = document.getElementById("qfb-qs-textbox");
-				// transfer text from global-search to quick-filter box
-				quickFilter.value = this.value;
-				//quickFilter.mInputField.value = this.value;
-				// do the filter
-				quickFilter.doCommand();
-				// Reset global:
-				this.value = '';
-				// Set the focus over the quick-filter. Here must not allow that TB key-handler do it (the text-transfer and the filter will fail)
-				quickFilter.focus();
-				aEvent.stopPropagation();
-				aEvent.preventDefault();
+	
+		if (aEvent.type == "keyup") {
+			// This must be do it in 'keyup' event because in 'keydown' and 'keypress' events the input.value didn't have been processed
+			if (unifiedsearch.options.enableFilteringInSearchBox &&
+				!aEvent.ctrlKey && !aEvent.altKey && !aEvent.metaKey) {
+				
+				// Check if filtering must be desactived because autocomplete is enable and are configured like incompatible
+				if (unifiedsearch.options.incompatibleFilteringAndAutoComplete &&
+					unifiedsearch.options.enableAutoCompleteInSearchBox)
+					return;
+					
+				if (aEvent.keyCode != aEvent.DOM_VK_RETURN)
+					unifiedsearch.filterFromSearchBox(this);
 			}
 		}
-		else if (unifiedsearch.options.autoCompleteShortcut_altA &&
-				aEvent.altKey && aEvent.keyCode == KeyEvent.DOM_VK_A) {
-			unifiedsearch.switchSearchAutoComplete(this);
+		else if (aEvent.type == "keydown") {
+			if (aEvent.keyCode == aEvent.DOM_VK_RETURN && 
+				unifiedsearch.options.enableFilteringInSearchBox) {
+				// If a global search is being executed (press 'Enter' in textbox or selecting a suggestion and press 'Enter'),
+				// search box is TB default cleared, but quicksearch box and bar not, do it here!: (in keyup event there are 
+				// 'currentTab' problems)
+				if (unifiedsearch.options.autoShowFilterBar)
+					unifiedsearch.closeFilter();
+				else
+					unifiedsearch.resetFilter();
+			} else if (aEvent.ctrlKey) {
+				// Press 'F' or 'f'
+				if (unifiedsearch.options.enableSearchTransfer &&
+					aEvent.keyCode == KeyEvent.DOM_VK_F) {
+					// get quick filter box
+					let quickFilter = document.getElementById("qfb-qs-textbox");
+					// transfer text from global-search to quick-filter box
+					quickFilter.value = this.value;
+					//quickFilter.mInputField.value = this.value;
+					// do the filter
+					quickFilter.doCommand();
+					// Reset global:
+					this.value = '';
+					// Set the focus over the quick-filter. Here must not allow that TB key-handler do it (the text-transfer and the filter will fail)
+					quickFilter.focus();
+					aEvent.stopPropagation();
+					aEvent.preventDefault();
+				}
+			} else if (unifiedsearch.options.autoCompleteShortcut_altA &&
+					aEvent.altKey && aEvent.keyCode == KeyEvent.DOM_VK_A) {
+				unifiedsearch.switchSearchAutoComplete(this);
+			}
 		}
 	},
 	
@@ -177,6 +260,12 @@ var unifiedsearch = {
 			case "autoComplete.enableInFilterBox":
 				unifiedsearch.configureAutoCompleteEnableInFilterBox();
 				break;
+			case "filterBox.hide":
+				unifiedsearch.configureHideFilterBox();
+				break;
+			case "searchBox.hide":
+				unifiedsearch.configureHideSearchBox();
+				break;
 		}
 	},
 	
@@ -192,7 +281,12 @@ var unifiedsearch = {
 		get enableAutoCompleteInSearchBox() { return this.prefs.getBoolPref("autoComplete.enableInSearchBox") },
 		set enableAutoCompleteInSearchBox(val) { this.prefs.setBoolPref("autoComplete.enableInSearchBox", val) },
 		get enableAutoCompleteInFilterBox() { return this.prefs.getBoolPref("autoComplete.enableInFilterBox") },
-		set enableAutoCompleteInFilterBox(val) { this.prefs.setBoolPref("autoComplete.enableInFilterBox", val) }
+		set enableAutoCompleteInFilterBox(val) { this.prefs.setBoolPref("autoComplete.enableInFilterBox", val) },
+		get enableFilteringInSearchBox() { return this.prefs.getBoolPref("searchBox.enableFiltering") },
+		get incompatibleFilteringAndAutoComplete() { return this.prefs.getBoolPref("searchBox.incompatibleFilteringAndAutoComplete") },
+		get hideFilterBox() { return this.prefs.getBoolPref("filterBox.hide") },
+		get hideSearchBox() { return this.prefs.getBoolPref("searchBox.hide") },
+		get autoShowFilterBar() { return this.prefs.getBoolPref("filterBar.autoShow") }
 	},
 	
 	/*****************************************************************************************/
@@ -206,6 +300,20 @@ var unifiedsearch = {
 	configureAutoCompleteEnableInFilterBox: function() {
 		// TODO
 	},
+	configureHideFilterBox: function() {
+		let qfbox = document.getElementById("qfb-qs-textbox");
+		if (this.options.hideFilterBox)
+			qfbox.style.visibility = "collapse";
+		else
+			qfbox.style.visibility = "visible";
+	},
+	configureHideSearchBox: function() {
+		let gsbox = document.getElementById("searchInput");
+		if (this.options.hideSearchBox)
+			gsbox.style.visibility = "collapse";
+		else
+			gsbox.style.visibility = "visible";
+	},
 	
 	/* Initializing Unified Search */
 	startup: function (aEvent) {
@@ -218,11 +326,15 @@ var unifiedsearch = {
         "keydown", this.quickFilterBoxHandler, false);
 		document.getElementById("searchInput").addEventListener(
         "keydown", this.globalSearchBoxHandler, false);
+		document.getElementById("searchInput").addEventListener(
+        "keyup", this.globalSearchBoxHandler, false);
 
 		// Configure all needed:
 		this.configureAutoCompleteTabScrolling();
 		this.configureAutoCompleteEnableInSearchBox();
 		this.configureAutoCompleteEnableInFilterBox();
+		this.configureHideFilterBox();
+		this.configureHideSearchBox();
 	},
 	shutdown: function (aEvent) {
 		this.options.prefs.removeObserver("", this);

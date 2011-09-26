@@ -7,3 +7,8 @@ pref("extensions.unifiedsearch.autoComplete.enableInFilterBox", false);
 pref("extensions.unifiedsearch.autoCompleteShortcut.altA", true);
 pref("extensions.unifiedsearch.enableSearchTransfer", true);
 pref("extensions.unifiedsearch.enableFilterTransfer", true);
+pref("extensions.unifiedsearch.searchBox.enableFiltering", true);
+pref("extensions.unifiedsearch.searchBox.incompatibleFilteringAndAutoComplete", true);
+pref("extensions.unifiedsearch.filterBox.hide", true);
+pref("extensions.unifiedsearch.searchBox.hide", false);
+pref("extensions.unifiedsearch.filterBar.autoShow", true);

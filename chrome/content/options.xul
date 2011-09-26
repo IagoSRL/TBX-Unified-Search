@@ -15,22 +15,32 @@
 	  <preference id="enableAutoCompleteInFilterBox" name="extensions.unifiedsearch.autoComplete.enableInFilterBox" type="bool"/>
 	  <preference id="enableFilterTransfer" name="extensions.unifiedsearch.enableFilterTransfer" type="bool"/>
 	  <preference id="enableSearchTransfer" name="extensions.unifiedsearch.enableSearchTransfer" type="bool"/>
+	  <preference id="enableFilteringInSearchBox" name="extensions.unifiedsearch.searchBox.enableFiltering" type="bool"/>
+	  <preference id="incompatibleFilteringAndAutoComplete" name="extensions.unifiedsearch.searchBox.incompatibleFilteringAndAutoComplete" type="bool"/>
+	  <preference id="hideFilterBox" name="extensions.unifiedsearch.filterBox.hide" type="bool"/>
+	  <preference id="hideSearchBox" name="extensions.unifiedsearch.searchBox.hide" type="bool"/>
+	  <preference id="autoShowFilterBar" name="extensions.unifiedsearch.filterBar.autoShow" type="bool"/>
 
     </preferences>
 
 	<vbox flex="1" align="stretch">
 		<groupbox>
 			<caption label="&quickFilterbox.title;"/>
+			<checkbox id="hideFilterBox" preference="hideFilterBox" label="&hideFilterBox.label;"/>
 			<checkbox id="enableFilterTransfer" preference="enableFilterTransfer" label="&enableFilterTransfer.label;"/>
 			<label>&searchShortcuts.label;</label>
 			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShortcut.altEnter;"/>
-			<checkbox id="searchAltEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
-			<checkbox id="searchAltEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
+			<checkbox id="searchCtrlEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
+			<checkbox id="searchEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
 		</groupbox>
 		<groupbox>
 			<caption label="&globalSearchBox.title;"/>
+			<checkbox id="hideSearchBox" preference="hideSearchBox" label="&hideSearchBox.label;"/>
 			<checkbox id="enableSearchTransfer" preference="enableSearchTransfer" label="&enableSearchTransfer.label;"/>
 			<checkbox id="tabScrolling" preference="tabScrolling" label="&autoComplete.enableTabScrolling;"/>
+			<checkbox id="enableFilteringInSearchBox" preference="enableFilteringInSearchBox" label="&enableFilteringInSearchBox.label;"/>
+			<checkbox id="incompatibleFilteringAndAutoComplete" preference="incompatibleFilteringAndAutoComplete" label="&incompatibleFilteringAndAutoComplete.label;"/>
+			<checkbox id="autoShowFilterBar" preference="autoShowFilterBar" label="&autoShowFilterBar.label;"/>
 		</groupbox>
 		<groupbox>
 			<caption label="&autoComplete;"/>

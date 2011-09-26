@@ -4,11 +4,11 @@
 
 <!DOCTYPE dialog SYSTEM "chrome://unifiedsearch/locale/about.dtd">
 
-<dialog title="&about; (pre)Unified Search" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<dialog title="&about; Unified Search" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <groupbox align="center" orient="horizontal">
     <vbox>
-      <text value="(pre)Unified Search" style="font-weight: bold; font-size: x-large;"/>
-      <text value="&version; 0.3"/>
+      <text value="Unified Search" style="font-weight: bold; font-size: x-large;"/>
+      <text value="&version; 0.4"/>
       <separator class="thin"/>
       <text value="&createdBy;" style="font-weight: bold;"/>
       <text value="Iago Lorenzo Salgueiro [IagoSRL@gmail.com]"/>

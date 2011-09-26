@@ -1,7 +1,7 @@
 ﻿<!ENTITY prefwindow.title "Unified Search preferences">
 <!ENTITY pane1.title "Unified Search preferences">
 
-<!ENTITY quickFilterbox.title "Opciones del cuadro de Filtro Rápido">
+<!ENTITY quickFilterbox.title "Opciones del cuadro de Filtrado Rápido">
 <!ENTITY globalSearchBox.title "Opciones del cuadro de Búsqueda Global">
 
 <!ENTITY searchShortcuts.label "Realizar una Búsqueda Global desde la Barra de Filtros usando los siguientes atajos de teclado:">
@@ -15,5 +15,17 @@
 <!ENTITY autoCompleteShortcut.altA "Alt + A">
 <!ENTITY autoComplete.enableInSearchBox "Habilitar las sugerencias de Auto-Completado en el cuadro de búsqueda">
 <!ENTITY autoComplete.enableInFilterBox "Habilitar las sugerencias de Auto-Completado en el cuadro de filtrado rápido">
-<!ENTITY enableSearchTransfer.label "Copiar el texto del cuadro de búsquedas al de filtro al pulsar Ctrl+F (y se aplicará el filtro)">
-<!ENTITY enableFilterTransfer.label "Copiar el texto del cuadro de filtro al de búsquedas al pulsar Ctrl+K (y se mostrarán las sugerencias de autocompletado)">
+<!ENTITY enableSearchTransfer.label "Copiar el texto del cuadro de búsqueda al de filtrado al pulsar Ctrl+F (y se aplicará el filtro)">
+<!ENTITY enableFilterTransfer.label "Copiar el texto del cuadro de filtrado al de búsquedas al pulsar Ctrl+K (y se mostrarán las sugerencias de autocompletado)">
+
+<!ENTITY hideFilterBox.label "">
+<!ENTITY hideSearchBox.label "">
+<!ENTITY enableFilteringInSearchBox.label "">
+<!ENTITY incompatibleFilteringAndAutoComplete.label "AutoComplete and Filtering must be incompatible: if autocomplete suggesions are enable, filtering will not work OR current folder will not be filtered ">
+<!ENTITY autoShowFilterBar.label "">
+
+<!ENTITY hideFilterBox.label "Ocultar y deshabilitar el cuadro de Filtrado Rápido (puedes usar el cuadro de búsqueda global con 'filtrado rápido' habilitado en su lugar)">
+<!ENTITY hideSearchBox.label "Ocultar y deshabilitar el cuadro de Búsqueda Global (puedes usar el cuadro de Filtrado Rápido con 'atajos de búsqueda global' habilitados en su lugar)">
+<!ENTITY enableFilteringInSearchBox.label "Habilitar el 'Filtrado Rápido' en el cuadro de búsqueda">
+<!ENTITY incompatibleFilteringAndAutoComplete.label "Auto-Completado y 'Filtrado Rápido' deben ser incompatibles: si las sugerencias de autocompletado están habilitadas, el filtrado no se aplicará, y viceversa">
+<!ENTITY autoShowFilterBar.label "Cuando el 'Filtrado Rápido' en el cuadro de búsqueda esté activado, la 'barra de filtros' debe mostrarse automáticamente al aplicarse un filtro y ocultarse cuando no">
