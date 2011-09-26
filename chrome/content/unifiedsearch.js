@@ -154,13 +154,13 @@ var unifiedsearch = {
 	},
 
 	// Quick filter box key handler
-	quickFilterBoxHandler: function(aEvent) {
+	quickFilterBoxHandler: function(aEvent, qfbox) {
 		// 'Control' Modifier
 		if (aEvent.ctrlKey) {
 			// Press 'Enter'
 			if (unifiedsearch.options.searchShortcut_ctrlEnter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
-				unifiedsearch.doGlobalSearch(this);
+				unifiedsearch.doGlobalSearch(qfbox);
 			}
 			// Press 'K' or 'k'
 			else if (unifiedsearch.options.enableFilterTransfer &&
@@ -168,12 +168,12 @@ var unifiedsearch = {
 				// get global search input/textbox
 				let globalSearch = document.getElementById("searchInput");
 				// transfer text from filter-box to search-box
-				globalSearch.value = this.value;
+				globalSearch.value = qfbox.value;
 				// load and show autocomplete suggestions from global -gloda- search, if active
 				if (!globalSearch.disableAutoComplete)
 					unifiedsearch.loadSearchAutoComplete(globalSearch);
 				// Reset filter:
-				unifiedsearch.resetFilter(this);
+				unifiedsearch.resetFilter(qfbox);
 				
 				// Set the focus over the global-search is not needed (another TB key-handler already do it)
 			}
@@ -187,7 +187,7 @@ var unifiedsearch = {
 		else if (aEvent.altKey) {
 			if (unifiedsearch.options.searchShortcut_altEnter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
-				unifiedsearch.doGlobalSearch(this);		
+				unifiedsearch.doGlobalSearch(qfbox);		
 			}
 			else if (unifiedsearch.options.autoCompleteShortcut_altA &&
 					aEvent.keyCode == KeyEvent.DOM_VK_A) {
@@ -198,15 +198,15 @@ var unifiedsearch = {
 		// Without modifiers: Only pressing 'Enter':
 		else if (unifiedsearch.options.searchShortcut_enter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
-			unifiedsearch.doGlobalSearch(this);
+			unifiedsearch.doGlobalSearch(qfbox);
 		}
 
 		unifiedsearch.previousKeyDown = aEvent.keyCode;
 	},
 	
 	// Global search box key handler
-	globalSearchBoxHandler: function(aEvent) {
-	
+	globalSearchBoxHandler: function(aEvent, gsbox) {
+
 		if (aEvent.type == "keyup") {
 			// This must be do it in 'keyup' event because in 'keydown' and 'keypress' events the input.value didn't have been processed
 			if (unifiedsearch.options.enableFilteringInSearchBox &&
@@ -218,10 +218,11 @@ var unifiedsearch = {
 					return;
 					
 				if (aEvent.keyCode != aEvent.DOM_VK_RETURN)
-					unifiedsearch.filterFromSearchBox(this);
+					unifiedsearch.filterFromSearchBox(gsbox);
 			}
 		}
 		else if (aEvent.type == "keydown") {
+
 			if (aEvent.keyCode == aEvent.DOM_VK_RETURN && 
 				unifiedsearch.options.enableFilteringInSearchBox) {
 				// If a global search is being executed (press 'Enter' in textbox or selecting a suggestion and press 'Enter'),
@@ -238,49 +239,62 @@ var unifiedsearch = {
 					// get quick filter box
 					let quickFilter = document.getElementById("qfb-qs-textbox");
 					// transfer text from global-search to quick-filter box
-					quickFilter.value = this.value;
+					quickFilter.value = gsbox.value;
 					//quickFilter.mInputField.value = this.value;
 					// do the filter
 					quickFilter.doCommand();
 					// Reset global:
-					this.value = '';
+					gsbox.value = '';
 					// Set the focus over the quick-filter. Here must not allow that TB key-handler do it (the text-transfer and the filter will fail)
 					quickFilter.focus();
 					aEvent.stopPropagation();
 					aEvent.preventDefault();
 				} else if (unifiedsearch.options.autoCompleteShortcut_ctrlA &&
 					aEvent.keyCode == KeyEvent.DOM_VK_A) {
-					unifiedsearch.switchSearchAutoComplete(this);
+					unifiedsearch.switchSearchAutoComplete(gsbox);
 				}
 			} else if (aEvent.altKey && 
 					unifiedsearch.options.autoCompleteShortcut_altA &&
 					aEvent.keyCode == KeyEvent.DOM_VK_A) {
-				unifiedsearch.switchSearchAutoComplete(this);
+				unifiedsearch.switchSearchAutoComplete(gsbox);
 			}
 		}
 	},
 	
 	// Observing changes in preferences (nsIObserver)
 	observe: function(subject, topic, data) {
-		// I'm only interested in preferences values changed
-		if (topic != "nsPref:changed") return;
-
-		switch(data)
-		{
-			case "autoComplete.enableTabScrolling":
-				unifiedsearch.configureAutoCompleteTabScrolling();
+	
+		switch (topic) {
+			// I'm only interested in preferences values changed
+			case "nsPref:changed":
+				switch (data)
+				{
+					case "extensions.unifiedsearch.autoComplete.enableTabScrolling":
+						unifiedsearch.configureAutoCompleteTabScrolling();
+						break;
+					case "extensions.unifiedsearch.autoComplete.enableInSearchBox":
+						unifiedsearch.configureAutoCompleteEnableInSearchBox();
+						break;
+					case "extensions.unifiedsearch.autoComplete.enableInFilterBox":
+						unifiedsearch.configureAutoCompleteEnableInFilterBox();
+						break;
+					case "extensions.unifiedsearch.filterBox.hide":
+						unifiedsearch.configureHideFilterBox();
+						break;
+					case "extensions.unifiedsearch.searchBox.hide":
+					case "mailnews.database.global.indexer.enabled":
+					case "extensions.unifiedsearch.searchBox.enableFiltering":
+						unifiedsearch.configureHideSearchBox();
+						break;
+				}
 				break;
-			case "autoComplete.enableInSearchBox":
-				unifiedsearch.configureAutoCompleteEnableInSearchBox();
-				break;
-			case "autoComplete.enableInFilterBox":
-				unifiedsearch.configureAutoCompleteEnableInFilterBox();
-				break;
-			case "filterBox.hide":
-				unifiedsearch.configureHideFilterBox();
-				break;
-			case "searchBox.hide":
-				unifiedsearch.configureHideSearchBox();
+			case "MsgCreateDBView":
+				//unifiedsearch.configureFilterTextSearchBox();
+				// Because when are in search box and select another folder this code is executed before 
+				// the focused element changes (in this case, before the search box is blur) and 
+				// the function don't works with focus in search box.
+				//set_Timeout("unifiedsearch.configureFilterTextSearchBox()", 100);
+				unifiedsearch.setSecureTimeout(function(){unifiedsearch.configureFilterTextSearchBox()}, 100);
 				break;
 		}
 	},
@@ -303,7 +317,12 @@ var unifiedsearch = {
 		get incompatibleFilteringAndAutoComplete() { return this.prefs.getBoolPref("searchBox.incompatibleFilteringAndAutoComplete") },
 		get hideFilterBox() { return this.prefs.getBoolPref("filterBox.hide") },
 		get hideSearchBox() { return this.prefs.getBoolPref("searchBox.hide") },
-		get autoShowFilterBar() { return this.prefs.getBoolPref("filterBar.autoShow") }
+		get autoShowFilterBar() { return this.prefs.getBoolPref("filterBar.autoShow") },
+		
+		/**** The options with the prefix 'app_' in the name, are preferences of the 
+				application -thunderbird-, not from this extension ****/
+		appPrefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch(""),
+		get app_glodaSearchEnabled() { return this.appPrefs.getBoolPref("mailnews.database.global.indexer.enabled") }
 	},
 	
 	/*****************************************************************************************/
@@ -326,40 +345,109 @@ var unifiedsearch = {
 	},
 	configureHideSearchBox: function() {
 		let gsbox = document.getElementById("searchInput");
-		if (this.options.hideSearchBox)
+		
+		// A global standard option of Thunderbird must be considered: if gloda global and indexed search is disabled in Tools/Options/Advanced,
+		// (mailnews.database.global.indexer.enabled) the search box -gsbox- is hidden by TB, but I am re-showing it here!
+		// I must do further checks here:
+		//  gsbox must be hidden if:
+		//   - hideSearchBox == true  (I force to hide the search box, ever do it)
+		//	   OR
+		//   - mailnews.database.global.indexer.enabled == false   (TB don't want use the GLODA search, but search box can be used to filtering too..)
+		// 	   AND
+		//   - enableFilteringInSearchBox == false   (..filtering enabled require show the box, including if GLODA search is disabled)
+		
+		if (this.options.hideSearchBox ||
+			(!this.options.app_glodaSearchEnabled &&
+			!this.options.enableFilteringInSearchBox))
 			gsbox.style.visibility = "collapse";
 		else
 			gsbox.style.visibility = "visible";
 	},
+	// Test code:
+	configureFloatingFilterBar: function() {
+		let qfbar = document.getElementById("quick-filter-bar");
+	},
+	/* This function will check if something filter text must be copied from the filter box to the search box,
+		to maintain the default TB behavior that preserve the last filter text when TB is closed,
+		this is needed when: filtering in search box is enabled AND user is not in the search box.
+	 */
+	configureFilterTextSearchBox: function() {
+		let gsbox = document.getElementById("searchInput");
+		let qfbox = document.getElementById("qfb-qs-textbox");
+		// Only copy when filter is enabled in search box and this has not the focus
+		if (this.options.enableFilteringInSearchBox &&
+			//gsbox.hasFocus()?!
+			gsbox.inputField != document.commandDispatcher.focusedElement // document.activeElement don't works! (the object reference is not equal never)
+			// /* and only if filter box is hidden? */ this.options.hideFilterBox)
+			)
+		{
+			gsbox.value = qfbox.value;
+		}
+	},
 	
 	/* Initializing Unified Search */
 	startup: function (aEvent) {
+		
 		// Observer changes in preferences
-		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		this.options.prefs.addObserver("", this, false);
-	
+		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		this.options.appPrefs.addObserver("", this, false);
+
 		// Attach key handlers
 		document.getElementById("qfb-qs-textbox").addEventListener(
-        "keydown", this.quickFilterBoxHandler, false);
+        "keydown", function (aEvent) { unifiedsearch.quickFilterBoxHandler(aEvent, this) }, false);
 		document.getElementById("searchInput").addEventListener(
-        "keydown", this.globalSearchBoxHandler, false);
+        "keydown", function (aEvent) { unifiedsearch.globalSearchBoxHandler(aEvent, this) }, false);
 		document.getElementById("searchInput").addEventListener(
-        "keyup", this.globalSearchBoxHandler, false);
-
+        "keyup", function (aEvent) { unifiedsearch.globalSearchBoxHandler(aEvent, this) }, false);
+		
 		// Configure all needed:
+		let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 		this.configureAutoCompleteTabScrolling();
 		this.configureAutoCompleteEnableInSearchBox();
 		this.configureAutoCompleteEnableInFilterBox();
 		this.configureHideFilterBox();
 		this.configureHideSearchBox();
+		
+		// a hack to restore the search box value, waiting to session-restore finish in 700 miliseconds:
+		// use an observer or event about session restore seems the good mode to do this but don't work.
+		//this.configureFloatingFilterBar();
+		//ObserverService.addObserver(this, "sessionstore-state-read", false);
+		//set_Timeout("unifiedsearch.configureFilterTextSearchBox()", 700);
+		this.setSecureTimeout(function(){unifiedsearch.configureFilterTextSearchBox()}, 700);
+		
+		// Observe when user select another folder to synchronize the search-box text with the quick-box text,
+		// (to use the persist future):
+		ObserverService.addObserver(this, "MsgCreateDBView", false);
 	},
 	shutdown: function (aEvent) {
-		this.options.prefs.removeObserver("", this);
+		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
+		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
 	},
 	
 	// Events handlers wrappers for load and unload the extension (to avoid problems with 'this' reference)
 	onLoad: function (aEvent) { unifiedsearch.startup(aEvent) },
-	onUnLoad: function (aEvent) { unifiedsearch.shutdown(aEvent) }
+	onUnLoad: function (aEvent) { unifiedsearch.shutdown(aEvent) },
+	
+	/**********************/
+	/* mini-utils section */
+	/* Callback is a function with a nsITimer like unique parameter;
+		delay in miliseconds */
+	setCallbackTimeout: function (callback, delay) {
+		let timer = Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+		timer.initWithCallback({notify: callback}, 
+			delay, 
+			Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+	},
+	/* Functor is a valid javascript function that will be executed without params;
+		delay in miliseconds*/
+	setSecureTimeout: function (functor, delay) {
+		let timer = Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+		timer.initWithCallback({notify: function(aTimer){functor()}}, 
+			delay, 
+			Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+	}
 }
 window.addEventListener("load", unifiedsearch.onLoad, false);
 window.addEventListener("unload", unifiedsearch.onUnLoad, false);
