@@ -14,5 +14,5 @@ pref("extensions.unifiedsearch.filterBox.hide", true);
 pref("extensions.unifiedsearch.searchBox.hide", false);
 pref("extensions.unifiedsearch.filterBar.autoShow", true);
 pref("extensions.unifiedsearch.filterBar.rememberFilterOptions", true);
-pref("extensions.unifiedsearch.widget.optionsMode", "menu");
+pref("extensions.unifiedsearch.widget.optionsMode", "bar");
 pref("extensions.unifiedsearch.unifiedSearchWidget.mode", "filter");

@@ -1,7 +1,7 @@
 <!ENTITY unifiedsearch.title "Unified Search">
 <!ENTITY unifiedsearch.usw_info "#1 to Search">
 <!ENTITY unifiedsearch.switchmode "Switch between Filter and Global search with autocomplete (Control+A)">
-<!ENTITY unifiedsearch.usw_criteria "Show menu or bar with quick filter options">
+<!ENTITY unifiedsearch.usw_criteria "Show menu or bar with quick filter options ('down arrow' key)">
 <!ENTITY unifiedsearch.usebar "Convert into a horizontal bar">
 <!ENTITY unifiedsearch.usemenu "Convert into a vertical menu">
 <!ENTITY unifiedsearch.customize_title "Unified Search Widget">
@@ -32,3 +32,4 @@
      above, the letter should match it.
      -->
 <!ENTITY unifiedsearch.doSearch.keyLabel.mac "&lt;&#x2318;+Enter&gt;">
+<!ENTITY unifiedsearch.clearwidget "Clear options (Esc+Esc)">

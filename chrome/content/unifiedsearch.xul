@@ -20,7 +20,7 @@
 		 xmlns:x="http://www.w3.org/1999/xhtml">
   <script type="application/javascript" src="chrome://unifiedsearch/content/unifiedsearch.js"/>
 		<keyset>
-		  <key id="usw-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>
+		  <key id="usw-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>		  
 		</keyset>
 <toolbarpalette id="MailToolbarPalette">
 	<toolbaritem id="uswidget" class="chromeclass-toolbar-additional" align="center"
@@ -28,6 +28,7 @@
                  flex="1" insertbefore="searchInput">
 		<commandset>
 			<command id="cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
+			<command id="cmd_clearUnifiedSearchWidget" oncommand="unifiedsearch.cmd_clearUnifiedSearchWidget(event)"/>
 		</commandset>
 		<popupset>
 			<panel id="usw-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
@@ -49,22 +50,22 @@
 				<toolbarseparator/>
 				<toolbarbutton id="usb-qs-sender"
 					observes="usm-qs-sender" command="qfb-qs-sender"
-					label="&quickFilterBar.textFilter.sender.label;" accesskey="S" type="checkbox" closemenu="none" />
+					label="&quickFilterBar.textFilter.sender.label;" type="checkbox" closemenu="none" />
 				<toolbarbutton id="usb-qs-recipients"
 					observes="usm-qs-recipients" command="qfb-qs-recipients"
-					label="&quickFilterBar.textFilter.recipients.label;" accesskey="R" type="checkbox" closemenu="none" />
+					label="&quickFilterBar.textFilter.recipients.label;" type="checkbox" closemenu="none" />
 				<toolbarbutton id="usb-qs-subject"
 					observes="usm-qs-subject" command="qfb-qs-subject"
-					label="&quickFilterBar.textFilter.subject.label;" accesskey="t" type="checkbox" closemenu="none" />
+					label="&quickFilterBar.textFilter.subject.label;" type="checkbox" closemenu="none" />
 				<toolbarbutton id="usb-qs-body"
 					observes="usm-qs-body" command="qfb-qs-body"
-					label="&quickFilterBar.textFilter.body.label;" accesskey="B" type="checkbox" closemenu="none"/>
-				<toolbarbutton id="usb-usemenu"
+					label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
+				<toolbarbutton id="usb-usemenu" accesskey="O"
 					observes="usm-usemenu"
 					tooltiptext="&unifiedsearch.usemenu;"/>
 			</panel>
 			<menupopup id="usw-menu" position="after_start">
-				<menuitem id="usm-usebar" class="menuitem-iconic" label="&unifiedsearch.usebar;"/>
+				<menuitem id="usm-usebar" class="menuitem-iconic" accesskey="O" label="&unifiedsearch.usebar;"/>
 				<menuseparator id="usw_separator_after_toggleglobal_id"/>
 				<menuitem id="usm-qs-sender"
 					observes="qfb-qs-sender" command="qfb-qs-sender"
@@ -114,12 +115,17 @@
 			keyLabelNonMac="&unifiedsearch.keyLabel.nonmac;"
 			keyLabelMac="&unifiedsearch.keyLabel.mac;"
 			>
-			<hbox id="usw-box-buttons">
+			<hbox class="textbox-input-box" id="usw-box-buttons">
 				<toolbarbutton
 					id="usw-sticky" crop="none" minwidth="16"
 					tooltiptext="&quickFilterBar.sticky.tooltip;"
-					type="checkbox"
+					type="checkbox" accesskey="K"
 					observes="qfb-sticky"
+				/>
+				<toolbarbutton
+					id="usw-clear"
+					tooltiptext="&unifiedsearch.clearwidget;"
+					command="cmd_clearUnifiedSearchWidget"
 				/>
 				<toolbarbutton
 					id="usw-switchmode"

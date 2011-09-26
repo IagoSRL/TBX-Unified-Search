@@ -240,6 +240,7 @@ var unifiedsearch = {
 				this.filterFromSearchBox(gsbox);
 		}
 	},
+	/* Switch the current active mode by the another: if 'filter' set 'search', if 'search' set 'filter' */
 	switchUnifiedSearchAutoComplete: function(usbox) {
 		if (!usbox) usbox = this.usbox; // crazy? Not, I must review Why the param.
 		if (!this.uswidget || !usbox) return;
@@ -289,6 +290,14 @@ var unifiedsearch = {
 			// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
 			this.loadFilterAutoComplete(gsbox, qfbox);
 		}
+	},
+	/* Reset the filter options from Unified Search Widget: is like a double 'Esc' press */
+	clearUnifiedSearchWidget: function(usbox) {
+		if (!usbox) return; //error, must be raised from the usbox
+		this.resetUSWFilter();
+		this.resetUSWFilter();
+		this.resetFilter();
+		this.resetFilter();
 	},
 	
 	/* Unified search Widget control methods */
@@ -491,14 +500,29 @@ var unifiedsearch = {
 						this.gsbox.value = this.qfbox.value;
 				}
 			}
+			// Each change must check if clear button needs be showed or hidded:
+			unifiedsearch.toggleUnifiedSearchClearButton();
 		}
 		else if (aEvent.type == "keydown") {
 
 			if (aEvent.ctrlKey) {
+				// Intercambiar filtrado/autocompletado-búsqueda:
 				if (/*unifiedsearch.options.autoCompleteShortcut_ctrlA &&*/
-					aEvent.keyCode == KeyEvent.DOM_VK_A) {
+					aEvent.keyCode == KeyEvent.DOM_VK_A)
 					unifiedsearch.switchUnifiedSearchAutoComplete(usbox);
-				}
+				// Focus to Thread area:
+				else if (aEvent.keyCode == KeyEvent.DOM_VK_T) 
+					unifiedsearch.cmd_threadFocus(aEvent);
+				/* Testing code:: las funciones funcionan, pero el atajo Control+Mayus+F ya existe y lanza la ventana de filtros, el otro funciona
+					pero habría que buscar algo más uniforme entre todas las opciones
+				else if (aEvent.shiftKey) {
+					// Focus to Message area:
+					if (aEvent.keyCode == KeyEvent.DOM_VK_M)
+						unifiedsearch.cmd_messageFocus(aEvent);
+					// Focus to Folders area:
+					else if (aEvent.keyCode == KeyEvent.DOM_VK_F)
+						unifiedsearch.cmd_foldersFocus(aEvent);
+				}*/
 			}
 			/*else if (aEvent.altKey) {
 				if (unifiedsearch.options.autoCompleteShortcut_altA &&
@@ -509,6 +533,8 @@ var unifiedsearch = {
 			// Without modifiers:
 			else if (aEvent.keyCode == aEvent.DOM_VK_DOWN)
 				this.openUnifiedSearchOptionsPopup();
+			else if (aEvent.keyCode == aEvent.DOM_VK_UP)
+				this.closeUnifiedSearchOptionsPopup();
 			else if (aEvent.keyCode == aEvent.DOM_VK_ESCAPE)
 				QuickFilterBarMuxer.cmdEscapeFilterStack();
 		}
@@ -692,6 +718,20 @@ var unifiedsearch = {
 		else
 			this.gsbox.style.visibility = "visible";
 	},
+	/* Adds shortcuts to the filter options in the standard Quick Filter Box,
+		to behavior like the Unified Search Box (that includes shortcuts by default, but standard Thunderbird doesn't) */
+	configureShortcutsQFBox: function() {
+		document.getElementById('qfb-qs-sender').setAttribute('accesskey', 'S');
+		document.getElementById('qfb-qs-recipients').setAttribute('accesskey', 'R');
+		document.getElementById('qfb-qs-subject').setAttribute('accesskey', 'T');
+		document.getElementById('qfb-qs-body').setAttribute('accesskey', 'B');
+		
+		document.getElementById('qfb-unread').setAttribute('accesskey', 'U');
+		document.getElementById('qfb-starred').setAttribute('accesskey', 'D');
+		document.getElementById('qfb-inaddrbook').setAttribute('accesskey', 'C');
+		document.getElementById('qfb-tags').setAttribute('accesskey', 'G');
+		document.getElementById('qfb-attachment').setAttribute('accesskey', 'A');
+	},
 	/* This function will check if something filter text must be copied from the filter box to the search box,
 		to maintain the default TB behavior that preserve the last filter text when TB is closed,
 		this is needed when: filtering in search box is enabled AND user is not in the search box.
@@ -735,7 +775,7 @@ var unifiedsearch = {
 		
 		// The sticky is problematic: with only 'observes' the usw-sticky don't work, it's something like if the command
 		// in the qfb-sticky is not raised/executed, and the state is not preserved (but this same is success in the
-		// others buttons !?). Implement a manual execute command here to solve the bug:
+		// others buttons !?). Implement a manual execute command here to workaround the bug:
 		//document.getElementById("qfb-sticky").observes = "usw-sticky";
 		let qfbSticky = document.getElementById("qfb-sticky");
 		let uswSticky = document.getElementById("usw-sticky");
@@ -822,6 +862,8 @@ var unifiedsearch = {
                  .replace("#1", this.usbox.getAttribute(
                                   Application.platformIsMac ?
                                   "keyLabelMac" : "keyLabelNonMac")));
+		// Compatibility with TB-5.0+ (the new attribute is 'placeholder' like in HTML5):
+		this.usbox.setAttribute('placeholder', this.usbox.getAttribute('emptytext'));
 	},
 	configureUnifiedSearchTooltipText: function() {
 		if (!this.usbox) return;
@@ -831,6 +873,35 @@ var unifiedsearch = {
                  .replace("#1", info.getAttribute(
                                   Application.platformIsMac ?
                                   "keyLabelMac" : "keyLabelNonMac")));
+	},
+	// TODO: don't work well (filter options don't raise the command event; ever give a 'show' state)
+	toggleUnifiedSearchClearButton: function () {
+		let uswclear = document.getElementById('usw-clear');
+		if (!this.usbox || !uswclear) return;
+		
+		// Show clear button if there is text or filter options actived, hide if not
+		if (this.usbox.value != '' ||
+			this.isUnifiedSearchFilterOptionChecked('unread') ||
+			this.isUnifiedSearchFilterOptionChecked('starred') ||
+			this.isUnifiedSearchFilterOptionChecked('inaddrbook') ||
+			this.isUnifiedSearchFilterOptionChecked('tags') ||
+			this.isUnifiedSearchFilterOptionChecked('attachment'))
+			uswclear.display = '';
+		else
+			uswclear.display = 'none';
+	},
+	isUnifiedSearchFilterOptionChecked: function (optionName) {
+		return document.getElementById('usb-' + optionName).checked;
+	},
+	configureUnifiedSearchOptions: function () {
+		this.configureUnifiedSearchOptionObserveCommand('unread');
+		this.configureUnifiedSearchOptionObserveCommand('starred');
+		this.configureUnifiedSearchOptionObserveCommand('inaddrbook');
+		this.configureUnifiedSearchOptionObserveCommand('tags');
+		this.configureUnifiedSearchOptionObserveCommand('attachment');
+	},
+	configureUnifiedSearchOptionObserveCommand: function (optionName) {
+		document.getElementById('usb-' + optionName).addEventListener("command", function(aEvent) { unifiedsearch.toggleUnifiedSearchClearButton(); }, true);
 	},
 	// TODO: override search shortcut (Ctrl+K) if global search is hidded.
 	configureGlobalWidgetShortcut: function() {
@@ -943,6 +1014,7 @@ var unifiedsearch = {
 			// Configure all needed:
 			this.configureAutoCompleteEnableInFilterBox();
 			this.configureHideFilterBox();
+			this.configureShortcutsQFBox();
 		}
 	},
 	
@@ -993,6 +1065,8 @@ var unifiedsearch = {
 			this.configureUnifiedSearchOptionsModeSwitch();
 			this.configureUnifiedSearchEmptyText();
 			this.configureUnifiedSearchTooltipText();
+			this.toggleUnifiedSearchClearButton();
+			this.configureUnifiedSearchOptions();
 			//this.configureUnifiedSearchMenu(); // Not needed, setup in xul with 'popup' attribute.
 		}
 		//else
@@ -1010,6 +1084,18 @@ var unifiedsearch = {
 	cmd_uswboxFocus: function (anEvent) {
 		if (!this.usbox) return;
 		this.usbox.focus();
+	},
+	cmd_clearUnifiedSearchWidget :function (anEvent) {
+		unifiedsearch.clearUnifiedSearchWidget(this.usbox);
+	},
+	cmd_threadFocus: function (anEvent) {
+		if (window.SetFocusThreadPane) window.SetFocusThreadPane();
+	},
+	cmd_foldersFocus: function (anEvent) {
+		if (window.SetFocusFolderPane) window.SetFocusFolderPane();
+	},
+	cmd_messageFocus: function (anEvent) {
+		if (window.SetFocusMessagePane) SetFocusMessagePane();
 	},
 	
 	
