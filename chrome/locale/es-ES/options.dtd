@@ -9,20 +9,15 @@
 <!ENTITY searchShortcut.ctrlEnter "Control + Enter">
 <!ENTITY searchShortcut.enter "Enter">
 
-<!ENTITY autocomplete.enableTabScrolling "Habilitar el 'Tab Scrolling' (recorrer las sugerencias de autocompletado al pulsar la tecla &lt;Tab&gt; -tabulador-)">
+<!ENTITY autoComplete.enableTabScrolling "Habilitar el 'Tab Scrolling' (recorrer las sugerencias de autocompletado al pulsar la tecla &lt;Tab&gt; -tabulador-)">
 <!ENTITY autoComplete "Sugerencias de Auto-Completado" >
 <!ENTITY switchAutoComplete "Permitir activar y desactivar las sugerencias de autocompletado con el siguiente atajo de teclado: ">
 <!ENTITY autoCompleteShortcut.altA "Alt + A">
+<!ENTITY autoCompleteShortcut.ctrlA "Control + A">
 <!ENTITY autoComplete.enableInSearchBox "Habilitar las sugerencias de Auto-Completado en el cuadro de búsqueda">
 <!ENTITY autoComplete.enableInFilterBox "Habilitar las sugerencias de Auto-Completado en el cuadro de filtrado rápido">
 <!ENTITY enableSearchTransfer.label "Copiar el texto del cuadro de búsqueda al de filtrado al pulsar Ctrl+F (y se aplicará el filtro)">
 <!ENTITY enableFilterTransfer.label "Copiar el texto del cuadro de filtrado al de búsquedas al pulsar Ctrl+K (y se mostrarán las sugerencias de autocompletado)">
-
-<!ENTITY hideFilterBox.label "">
-<!ENTITY hideSearchBox.label "">
-<!ENTITY enableFilteringInSearchBox.label "">
-<!ENTITY incompatibleFilteringAndAutoComplete.label "AutoComplete and Filtering must be incompatible: if autocomplete suggesions are enable, filtering will not work OR current folder will not be filtered ">
-<!ENTITY autoShowFilterBar.label "">
 
 <!ENTITY hideFilterBox.label "Ocultar y deshabilitar el cuadro de Filtrado Rápido (puedes usar el cuadro de búsqueda global con 'filtrado rápido' habilitado en su lugar)">
 <!ENTITY hideSearchBox.label "Ocultar y deshabilitar el cuadro de Búsqueda Global (puedes usar el cuadro de Filtrado Rápido con 'atajos de búsqueda global' habilitados en su lugar)">

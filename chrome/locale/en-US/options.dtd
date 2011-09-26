@@ -13,6 +13,7 @@
 <!ENTITY autoComplete "Auto Complete suggestions" >
 <!ENTITY switchAutoComplete "Allow enable and disable autocomplete suggestions with the shortcut: ">
 <!ENTITY autoCompleteShortcut.altA "Alt + A">
+<!ENTITY autoCompleteShortcut.ctrlA "Control + A">
 <!ENTITY autoComplete.enableInSearchBox "Enable autocomplete suggestions in global search box">
 <!ENTITY autoComplete.enableInFilterBox "Enable autocomplete suggestions in quick filter box">
 <!ENTITY enableSearchTransfer.label "Copy the text from the search box to the filter box when press Ctrl+F (and apply the filter)">

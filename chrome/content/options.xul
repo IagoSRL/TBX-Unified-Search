@@ -11,6 +11,7 @@
 	  <preference id="searchEnter" name="extensions.unifiedsearch.searchShortcut.enter" type="bool"/>
 	  <preference id="tabScrolling" name="extensions.unifiedsearch.autoComplete.enableTabScrolling" type="bool"/>
 	  <preference id="autoCompleteShortcutAltA" name="extensions.unifiedsearch.autoCompleteShortcut.altA" type="bool"/>
+	  <preference id="autoCompleteShortcutCtrlA" name="extensions.unifiedsearch.autoCompleteShortcut.ctrlA" type="bool"/>
 	  <preference id="enableAutoCompleteInSearchBox" name="extensions.unifiedsearch.autoComplete.enableInSearchBox" type="bool"/>
 	  <preference id="enableAutoCompleteInFilterBox" name="extensions.unifiedsearch.autoComplete.enableInFilterBox" type="bool"/>
 	  <preference id="enableFilterTransfer" name="extensions.unifiedsearch.enableFilterTransfer" type="bool"/>
@@ -47,7 +48,8 @@
 			<checkbox id="enableAutoCompleteInSearchBox" preference="enableAutoCompleteInSearchBox" label="&autoComplete.enableInSearchBox;"/>
 			<!--<checkbox id="enableAutoCompleteInFilterBox" preference="enableAutoCompleteInFilterBox" label="&autoComplete.enableInFilterBox;"/>-->
 			<label>&switchAutoComplete;</label>
-			<checkbox id="autoCompleteShortcutAltA" preference="autoCompleteShortcutAltA" label="&autoCompleteShortcut.altA;"/>		
+			<checkbox id="autoCompleteShortcutAltA" preference="autoCompleteShortcutAltA" label="&autoCompleteShortcut.altA;"/>
+			<checkbox id="autoCompleteShortcutCtrlA" preference="autoCompleteShortcutCtrlA" label="&autoCompleteShortcut.ctrlA;"/>
 		</groupbox>
 	</vbox>
 

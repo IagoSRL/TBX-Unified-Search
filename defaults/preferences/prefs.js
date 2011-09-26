@@ -5,6 +5,7 @@ pref("extensions.unifiedsearch.autoComplete.enableTabScrolling", true);
 pref("extensions.unifiedsearch.autoComplete.enableInSearchBox", true);
 pref("extensions.unifiedsearch.autoComplete.enableInFilterBox", false);
 pref("extensions.unifiedsearch.autoCompleteShortcut.altA", true);
+pref("extensions.unifiedsearch.autoCompleteShortcut.ctrlA", true);
 pref("extensions.unifiedsearch.enableSearchTransfer", true);
 pref("extensions.unifiedsearch.enableFilterTransfer", true);
 pref("extensions.unifiedsearch.searchBox.enableFiltering", true);

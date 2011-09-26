@@ -170,6 +170,11 @@ var unifiedsearch = {
 				
 				// Set the focus over the global-search is not needed (another TB key-handler already do it)
 			}
+			else if (unifiedsearch.options.autoCompleteShortcut_ctrlA &&
+					aEvent.keyCode == KeyEvent.DOM_VK_A) {
+				// TODO function code of switchFilterAutoComplete: dificult and maybe unnecessary to implement
+				//unifiedsearch.switchFilterAutoComplete(this);
+			}
 		}
 		// 'Alt' Modifier
 		else if (aEvent.altKey) {
@@ -236,9 +241,13 @@ var unifiedsearch = {
 					quickFilter.focus();
 					aEvent.stopPropagation();
 					aEvent.preventDefault();
+				} else if (unifiedsearch.options.autoCompleteShortcut_ctrlA &&
+					aEvent.keyCode == KeyEvent.DOM_VK_A) {
+					unifiedsearch.switchSearchAutoComplete(this);
 				}
-			} else if (unifiedsearch.options.autoCompleteShortcut_altA &&
-					aEvent.altKey && aEvent.keyCode == KeyEvent.DOM_VK_A) {
+			} else if (aEvent.altKey && 
+					unifiedsearch.options.autoCompleteShortcut_altA &&
+					aEvent.keyCode == KeyEvent.DOM_VK_A) {
 				unifiedsearch.switchSearchAutoComplete(this);
 			}
 		}
@@ -276,6 +285,7 @@ var unifiedsearch = {
 		get searchShortcut_enter() { return this.prefs.getBoolPref("searchShortcut.enter") },
 		get autoComplete_enableTabScrolling() { return this.prefs.getBoolPref("autoComplete.enableTabScrolling") },
 		get autoCompleteShortcut_altA() { return this.prefs.getBoolPref("autoCompleteShortcut.altA") },
+		get autoCompleteShortcut_ctrlA() { return this.prefs.getBoolPref("autoCompleteShortcut.ctrlA") },
 		get enableSearchTransfer() { return this.prefs.getBoolPref("enableSearchTransfer") },
 		get enableFilterTransfer() { return this.prefs.getBoolPref("enableFilterTransfer") },
 		get enableAutoCompleteInSearchBox() { return this.prefs.getBoolPref("autoComplete.enableInSearchBox") },
