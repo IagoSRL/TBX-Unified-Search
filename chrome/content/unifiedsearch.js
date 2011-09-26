@@ -102,17 +102,47 @@ var unifiedsearch = {
 		unifiedsearch.previousKeyDown = aEvent.keyCode;
 	},
 	
+	// Observing changes in preferences (nsIObserver)
+	observe: function(subject, topic, data) {
+		// I'm only interested in preferences values changed
+		if (topic != "nsPref:changed") return;
+
+		switch(data)
+		{
+			case "autocomplete.enableTabScrolling":
+				document.getElementById("searchInput").tabScrolling = unifiedsearch.options.autocomplete_enableTabScrolling;
+				break;
+		}
+	},
+	
 	options: {
 		prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.unifiedsearch."),
 		get searchShorcut_altEnter() { return this.prefs.getBoolPref("searchShorcut.altEnter") },
 		get searchShorcut_ctrlEnter() { return this.prefs.getBoolPref("searchShorcut.ctrlEnter") },
 		get searchShorcut_enter() { return this.prefs.getBoolPref("searchShorcut.enter") },
+		get autocomplete_enableTabScrolling() { return this.prefs.getBoolPref("autocomplete.enableTabScrolling") }
 	},
 	
-	onLoad: function (aEvent) {
+	/* Initializing Unified Search */
+	startup: function (aEvent) {
+		// Observer changes in preferences
+		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		this.options.prefs.addObserver("", this, false);
+	
 		// Attach key handlers
 		document.getElementById("qfb-qs-textbox").addEventListener(
-        "keydown", unifiedsearch.quickSearchBoxHandler, false);
-	}
+        "keydown", this.quickSearchBoxHandler, false);
+		
+		// Configure the Tab Scrolling in Global Search Autocomplete
+		document.getElementById("searchInput").tabScrolling = this.options.autocomplete_enableTabScrolling;
+	},
+	shutdown: function (aEvent) {
+		this.options.prefs.removeObserver("", this);
+	},
+	
+	// Events handlers wrappers for load and unload the extension (to avoid problems with 'this' reference)
+	onLoad: function (aEvent) { unifiedsearch.startup(aEvent) },
+	onUnLoad: function (aEvent) { unifiedsearch.shutdown(aEvent) }
 }
 window.addEventListener("load", unifiedsearch.onLoad, false);
+window.addEventListener("unload", unifiedsearch.onUnLoad, false);

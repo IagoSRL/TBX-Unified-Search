@@ -1,7 +1,12 @@
 ﻿<!ENTITY prefwindow.title "Unified Search preferences">
 <!ENTITY pane1.title "Unified Search preferences">
 
+<!ENTITY quickFilterbox.title "Opciones del cuadro de Filtro Rápido">
+<!ENTITY globalSearchBox.title "Opciones del cuadro de Búsqueda Global">
+
 <!ENTITY searchShorcuts.label "Atajos de teclado para realizar una Búsqueda Global desde la Barra de Filtros:">
 <!ENTITY searchShorcut.altEnter "Alt + Enter">
 <!ENTITY searchShorcut.ctrlEnter "Control + Enter">
 <!ENTITY searchShorcut.enter "Enter">
+
+<!ENTITY autocomplete.enableTabScrolling "Habilitar el 'Tab Scrolling' (recorrer las sugerencias de autocompletado al pulsar la tecla &lt;Tab&gt; -tabulador-)">

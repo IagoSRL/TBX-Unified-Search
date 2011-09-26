@@ -1,7 +1,12 @@
 <!ENTITY prefwindow.title "Unified Search preferences">
 <!ENTITY pane1.title "Unified Search preferences">
 
+<!ENTITY quickFilterbox.title "Quick Filter box options">
+<!ENTITY globalSearchBox.title "Global Search box options">
+
 <!ENTITY searchShorcuts.label "Key shorcuts to launch a Global Search inside the Quick Filter Box:">
 <!ENTITY searchShorcut.altEnter "Alt + Enter">
 <!ENTITY searchShorcut.ctrlEnter "Control + Enter">
 <!ENTITY searchShorcut.enter "Enter">
+
+<!ENTITY autocomplete.enableTabScrolling "Enable 'Tab Scrolling' (cycle autocomplete suggestions when press the &lt;Tab&gt; key)">

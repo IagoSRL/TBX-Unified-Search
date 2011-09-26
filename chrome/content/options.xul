@@ -2,20 +2,29 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://unifiedsearch/skin/options.css" type="text/css"?>
 <!DOCTYPE prefwindow SYSTEM "chrome://unifiedsearch/locale/options.dtd">
-<prefwindow id="unifiedsearch-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefwindow id="unifiedsearch-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
   
   <prefpane id="pane1" label="&pane1.title;">
     <preferences>
 	  <preference id="searchAltEnter" name="extensions.unifiedsearch.searchShorcut.altEnter" type="bool"/>
 	  <preference id="searchCtrlEnter" name="extensions.unifiedsearch.searchShorcut.ctrlEnter" type="bool"/>
 	  <preference id="searchEnter" name="extensions.unifiedsearch.searchShorcut.enter" type="bool"/>
+	  <preference id="tabScrolling" name="extensions.unifiedsearch.autocomplete.enableTabScrolling" type="bool"/>
     </preferences>
 
 	<vbox flex="1" align="stretch">
-		<label>&searchShorcuts.label;</label>
-		<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShorcut.altEnter;"/>
-		<checkbox id="searchAltEnter" preference="searchCtrlEnter" label="&searchShorcut.ctrlEnter;"/>
-		<checkbox id="searchAltEnter" preference="searchEnter" label="&searchShorcut.enter;"/>
+		<groupbox>
+			<caption label="&quickFilterbox.title;"/>
+					
+			<label>&searchShorcuts.label;</label>
+			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShorcut.altEnter;"/>
+			<checkbox id="searchAltEnter" preference="searchCtrlEnter" label="&searchShorcut.ctrlEnter;"/>
+			<checkbox id="searchAltEnter" preference="searchEnter" label="&searchShorcut.enter;"/>
+		</groupbox>
+		<groupbox>
+			<caption label="&globalSearchBox.title;"/>
+			<checkbox id="tabScrolling" preference="tabScrolling" label="&autocomplete.enableTabScrolling;"/>
+		</groupbox>
 	</vbox>
 
   </prefpane>
