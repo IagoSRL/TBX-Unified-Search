@@ -1,4 +1,9 @@
-pref("extensions.unifiedsearch.searchShorcut.altEnter", false);
-pref("extensions.unifiedsearch.searchShorcut.ctrlEnter", true);
-pref("extensions.unifiedsearch.searchShorcut.enter", false);
-pref("extensions.unifiedsearch.autocomplete.enableTabScrolling", true);
+pref("extensions.unifiedsearch.searchShortcut.altEnter", false);
+pref("extensions.unifiedsearch.searchShortcut.ctrlEnter", true);
+pref("extensions.unifiedsearch.searchShortcut.enter", false);
+pref("extensions.unifiedsearch.autoComplete.enableTabScrolling", true);
+pref("extensions.unifiedsearch.autoComplete.enableInSearchBox", true);
+pref("extensions.unifiedsearch.autoComplete.enableInFilterBox", false);
+pref("extensions.unifiedsearch.autoCompleteShortcut.altA", true);
+pref("extensions.unifiedsearch.enableSearchTransfer", true);
+pref("extensions.unifiedsearch.enableFilterTransfer", true);

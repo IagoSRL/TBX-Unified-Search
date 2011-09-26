@@ -50,20 +50,25 @@ var unifiedsearch = {
 	closeFilter: function(qfbox) {
 		//qfbox.value = '';
 		// Doble 'Esc' to ensure that the filter bar is closed (when a filter was run a single 'Esc' only clear the box)
-		/*QuickFilterBarMuxer.cmdEscapeFilterStack();
-		QuickFilterBarMuxer.cmdEscapeFilterStack();*/
-		// Mozilla Thunderbird 3.1 Code: portions from quickFilterBar.js, line 624, function: cmdEscapeFilterStack
+		QuickFilterBarMuxer.cmdEscapeFilterStack();
+		QuickFilterBarMuxer.cmdEscapeFilterStack();
+	},
+	/* Reset the filters applied: clean the search string in quick-filter-box and restore the folder view
+		qfbox_clearSearch()? */
+	resetFilter: function(qfbox) {
+		// Mozilla Thunderbird 3.1 Code: modified portions from quickFilterBar.js, line 624, function: cmdEscapeFilterStack
 		let filterer = QuickFilterBarMuxer.maybeActiveFilterer;
 		if (!filterer || !filterer.visible)
-		  return;
+			return;
 
 		// update the search if we were relaxing something
 		if (filterer.userHitEscape()) {
-		  QuickFilterBarMuxer.updateSearch();
-		  QuickFilterBarMuxer.reflectFiltererState(filterer,
-									QuickFilterBarMuxer.tabmail.currentTabInfo.folderDisplay);
+			QuickFilterBarMuxer.updateSearch();
+			QuickFilterBarMuxer.reflectFiltererState(filterer,
+				QuickFilterBarMuxer.tabmail.currentTabInfo.folderDisplay);
 		}
 	},
+	
 	/* Launch a Global Search inside the Quick Filter Box, opening the tab with the search and performing another 
 		needed tasks (like clear the qfbox and filters after open search) */
 	doGlobalSearch: function(qfbox) {
@@ -71,35 +76,89 @@ var unifiedsearch = {
 		if (!qfbox || !qfbox.value || qfbox.value.replace(/^\s+|\s+$/g, '') == '')
 			return
 		let aSearch = qfbox.value;
-		unifiedsearch.closeFilter(qfbox);
+		unifiedsearch.resetFilter(qfbox);
 		unifiedsearch.openGlobalSearch(aSearch);
 	},
-
-	// Key shortcut handler
-	quickSearchBoxHandler: function(aEvent) {
 	
+	// load and show autocomplete suggestions from global -gloda- search
+	loadSearchAutoComplete: function(gsbox) {
+		gsbox.controller.input = gsbox;
+		gsbox.controller.startSearch(gsbox.value);
+	},
+	switchSearchAutoComplete: function(gsbox) {
+		this.options.enableAutoCompleteInSearchBox = !(gsbox.disableAutoComplete = !gsbox.disableAutoComplete);
+		if (!gsbox.disableAutoComplete) {
+			// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
+			this.loadSearchAutoComplete(gsbox);
+		}
+	},
+
+	// Quick filter box key handler
+	quickFilterBoxHandler: function(aEvent) {
 		// 'Control' Modifier
 		if (aEvent.ctrlKey) {
 			// Press 'Enter'
-			if (unifiedsearch.options.searchShorcut_ctrlEnter && 
+			if (unifiedsearch.options.searchShortcut_ctrlEnter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
 				unifiedsearch.doGlobalSearch(this);
+			}
+			// Press 'K' or 'k'
+			else if (unifiedsearch.options.enableFilterTransfer &&
+					aEvent.keyCode == KeyEvent.DOM_VK_K) {
+				// get global search input/textbox
+				let globalSearch = document.getElementById("searchInput");
+				// transfer text from filter-box to search-box
+				globalSearch.value = this.value;
+				// load and show autocomplete suggestions from global -gloda- search, if active
+				if (!globalSearch.disableAutoComplete)
+					unifiedsearch.loadSearchAutoComplete(globalSearch);
+				// Reset filter:
+				unifiedsearch.resetFilter(this);
+				
+				// Set the focus over the global-search is not needed (another TB key-handler already do it)
 			}
 		}
 		// 'Alt' Modifier
 		else if (aEvent.altKey) {
-			if (unifiedsearch.options.searchShorcut_altEnter && 
+			if (unifiedsearch.options.searchShortcut_altEnter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
 				unifiedsearch.doGlobalSearch(this);		
 			}
 		}
 		// Without modifiers: Only pressing 'Enter':
-		else if (unifiedsearch.options.searchShorcut_enter && 
+		else if (unifiedsearch.options.searchShortcut_enter && 
 				aEvent.keyCode == aEvent.DOM_VK_RETURN) {
 			unifiedsearch.doGlobalSearch(this);
 		}
 
 		unifiedsearch.previousKeyDown = aEvent.keyCode;
+	},
+	
+	// Global search box key handler
+	globalSearchBoxHandler: function(aEvent) {
+		if (aEvent.ctrlKey) {
+			// Press 'F' or 'f'
+			if (unifiedsearch.options.enableSearchTransfer &&
+				aEvent.keyCode == KeyEvent.DOM_VK_F) {
+				// get quick filter box
+				let quickFilter = document.getElementById("qfb-qs-textbox");
+				// transfer text from global-search to quick-filter box
+				quickFilter.value = this.value;
+				//quickFilter.mInputField.value = this.value;
+				// do the filter
+				quickFilter.doCommand();
+				// Reset global:
+				this.value = '';
+				// Set the focus over the quick-filter. Here must not allow that TB key-handler do it (the text-transfer and the filter will fail)
+				quickFilter.focus();
+				aEvent.stopPropagation();
+				aEvent.preventDefault();
+			}
+		}
+		else if (unifiedsearch.options.autoCompleteShortcut_altA &&
+				aEvent.altKey && aEvent.keyCode == KeyEvent.DOM_VK_A) {
+			unifiedsearch.switchSearchAutoComplete(this);
+		}
 	},
 	
 	// Observing changes in preferences (nsIObserver)
@@ -109,18 +168,43 @@ var unifiedsearch = {
 
 		switch(data)
 		{
-			case "autocomplete.enableTabScrolling":
-				document.getElementById("searchInput").tabScrolling = unifiedsearch.options.autocomplete_enableTabScrolling;
+			case "autoComplete.enableTabScrolling":
+				unifiedsearch.configureAutoCompleteTabScrolling();
+				break;
+			case "autoComplete.enableInSearchBox":
+				unifiedsearch.configureAutoCompleteEnableInSearchBox();
+				break;
+			case "autoComplete.enableInFilterBox":
+				unifiedsearch.configureAutoCompleteEnableInFilterBox();
 				break;
 		}
 	},
 	
 	options: {
 		prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.unifiedsearch."),
-		get searchShorcut_altEnter() { return this.prefs.getBoolPref("searchShorcut.altEnter") },
-		get searchShorcut_ctrlEnter() { return this.prefs.getBoolPref("searchShorcut.ctrlEnter") },
-		get searchShorcut_enter() { return this.prefs.getBoolPref("searchShorcut.enter") },
-		get autocomplete_enableTabScrolling() { return this.prefs.getBoolPref("autocomplete.enableTabScrolling") }
+		get searchShortcut_altEnter() { return this.prefs.getBoolPref("searchShortcut.altEnter") },
+		get searchShortcut_ctrlEnter() { return this.prefs.getBoolPref("searchShortcut.ctrlEnter") },
+		get searchShortcut_enter() { return this.prefs.getBoolPref("searchShortcut.enter") },
+		get autoComplete_enableTabScrolling() { return this.prefs.getBoolPref("autoComplete.enableTabScrolling") },
+		get autoCompleteShortcut_altA() { return this.prefs.getBoolPref("autoCompleteShortcut.altA") },
+		get enableSearchTransfer() { return this.prefs.getBoolPref("enableSearchTransfer") },
+		get enableFilterTransfer() { return this.prefs.getBoolPref("enableFilterTransfer") },
+		get enableAutoCompleteInSearchBox() { return this.prefs.getBoolPref("autoComplete.enableInSearchBox") },
+		set enableAutoCompleteInSearchBox(val) { this.prefs.setBoolPref("autoComplete.enableInSearchBox", val) },
+		get enableAutoCompleteInFilterBox() { return this.prefs.getBoolPref("autoComplete.enableInFilterBox") },
+		set enableAutoCompleteInFilterBox(val) { this.prefs.setBoolPref("autoComplete.enableInFilterBox", val) }
+	},
+	
+	/*****************************************************************************************/
+	/* Functions to configure elements that depends on initialization or preferences changes */
+	configureAutoCompleteTabScrolling: function() {
+		document.getElementById("searchInput").tabScrolling = this.options.autoComplete_enableTabScrolling;
+	},
+	configureAutoCompleteEnableInSearchBox: function() {
+		document.getElementById("searchInput").disableAutoComplete = !this.options.enableAutoCompleteInSearchBox;
+	},
+	configureAutoCompleteEnableInFilterBox: function() {
+		// TODO
 	},
 	
 	/* Initializing Unified Search */
@@ -131,10 +215,14 @@ var unifiedsearch = {
 	
 		// Attach key handlers
 		document.getElementById("qfb-qs-textbox").addEventListener(
-        "keydown", this.quickSearchBoxHandler, false);
-		
-		// Configure the Tab Scrolling in Global Search Autocomplete
-		document.getElementById("searchInput").tabScrolling = this.options.autocomplete_enableTabScrolling;
+        "keydown", this.quickFilterBoxHandler, false);
+		document.getElementById("searchInput").addEventListener(
+        "keydown", this.globalSearchBoxHandler, false);
+
+		// Configure all needed:
+		this.configureAutoCompleteTabScrolling();
+		this.configureAutoCompleteEnableInSearchBox();
+		this.configureAutoCompleteEnableInFilterBox();
 	},
 	shutdown: function (aEvent) {
 		this.options.prefs.removeObserver("", this);

@@ -6,24 +6,38 @@
   
   <prefpane id="pane1" label="&pane1.title;">
     <preferences>
-	  <preference id="searchAltEnter" name="extensions.unifiedsearch.searchShorcut.altEnter" type="bool"/>
-	  <preference id="searchCtrlEnter" name="extensions.unifiedsearch.searchShorcut.ctrlEnter" type="bool"/>
-	  <preference id="searchEnter" name="extensions.unifiedsearch.searchShorcut.enter" type="bool"/>
-	  <preference id="tabScrolling" name="extensions.unifiedsearch.autocomplete.enableTabScrolling" type="bool"/>
+	  <preference id="searchAltEnter" name="extensions.unifiedsearch.searchShortcut.altEnter" type="bool"/>
+	  <preference id="searchCtrlEnter" name="extensions.unifiedsearch.searchShortcut.ctrlEnter" type="bool"/>
+	  <preference id="searchEnter" name="extensions.unifiedsearch.searchShortcut.enter" type="bool"/>
+	  <preference id="tabScrolling" name="extensions.unifiedsearch.autoComplete.enableTabScrolling" type="bool"/>
+	  <preference id="autoCompleteShortcutAltA" name="extensions.unifiedsearch.autoCompleteShortcut.altA" type="bool"/>
+	  <preference id="enableAutoCompleteInSearchBox" name="extensions.unifiedsearch.autoComplete.enableInSearchBox" type="bool"/>
+	  <preference id="enableAutoCompleteInFilterBox" name="extensions.unifiedsearch.autoComplete.enableInFilterBox" type="bool"/>
+	  <preference id="enableFilterTransfer" name="extensions.unifiedsearch.enableFilterTransfer" type="bool"/>
+	  <preference id="enableSearchTransfer" name="extensions.unifiedsearch.enableSearchTransfer" type="bool"/>
+
     </preferences>
 
 	<vbox flex="1" align="stretch">
 		<groupbox>
 			<caption label="&quickFilterbox.title;"/>
-					
-			<label>&searchShorcuts.label;</label>
-			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShorcut.altEnter;"/>
-			<checkbox id="searchAltEnter" preference="searchCtrlEnter" label="&searchShorcut.ctrlEnter;"/>
-			<checkbox id="searchAltEnter" preference="searchEnter" label="&searchShorcut.enter;"/>
+			<checkbox id="enableFilterTransfer" preference="enableFilterTransfer" label="&enableFilterTransfer.label;"/>
+			<label>&searchShortcuts.label;</label>
+			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShortcut.altEnter;"/>
+			<checkbox id="searchAltEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
+			<checkbox id="searchAltEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
 		</groupbox>
 		<groupbox>
 			<caption label="&globalSearchBox.title;"/>
-			<checkbox id="tabScrolling" preference="tabScrolling" label="&autocomplete.enableTabScrolling;"/>
+			<checkbox id="enableSearchTransfer" preference="enableSearchTransfer" label="&enableSearchTransfer.label;"/>
+			<checkbox id="tabScrolling" preference="tabScrolling" label="&autoComplete.enableTabScrolling;"/>
+		</groupbox>
+		<groupbox>
+			<caption label="&autoComplete;"/>
+			<checkbox id="enableAutoCompleteInSearchBox" preference="enableAutoCompleteInSearchBox" label="&autoComplete.enableInSearchBox;"/>
+			<!--<checkbox id="enableAutoCompleteInFilterBox" preference="enableAutoCompleteInFilterBox" label="&autoComplete.enableInFilterBox;"/>-->
+			<label>&switchAutoComplete;</label>
+			<checkbox id="autoCompleteShortcutAltA" preference="autoCompleteShortcutAltA" label="&autoCompleteShortcut.altA;"/>		
 		</groupbox>
 	</vbox>
 

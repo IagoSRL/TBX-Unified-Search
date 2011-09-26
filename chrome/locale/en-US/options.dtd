@@ -4,9 +4,16 @@
 <!ENTITY quickFilterbox.title "Quick Filter box options">
 <!ENTITY globalSearchBox.title "Global Search box options">
 
-<!ENTITY searchShorcuts.label "Key shorcuts to launch a Global Search inside the Quick Filter Box:">
-<!ENTITY searchShorcut.altEnter "Alt + Enter">
-<!ENTITY searchShorcut.ctrlEnter "Control + Enter">
-<!ENTITY searchShorcut.enter "Enter">
+<!ENTITY searchShortcuts.label "Launch a Global Search inside the Quick Filter Box with the shortcuts:">
+<!ENTITY searchShortcut.altEnter "Alt + Enter">
+<!ENTITY searchShortcut.ctrlEnter "Control + Enter">
+<!ENTITY searchShortcut.enter "Enter">
 
-<!ENTITY autocomplete.enableTabScrolling "Enable 'Tab Scrolling' (cycle autocomplete suggestions when press the &lt;Tab&gt; key)">
+<!ENTITY autoComplete.enableTabScrolling "Enable 'Tab Scrolling' (cycle autocomplete suggestions when press the &lt;Tab&gt; key)">
+<!ENTITY autoComplete "Auto Complete suggestions" >
+<!ENTITY switchAutoComplete "Allow enable and disable autocomplete suggestions with the shortcut: ">
+<!ENTITY autoCompleteShortcut.altA "Alt + A">
+<!ENTITY autoComplete.enableInSearchBox "Enable autocomplete suggestions in global search box">
+<!ENTITY autoComplete.enableInFilterBox "Enable autocomplete suggestions in quick filter box">
+<!ENTITY enableSearchTransfer.label "Copy the text from the search box to the filter box when press Ctrl+F (and apply the filter)">
+<!ENTITY enableFilterTransfer.label "Copy the text from the filter box to the search box when press Ctrl+K (and show the autocomplete suggestions)">
