@@ -1,8 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://unifiedsearch/skin/overlay.css" type="text/css"?>
 
-<!DOCTYPE overlay SYSTEM "chrome://unifiedsearch/locale/overlay.dtd">
+<!DOCTYPE overlay SYSTEM "chrome://unifiedsearch/locale/unifiedsearch.dtd"
+[
+  <!ENTITY % messengerDTD SYSTEM "chrome://messenger/locale/messenger.dtd">
+  %messengerDTD;
+  <!ENTITY % msgViewPickerDTD SYSTEM "chrome://messenger/locale/msgViewPickerOverlay.dtd" >
+  %msgViewPickerDTD;
+  <!ENTITY % msgFolderPickerDTD SYSTEM "chrome://messenger/locale/msgFolderPickerOverlay.dtd" >
+  %msgFolderPickerDTD;
+  <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+  %brandDTD;
+  <!ENTITY % quickFilterBar SYSTEM "chrome://messenger/locale/quickFilterBar.dtd">
+  %quickFilterBar;
+]
+>
 <overlay id="unifiedsearch-overlay"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		 xmlns:x="http://www.w3.org/1999/xhtml">
   <script type="application/javascript" src="chrome://unifiedsearch/content/unifiedsearch.js"/>
+		<keyset>
+		  <key id="usw-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>
+		</keyset>
+<toolbarpalette id="MailToolbarPalette">
+	<toolbaritem id="uswidget" class="chromeclass-toolbar-additional" align="center"
+				 title="&unifiedsearch.customize_title;"
+                 flex="1" insertbefore="searchInput">
+		<commandset>
+			<command id="cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
+		</commandset>
+		<popupset>
+			<panel id="usw-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
+				<toolbarbutton id="usb-unread" type="checkbox" closemenu="none"
+					observes="usm-unread" command="qfb-unread"
+					tooltiptext="&quickFilterBar.unread.tooltip;"/>
+				<toolbarbutton id="usb-starred" type="checkbox" closemenu="none"
+					observes="usm-starred" command="qfb-starred"
+					tooltiptext="&quickFilterBar.starred.tooltip;"/>
+				<toolbarbutton id="usb-inaddrbook" type="checkbox" closemenu="none"
+					observes="usm-inaddrbook" command="qfb-inaddrbook"
+					tooltiptext="&quickFilterBar.inaddrbook.tooltip;"/>
+				<toolbarbutton id="usb-tags" type="checkbox" closemenu="none"
+					observes="usm-tags" command="qfb-tags"
+					tooltiptext="&quickFilterBar.tags.tooltip;"/>
+				<toolbarbutton id="usb-attachment" type="checkbox" closemenu="none"
+					observes="usm-attachment" command="qfb-attachment"
+					tooltiptext="&quickFilterBar.attachment.tooltip;"/>
+				<toolbarseparator/>
+				<toolbarbutton id="usb-qs-sender"
+					observes="usm-qs-sender" command="qfb-qs-sender"
+					label="&quickFilterBar.textFilter.sender.label;" accesskey="S" type="checkbox" closemenu="none" />
+				<toolbarbutton id="usb-qs-recipients"
+					observes="usm-qs-recipients" command="qfb-qs-recipients"
+					label="&quickFilterBar.textFilter.recipients.label;" accesskey="R" type="checkbox" closemenu="none" />
+				<toolbarbutton id="usb-qs-subject"
+					observes="usm-qs-subject" command="qfb-qs-subject"
+					label="&quickFilterBar.textFilter.subject.label;" accesskey="t" type="checkbox" closemenu="none" />
+				<toolbarbutton id="usb-qs-body"
+					observes="usm-qs-body" command="qfb-qs-body"
+					label="&quickFilterBar.textFilter.body.label;" accesskey="B" type="checkbox" closemenu="none"/>
+				<toolbarbutton id="usb-usemenu"
+					observes="usm-usemenu"
+					tooltiptext="&unifiedsearch.usemenu;"/>
+			</panel>
+			<menupopup id="usw-menu" position="after_start">
+				<menuitem id="usm-usebar" class="menuitem-iconic" label="&unifiedsearch.usebar;"/>
+				<menuseparator id="usw_separator_after_toggleglobal_id"/>
+				<menuitem id="usm-qs-sender"
+					observes="qfb-qs-sender" command="qfb-qs-sender"
+					label="&quickFilterBar.textFilter.sender.label;" accesskey="S" type="checkbox" closemenu="none"/>
+				<menuitem id="usm-qs-recipients"
+					observes="qfb-qs-recipients" command="qfb-qs-recipients"
+					label="&quickFilterBar.textFilter.recipients.label;" accesskey="R" type="checkbox" closemenu="none" />
+				<menuitem id="usm-qs-subject"
+					observes="qfb-qs-subject" command="qfb-qs-subject"
+					label="&quickFilterBar.textFilter.subject.label;" accesskey="t" type="checkbox" closemenu="none"/>
+				<menuitem id="usm-qs-body"
+					observes="qfb-qs-body" command="qfb-qs-body"
+					label="&quickFilterBar.textFilter.body.label;" accesskey="B" type="checkbox" closemenu="none" />
+				<menuseparator/>
+				<menuitem id="usm-unread"
+					observes="qfb-unread" command="qfb-unread"
+					type="checkbox" label="&quickFilterBar.unread.label;" accesskey="U" tooltiptext="&quickFilterBar.unread.tooltip;" class="menuitem-iconic" closemenu="none"/>
+				<menuitem id="usm-starred"
+					observes="qfb-starred" command="qfb-starred"
+					type="checkbox" label="&quickFilterBar.starred.label;" accesskey="d" tooltiptext="&quickFilterBar.starred.tooltip;" class="menuitem-iconic" closemenu="none"/>
+				<menuitem id="usm-inaddrbook"
+					observes="qfb-inaddrbook" command="qfb-inaddrbook"
+					type="checkbox" label="&quickFilterBar.inaddrbook.label;" accesskey="c" tooltiptext="&quickFilterBar.inaddrbook.tooltip;" class="menuitem-iconic" closemenu="none"/>
+				<menuitem id="usm-tags"
+					observes="qfb-tags" command="qfb-tags"
+					type="checkbox" label="&quickFilterBar.tags.label;" accesskey="g" tooltiptext="&quickFilterBar.tags.tooltip;" class="menuitem-iconic" closemenu="none"/>
+				<menuitem id="usm-attachment"
+					observes="qfb-attachment" command="qfb-attachment"
+					type="checkbox" label="&quickFilterBar.attachment.label;" accesskey="a" tooltiptext="&quickFilterBar.attachment.tooltip;" class="menuitem-iconic" closemenu="none"/>
+			</menupopup>
+			<tooltip id="usw-info" noautohide="false" position="before_start" orient="vertical"
+				label="&unifiedsearch.usw_info;"
+				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
+				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
+		</popupset>
+		<textbox id="usw-searchbox"
+			flex="1"
+			type="glodacomplete"
+			searchbutton="true"
+			autocompletesearch="gloda"
+			autocompletepopup="PopupGlodaAutocomplete"
+			autocompletesearchparam="global"
+			enablehistory="false"
+			timeout="200"
+			emptytext=""
+			emptytextbase="&unifiedsearch.uswbox_emptytext;"
+			keyLabelNonMac="&unifiedsearch.keyLabel.nonmac;"
+			keyLabelMac="&unifiedsearch.keyLabel.mac;"
+			>
+			<hbox id="usw-box-buttons">
+				<toolbarbutton
+					id="usw-sticky" crop="none" minwidth="16"
+					tooltiptext="&quickFilterBar.sticky.tooltip;"
+					type="checkbox"
+					observes="qfb-sticky"
+				/>
+				<toolbarbutton
+					id="usw-switchmode"
+					tooltiptext="&unifiedsearch.switchmode;"
+					command="cmd_switchUSWidgetMode"
+				/>
+				<toolbarbutton
+					id="usw-criteria" crop="none" minwidth="16" popup="usw-menu"
+					tooltiptext="&unifiedsearch.usw_criteria;"
+				/>
+			</hbox>
+		</textbox>
+	</toolbaritem>
+</toolbarpalette>
+  
 </overlay>

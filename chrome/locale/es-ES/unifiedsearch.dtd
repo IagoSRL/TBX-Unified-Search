@@ -1,1 +1,34 @@
 ﻿<!ENTITY unifiedsearch.title "Unified Search">
+<!ENTITY unifiedsearch.usw_info "Pulse #1 para Buscar">
+<!ENTITY unifiedsearch.switchmode "Intercambia entre Filtro y Búsqueda global con autocompletado (Control+A)">
+<!ENTITY unifiedsearch.usw_criteria "Muestra el menú o barra de opciones de filtrado rápido">
+<!ENTITY unifiedsearch.usebar "Convertir en barra horizontal">
+<!ENTITY unifiedsearch.usemenu "Convertir en menú vertical">
+<!ENTITY unifiedsearch.customize_title "Unified Search Widget">
+
+<!ENTITY unifiedsearch.uswbox_emptytext "Filtrar y buscar mensajes... #1">
+<!-- LOCALIZATION NOTE (unifiedsearch.keyLabel.nonmac):
+     The description of the key-binding to get into the global search box on
+     windows and linux (which use the control key).  We use the key defined in
+     the quickSearchCmd.key entity defined above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.keyLabel.nonmac "&lt;Ctrl+Mayus+K&gt;">
+<!-- LOCALIZATION NOTE (unifiedsearch.keyLabel.mac):
+     The description of the key-binding to get into the global search box on mac
+     systems.  We use the key defined in the quickSearchCmd.key entity defined
+     above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.keyLabel.mac "&lt;&#x2318;+Mayus+K&gt;">
+
+<!-- LOCALIZATION NOTE (unifiedsearch.doSearch.keyLabel.nonmac):
+     The description of the key-binding to get into the global search box on
+     windows and linux (which use the control key).  We use the key defined in
+     the quickSearchCmd.key entity defined above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.doSearch.keyLabel.nonmac "&lt;Ctrl+Enter&gt;">
+<!-- LOCALIZATION NOTE (unifiedsearch.doSearch.keyLabel.mac):
+     The description of the key-binding to get into the global search box on mac
+     systems.  We use the key defined in the quickSearchCmd.key entity defined
+     above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.doSearch.keyLabel.mac "&lt;&#x2318;+Enter&gt;">

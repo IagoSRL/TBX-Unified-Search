@@ -1,0 +1,95 @@
+﻿
+/*** Quick Filter Widget (QFW) ***/
+#uswidget {
+	height: 27px;
+}
+#usw-searchbox {
+	font-style: normal !important;
+	height: 27px;
+
+	background-color: rgba(255, 255, 255, 0.85);
+	border-width: 1px;
+}
+#uswidget #usw-box-buttons > toolbarbutton {
+	-moz-appearance: none !important;
+	padding: 0 2px;
+}
+#uswidget #usw-box-buttons > toolbarbutton[checked=true] {
+	-moz-appearance: none !important;
+	padding: 0 2px !important;
+}
+#uswidget #usw-bar {
+	color: black;
+	padding: 1px;
+}
+/* Widget buttons */
+#usw-sticky {
+	list-style-image: url(chrome://unifiedsearch/skin/icons/pin-off.png);
+}
+#usw-sticky[checked=true] {
+	list-style-image: url(chrome://unifiedsearch/skin/icons/pin-on.png);
+}
+#usw-criteria {
+	list-style-image: url(chrome://global/skin/tree/columnpicker.gif); /* it's global, no problem */
+	/*height: 18px;*/
+}
+#usw-box-buttons {
+	cursor: default;
+}
+/* Widget Modes */
+#uswidget[uswmode='filter'] #usw-switchmode {
+	list-style-image: url(chrome://unifiedsearch/skin/icons/filter.png);
+	-moz-image-region: rect(0, 16px, 18px, 0) !important;
+}
+#uswidget[uswmode='search'] #usw-switchmode {
+	list-style-image: url(chrome://global/skin/icons/Search-glass.png); /* it's global, no problem */
+	-moz-image-region: rect(0, 16px, 18px, 0) !important;
+}
+#uswidget[uswmode='search'] #usw-sticky {
+	visibility: hidden; /* no collapse, to maintain the widget with */
+}
+
+/* bar buttons images: */
+#usb-unread {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
+  -moz-image-region: rect(0px 16px 16px 0px);
+}
+#usb-starred {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
+  -moz-image-region: rect(0px 32px 16px 16px);
+}
+#usb-inaddrbook {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
+  -moz-image-region: rect(0px 48px 16px 32px);
+}
+#usb-tags {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
+  -moz-image-region: rect(0px 64px 16px 48px);
+}
+#usb-attachment {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
+  -moz-image-region: rect(0px 80px 16px 64px);
+}
+#usb-unread[checked=true], #usb-starred[checked=true] {
+  list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png") !important;
+}
+/* Criteria/options mode: */
+#usm-usebar {
+/*	list-style-image: url("chrome://unifiedsearch/skin/icons/arrows.png");
+	-moz-image-region: rect(0, 11px, 11px, 0);*/
+	list-style-image: url("chrome://unifiedsearch/skin/icons/arrow-left.png");
+}
+#usb-usemenu {
+/*	list-style-image: url("chrome://unifiedsearch/skin/icons/arrows.png");
+	-moz-image-region: rect(0, 22px, 11px, 11px);*/
+	list-style-image: url("chrome://unifiedsearch/skin/icons/arrow-down.png");
+}
+/* User info / tooltips */
+#usw-info {
+	background-color: #33DD00;
+}
+
+/** Customize window **/
+/*#CustomizeToolbarWindow #usw-box-buttons {
+	-moz-box-pack: end;
+}*/

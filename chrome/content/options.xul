@@ -21,6 +21,7 @@
 	  <preference id="hideFilterBox" name="extensions.unifiedsearch.filterBox.hide" type="bool"/>
 	  <preference id="hideSearchBox" name="extensions.unifiedsearch.searchBox.hide" type="bool"/>
 	  <preference id="autoShowFilterBar" name="extensions.unifiedsearch.filterBar.autoShow" type="bool"/>
+	  <preference id="rememberFilterOptions" name="extensions.unifiedsearch.filterBar.rememberFilterOptions" type="bool"/>
 
     </preferences>
 
@@ -33,6 +34,7 @@
 			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShortcut.altEnter;"/>
 			<checkbox id="searchCtrlEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
 			<checkbox id="searchEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
+			<checkbox id="rememberFilterOptions" preference="rememberFilterOptions" label="&rememberFilterOptions.label;"/>
 		</groupbox>
 		<groupbox>
 			<caption label="&globalSearchBox.title;"/>

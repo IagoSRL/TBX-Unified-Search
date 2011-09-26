@@ -12,13 +12,14 @@
 <!ENTITY autoComplete.enableTabScrolling "Enable 'Tab Scrolling' (cycle autocomplete suggestions when press the &lt;Tab&gt; key)">
 <!ENTITY autoComplete "Auto Complete suggestions" >
 <!ENTITY switchAutoComplete "Allow enable and disable autocomplete suggestions with the shortcut: ">
-<!ENTITY autoCompleteShortcut.altA "Alt + A">
+<!ENTITY autoCompleteShortcut.altA "Alt + A ('deprecated': this option will be deleted because cause problems with menu shortcuts in some locales)">
 <!ENTITY autoCompleteShortcut.ctrlA "Control + A">
 <!ENTITY autoComplete.enableInSearchBox "Enable autocomplete suggestions in global search box">
 <!ENTITY autoComplete.enableInFilterBox "Enable autocomplete suggestions in quick filter box">
 <!ENTITY enableSearchTransfer.label "Copy the text from the search box to the filter box when press Ctrl+F (and apply the filter)">
 <!ENTITY enableFilterTransfer.label "Copy the text from the filter box to the search box when press Ctrl+K (and show the autocomplete suggestions)">
 
+<!ENTITY rememberFilterOptions.label "Remember filter options (keep options when restart; apply to Unified Search Widget too)">
 <!ENTITY hideFilterBox.label "Hide and disable the quick filter box (you can use the global search box with 'quick filtering' enabled instead)">
 <!ENTITY hideSearchBox.label "Hide and disable the global search box (you can use the quick filter box with 'global search shortcuts' enabled instead)">
 <!ENTITY enableFilteringInSearchBox.label "Enable 'Quick Filtering' in search box">

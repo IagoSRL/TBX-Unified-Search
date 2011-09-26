@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
@@ -8,8 +8,8 @@
   <groupbox align="center" orient="horizontal">
     <vbox>
       <text value="Unified Search" style="font-weight: bold; font-size: x-large;"/>
-      <text value="&version; 0.4.3"/>
-      <separator class="thin"/>
+      <text value="&version; 0.5"/>
+	  <separator class="thin"/>
       <text value="&createdBy;" style="font-weight: bold;"/>
       <text value="Iago Lorenzo Salgueiro [IagoSRL@gmail.com]"/>
       <separator class="thin"/>
