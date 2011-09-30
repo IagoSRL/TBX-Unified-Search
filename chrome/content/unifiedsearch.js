@@ -506,7 +506,7 @@ var unifiedsearch = {
 		else if (aEvent.type == "keydown") {
 
 			if (aEvent.ctrlKey) {
-				// Intercambiar filtrado/autocompletado-búsqueda:
+				// Intercambiar filtrado/autocompletado-bÃºsqueda:
 				if (/*unifiedsearch.options.autoCompleteShortcut_ctrlA &&*/
 					aEvent.keyCode == KeyEvent.DOM_VK_A)
 					unifiedsearch.switchUnifiedSearchAutoComplete(usbox);
@@ -514,7 +514,7 @@ var unifiedsearch = {
 				else if (aEvent.keyCode == KeyEvent.DOM_VK_T) 
 					unifiedsearch.cmd_threadFocus(aEvent);
 				/* Testing code:: las funciones funcionan, pero el atajo Control+Mayus+F ya existe y lanza la ventana de filtros, el otro funciona
-					pero habría que buscar algo más uniforme entre todas las opciones
+					pero habrÃ­a que buscar algo mÃ¡s uniforme entre todas las opciones
 				else if (aEvent.shiftKey) {
 					// Focus to Message area:
 					if (aEvent.keyCode == KeyEvent.DOM_VK_M)
