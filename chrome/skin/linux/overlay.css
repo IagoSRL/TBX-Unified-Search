@@ -106,3 +106,12 @@
 /*#CustomizeToolbarWindow #usw-box-buttons {
 	-moz-box-pack: end;
 }*/
+
+/* Fix issue#1: Disabling inherit behavior that hide label text when toolbar mode is selected to be only-icons, only for criteria options
+	that have not icon (sender, subject, recipients, body) */
+toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-sender .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-subject .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-recipients .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-body .toolbarbutton-text {
+	display: inherit !important;
+}
