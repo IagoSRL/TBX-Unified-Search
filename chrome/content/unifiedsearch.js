@@ -122,9 +122,11 @@ var unifiedsearch = {
 		if (!this.usbox || !this.uswidget) return;
 		this.usbox.value = '';
 
-		let sticky = document.getElementById('usm-stikcy');
-		if(sticky && sticky.checked)
-			sticky.doCommand();
+		let sticky = document.getElementById('usw-sticky');
+		// TODO: Investigar por qué, al pulsar Esc se ejecuta varias veces ésta función
+		//this.log('resetUSWFilter, sticky: ' + sticky.checked);
+		if(sticky)
+			sticky.checked = false;
 		// Reset USMenu elements only, because USBar elements are observing this (and will be auto updated):
 		this.resetUSWFilterOption('unread');
 		this.resetUSWFilterOption('starred');
@@ -292,12 +294,18 @@ var unifiedsearch = {
 		}
 	},
 	/* Reset the filter options from Unified Search Widget: is like a double 'Esc' press */
-	clearUnifiedSearchWidget: function(usbox) {
-		if (!usbox) return; //error, must be raised from the usbox
-		this.resetUSWFilter();
-		this.resetUSWFilter();
+	clearUnifiedSearchWidget: function() {
+		// Reset widgets is not enough, textboxes must be empty before to avoid the 'flick' effect and bad synchro
+		if (this.qfbox) this.qfbox.value = '';
+		// Adding support for standard global search box too, if have filtering enabled
+		// (ideally, this code must not be here, or not needed, but I don't know why quick filter is not being reseted 
+		//  like expect -because of this the before manual box-value reset- and not is bien synchro with 'observes' feature)
+		if (this.gsbox && this.options.enableFilteringInSearchBox) this.gsbox.value = '';
+		// Reset widgets: like doble click over Quick Filter doble resetFilter is needed:
 		this.resetFilter();
 		this.resetFilter();
+		// Reset manually Unified Search Widget options:
+		this.resetUSWFilter();
 	},
 	
 	/* Unified search Widget control methods */
@@ -963,21 +971,19 @@ var unifiedsearch = {
 		http://mxr.mozilla.org/comm-central/source/mail/base/content/folderDisplay.js#57 
 	*/
 	widgetFolderDisplayListener: {
-		/** When Folder Display Widget is make active **/
-		onMakeActive: function (aFolderDisplay, aWasActive) {
-			unifiedsearch.log('onMakeActive: ' + aFolderDisplay.displayedFolder.prettiestName);
-		},
-		/** When Folder Display Widget is loading a folder or finish to load it.
-			This can be used like the 'selected/active folder has changed' event
+		/** When Folder Display Widget is starting to load a folder.
+			This can be used like the 'selected-active-showed folder has changed' event
+			is just what is needed here:
 		*/
-		onLoadingFolder: function QFBM_onFolderChanged(aFolderDisplay, aIsOutbound) {
-			unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
-		},
-		/** When Folder Display Widget start preparing the UI to show the current folder content
-			This can be used like the 'selected/active folder has changed' event
-		*/
-		onDisplayingFolder: function() {
-			unifiedsearch.log('onDisplayingFolder: ' + gFolderDisplay.displayedFolder.prettiestName);
+		onLoadingFolder: function(aFolderDisplay) {
+			//unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
+			// Comprobar si el filtrado es persistente, a partir del estado del 'sticky' button
+			let sticky = document.getElementById('usw-sticky');
+			if (!sticky) return;
+			// Si el filtrado es persistente, se preservan los criterios de filtro y se filtra la nueva carpeta/vista
+			// lo cual no es necesario hacer ya que se encarga el QFM de TB
+			if (!sticky.checked)
+				unifiedsearch.clearUnifiedSearchWidget();
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
