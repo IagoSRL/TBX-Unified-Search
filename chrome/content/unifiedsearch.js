@@ -735,8 +735,8 @@ var unifiedsearch = {
 			qfb_button.style.display = 'none';
 			qfb.style.display = 'none';
 		} else {
-			qfb_button.style.display = 'inherit';
-			qfb.style.display = 'inherit';
+			qfb_button.style.display = '';
+			qfb.style.display = '';
 		}
 	},
 	/* Work well, but incompatible with Lightning extension. Use 'configureHideFilterBar' instead.
