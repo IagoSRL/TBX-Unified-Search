@@ -605,6 +605,9 @@ var unifiedsearch = {
 					case "extensions.unifiedsearch.filterBox.hide":
 						unifiedsearch.configureHideFilterBox();
 						break;
+					case "extensions.unifiedsearch.filterBar.hide":
+						unifiedsearch.configureHideFilterBar();
+						break;
 					case "extensions.unifiedsearch.searchBox.hide":
 					case "mailnews.database.global.indexer.enabled":
 					case "extensions.unifiedsearch.searchBox.enableFiltering":
@@ -637,6 +640,7 @@ var unifiedsearch = {
 		get enableFilteringInSearchBox() { return this.prefs.getBoolPref("searchBox.enableFiltering") },
 		get incompatibleFilteringAndAutoComplete() { return this.prefs.getBoolPref("searchBox.incompatibleFilteringAndAutoComplete") },
 		get hideFilterBox() { return this.prefs.getBoolPref("filterBox.hide") },
+		get hideFilterBar() { return this.prefs.getBoolPref("filterBar.hide") },
 		get hideSearchBox() { return this.prefs.getBoolPref("searchBox.hide") },
 		get autoShowFilterBar() { return this.prefs.getBoolPref("filterBar.autoShow") },
 		get rememberFilterOptions() { return this.prefs.getBoolPref("filterBar.rememberFilterOptions") },
@@ -717,6 +721,43 @@ var unifiedsearch = {
 			this.gsbox.style.visibility = "collapse";
 		else
 			this.gsbox.style.visibility = "visible";
+	},
+	/* Configurator for a new configuration option that allow hide/show the standard Quick Filter Bar, including the button in the 
+		tabs bar that allow show/hide the bar.
+		Second attempt: use display css property, 'none' or 'inherit', no incompatible issues found
+	*/
+	configureHideFilterBar: function() {
+		let qfb_button = document.getElementById("qfb-show-filter-bar");
+		let qfb = document.getElementById("quick-filter-bar");
+		if (!qfb_button || !qfb) return;
+
+		if (this.options.hideFilterBar) {
+			qfb_button.style.display = 'none';
+			qfb.style.display = 'none';
+		} else {
+			qfb_button.style.display = 'inherit';
+			qfb.style.display = 'inherit';
+		}
+	},
+	/* Work well, but incompatible with Lightning extension. Use 'configureHideFilterBar' instead.
+		First attempt to create 'configureHideFilterBar':
+		use the visibility css property and tb-standard functions to hide/show the bar; Incompatible with Lightning extension,
+		that do some similar, showing again the bar and the button after Unified Search hide it.
+	*/
+	configureHideFilterBar_usingVisibility: function() {
+		let qfb_button = document.getElementById("qfb-show-filter-bar");
+		let qfb = document.getElementById("quick-filter-bar");
+		if (!qfb_button || !qfb || !gFolderDisplay) return;
+
+		if (this.options.hideFilterBar) {
+			qfb_button.style.visibility = 'collapse';
+			qfb.collapsed = true; // a more convenient mode to do a '.style.visibility = collapse'
+		} else {
+			// This must be handled by the standard function because the normal status can be 'visible' or 'hidden'.
+			QuickFilterBarMuxer.onMakeActive(gFolderDisplay);
+			// Quick filter bar is showed or not depending on the status of the previous button
+			qfb.collapsed = !qfb_button.checked;
+		}
 	},
 	/* Adds shortcuts to the filter options in the standard Quick Filter Box,
 		to behavior like the Unified Search Box (that includes shortcuts by default, but standard Thunderbird doesn't) */
@@ -1014,6 +1055,7 @@ var unifiedsearch = {
 			// Configure all needed:
 			this.configureAutoCompleteEnableInFilterBox();
 			this.configureHideFilterBox();
+			this.configureHideFilterBar();
 			this.configureShortcutsQFBox();
 		}
 	},

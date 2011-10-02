@@ -21,6 +21,7 @@
 
 <!ENTITY rememberFilterOptions.label "Recordar las opciones de filtrado">
 <!ENTITY hideFilterBox.label "Ocultar y deshabilitar el cuadro de Filtrado Rápido (puedes usar el cuadro de búsqueda global con 'filtrado rápido' habilitado en su lugar)">
+<!ENTITY hideFilterBar.label "Oculta y deshabilita la barra de Filtrado Rápido (La barra incluye el cuadro de Filtrado Rápido y sus opciones de filtrado -puedes usar el nuevo widget de Unified Search en su lugar-)">
 <!ENTITY hideSearchBox.label "Ocultar y deshabilitar el cuadro de Búsqueda Global (puedes usar el cuadro de Filtrado Rápido con 'atajos de búsqueda global' habilitados en su lugar)">
 <!ENTITY enableFilteringInSearchBox.label "Habilitar el 'Filtrado Rápido' en el cuadro de búsqueda">
 <!ENTITY incompatibleFilteringAndAutoComplete.label "Auto-Completado y 'Filtrado Rápido' deben ser incompatibles: si las sugerencias de autocompletado están habilitadas, el filtrado no se aplicará, y viceversa">

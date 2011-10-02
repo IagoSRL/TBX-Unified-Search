@@ -21,6 +21,7 @@
 
 <!ENTITY rememberFilterOptions.label "Remember filter options (keep options when restart; apply to Unified Search Widget too)">
 <!ENTITY hideFilterBox.label "Hide and disable the quick filter box (you can use the global search box with 'quick filtering' enabled instead)">
+<!ENTITY hideFilterBar.label "Hide and disable the quick filter bar (It hides the quick filter box and their filter options -you can use Unified Search Widget instead-)">
 <!ENTITY hideSearchBox.label "Hide and disable the global search box (you can use the quick filter box with 'global search shortcuts' enabled instead)">
 <!ENTITY enableFilteringInSearchBox.label "Enable 'Quick Filtering' in search box">
 <!ENTITY incompatibleFilteringAndAutoComplete.label "AutoComplete and 'Quick Filtering' must be incompatible: if autocomplete suggestions are enabled, the filter will not be applied, and viceversa">

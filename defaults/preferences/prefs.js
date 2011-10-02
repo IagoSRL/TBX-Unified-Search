@@ -11,6 +11,7 @@ pref("extensions.unifiedsearch.enableFilterTransfer", true);
 pref("extensions.unifiedsearch.searchBox.enableFiltering", true);
 pref("extensions.unifiedsearch.searchBox.incompatibleFilteringAndAutoComplete", true);
 pref("extensions.unifiedsearch.filterBox.hide", true);
+pref("extensions.unifiedsearch.filterBar.hide", false);
 pref("extensions.unifiedsearch.searchBox.hide", false);
 pref("extensions.unifiedsearch.filterBar.autoShow", true);
 pref("extensions.unifiedsearch.filterBar.rememberFilterOptions", true);

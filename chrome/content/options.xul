@@ -19,15 +19,17 @@
 	  <preference id="enableFilteringInSearchBox" name="extensions.unifiedsearch.searchBox.enableFiltering" type="bool"/>
 	  <preference id="incompatibleFilteringAndAutoComplete" name="extensions.unifiedsearch.searchBox.incompatibleFilteringAndAutoComplete" type="bool"/>
 	  <preference id="hideFilterBox" name="extensions.unifiedsearch.filterBox.hide" type="bool"/>
+	  <preference id="hideFilterBar" name="extensions.unifiedsearch.filterBar.hide" type="bool"/>
 	  <preference id="hideSearchBox" name="extensions.unifiedsearch.searchBox.hide" type="bool"/>
 	  <preference id="autoShowFilterBar" name="extensions.unifiedsearch.filterBar.autoShow" type="bool"/>
 	  <preference id="rememberFilterOptions" name="extensions.unifiedsearch.filterBar.rememberFilterOptions" type="bool"/>
 
     </preferences>
 
-	<vbox flex="1" align="stretch">
+	<vbox id="prefs-box" flex="1" align="stretch">
 		<groupbox>
 			<caption label="&quickFilterbox.title;"/>
+			<checkbox id="hideFilterBar" preference="hideFilterBar" label="&hideFilterBar.label;"/>
 			<checkbox id="hideFilterBox" preference="hideFilterBox" label="&hideFilterBox.label;"/>
 			<checkbox id="enableFilterTransfer" preference="enableFilterTransfer" label="&enableFilterTransfer.label;"/>
 			<label>&searchShortcuts.label;</label>

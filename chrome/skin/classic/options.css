@@ -1,0 +1,4 @@
+/* To avoid some text to be hidden: */
+#prefs-box {
+	overflow: auto;
+}
