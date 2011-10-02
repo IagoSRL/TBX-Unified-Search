@@ -955,6 +955,32 @@ var unifiedsearch = {
 			// ?
 		}
 	},
+
+	/***************************************************************************/
+	/********** FolderDisplayListener for the Unified Search Widget ************/
+	/** for available events, see: 
+		http://mxr.mozilla.org/comm-central/source/mail/base/modules/dbViewWrapper.js#398
+		http://mxr.mozilla.org/comm-central/source/mail/base/content/folderDisplay.js#57 
+	*/
+	widgetFolderDisplayListener: {
+		/** When Folder Display Widget is make active **/
+		onMakeActive: function (aFolderDisplay, aWasActive) {
+			unifiedsearch.log('onMakeActive: ' + aFolderDisplay.displayedFolder.prettiestName);
+		},
+		/** When Folder Display Widget is loading a folder or finish to load it.
+			This can be used like the 'selected/active folder has changed' event
+		*/
+		onLoadingFolder: function QFBM_onFolderChanged(aFolderDisplay, aIsOutbound) {
+			unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
+		},
+		/** When Folder Display Widget start preparing the UI to show the current folder content
+			This can be used like the 'selected/active folder has changed' event
+		*/
+		onDisplayingFolder: function() {
+			unifiedsearch.log('onDisplayingFolder: ' + gFolderDisplay.displayedFolder.prettiestName);
+		}
+	},
+	/********** ENDS FolderDisplay Listener ************************************/
 	
 	/* Main UI XUL Elements like accesor properties to simplify coding. Check ever if the
 		return value is null -this happens when the element is not in the toolbar after use
@@ -1110,6 +1136,9 @@ var unifiedsearch = {
 			this.toggleUnifiedSearchClearButton();
 			this.configureUnifiedSearchOptions();
 			//this.configureUnifiedSearchMenu(); // Not needed, setup in xul with 'popup' attribute.
+			// Request listen changes in the Folder Display view, to know when a different folder is selected, a non-folder
+			// (like a search, a calendar tab, etc.) is showed and so on.
+			FolderDisplayListenerManager.registerListener(this.widgetFolderDisplayListener);
 		}
 		//else
 		//	this.error("Unified Search Widget will not work: could not be configured, the element don't exists in the document or in the toolbar.");
