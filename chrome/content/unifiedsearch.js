@@ -89,9 +89,12 @@ var unifiedsearch = {
 			// because that event is not raised).
 			// Check if we are in a non-folder:
 			let isNotFolder = !aFolderDisplay.displayedFolder || aFolderDisplay.displayedFolder.isServer;
-			if (isNotFolder)
+			if (isNotFolder) {
+				let filterer = QuickFilterBarMuxer.maybeActiveFilterer;
+				if (!filterer) return;
 				// Reset displayedFolder will force next onLoadingFolder to recreate the view
-				QuickFilterBarMuxer.activeFilterer.displayedFolder = null;
+				filterer.displayedFolder = null;
+			}
 		};
 	},
 
@@ -151,7 +154,9 @@ var unifiedsearch = {
 			this.resetQFBFilterOption('qs-body');
 		}
 		// Option widgets are reseted, but the internal filterer must be updated to avoid state restore and filtered results de-synched.
-		QuickFilterBarMuxer.activeFilterer.clear();
+		let filterer = QuickFilterBarMuxer.maybeActiveFilterer;
+		if (filterer)
+			filterer.clear();
 		QuickFilterBarMuxer.updateSearch();
 	},
 	logStatusQFBFilterOptions: function(){
@@ -1043,9 +1048,6 @@ var unifiedsearch = {
 			// If we are not in a folder (maybe we are in account central, a root folder)
 			// And persist feature is disabled, filter options must be cleared:
 			if (isNotFolder && !sticky.checked) unifiedsearch.clearUnifiedSearchWidget();
-			// If we are in a folder, and the previous state was inactive, we first reset the filter view state
-			//if (ok && aWasInactive)
-			//	QuickFilterBarMuxer.reflectFiltererResults(QuickFilterBarMuxer.activeFilterer, aFolderDisplay);
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
