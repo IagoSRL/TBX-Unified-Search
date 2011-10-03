@@ -43,7 +43,7 @@ var unifiedsearch = {
 		QuickFilterBarMuxer.__original_showFilterBar = QuickFilterBarMuxer._showFilterBar;
 		QuickFilterBarMuxer._showFilterBar = function US_QFBM__showFilterBar(aShow) {
 			this.__original_showFilterBar(aShow);
-			if (!aShow) unifiedsearch.clearUnifiedSearchWidget();
+			if (!aShow) unifiedsearch.clearAllFilteringOptions();
 		};
 		// onTabRestored: I save this function with another similar name to reuse it in the new implementation
 		// that raise an unifiedsearch function to mantain the uswidget synchronized with the TBQFBar (specially,
@@ -167,10 +167,13 @@ var unifiedsearch = {
 	resetQFBFilterOption: function(optionName) {
 		document.getElementById('qfb-' + optionName).checked = false;
 	},
-	/* Reset all the controls in the unified search widget to avoid filter */
+	/* Reset all the controls in the unified search widget to avoid filter 
+		This means that, if is in search mode, text is not reset but filter options are ever reset.
+	*/
 	resetUSWFilter: function(resetQsToo) {
 		if (!this.usbox || !this.uswidget) return;
-		this.usbox.value = '';
+		if (this.uswidget.getAttribute("uswmode") == 'filter')
+			this.usbox.value = '';
 
 		let sticky = document.getElementById('usw-sticky');
 		// TODO: Investigar por qué, al pulsar Esc se ejecuta varias veces ésta función
@@ -344,8 +347,13 @@ var unifiedsearch = {
 			this.loadFilterAutoComplete(gsbox, qfbox);
 		}
 	},
-	/* Reset the filter options from Unified Search Widget: is like a double 'Esc' press */
-	clearUnifiedSearchWidget: function() {
+	/* Reset all filtering options from all widgets with do filtering tasks:
+		- QFBar
+		- USWidget in filter mode
+		- GSBox in filter mode
+		Set filter texts to empty and flags to 'false'.
+	*/
+	clearAllFilteringOptions: function() {
 		// Reset manually Quick Filter Bar options:
 		this.resetQFBFilter();
 		// Reset manually Unified Search Widget options:
@@ -353,6 +361,14 @@ var unifiedsearch = {
 		// Adding support for standard global search box too, if have filtering enabled
 		if (this.gsbox && this.options.enableFilteringInSearchBox) this.gsbox.value = '';
 		//this.synchronizeFilterTextWithSearchBox();
+	},
+	/* Clear all options and text in Unified Search Widget, whatever mode that is active
+	*/
+	clearUnifiedSearchWidget: function() {
+		// Clear filtering options, from USW and another widgets to mantain sync:
+		this.clearAllFilteringOptions();
+		// Clear USBox text (because, if is in search mode, previous function will not clear the text)
+		if (this.usbox) this.usbox.value = '';
 	},
 	
 	/* Unified search Widget control methods */
@@ -1034,7 +1050,7 @@ var unifiedsearch = {
 			if (!sticky.checked)
 				// Next clear ensure that QFBar is reset (it have an auto reset, but only if is visible/opened)
 				// and then reset the USWidget and global search box -if need it- too.
-				unifiedsearch.clearUnifiedSearchWidget();
+				unifiedsearch.clearAllFilteringOptions();
 		},
 		/* when the FolderDisplayWidget is actived: with this event, a change to a non-folder can be listening, 
 			something that with onLoadingFolder and anothers can no be do it.
@@ -1047,7 +1063,7 @@ var unifiedsearch = {
 			if (!sticky) return;
 			// If we are not in a folder (maybe we are in account central, a root folder)
 			// And persist feature is disabled, filter options must be cleared:
-			if (isNotFolder && !sticky.checked) unifiedsearch.clearUnifiedSearchWidget();
+			if (isNotFolder && !sticky.checked) unifiedsearch.clearAllFilteringOptions();
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
