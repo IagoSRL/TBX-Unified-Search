@@ -133,6 +133,14 @@ var unifiedsearch = {
 			this.resetQFBFilterOption('qs-subject');
 			this.resetQFBFilterOption('qs-body');
 		}
+		// Option widgets are reseted, but the internal filterer must be updated to avoid state restore and filtered results de-synched.
+		QuickFilterBarMuxer.activeFilterer.clear();
+		QuickFilterBarMuxer.updateSearch();
+	},
+	logStatusQFBFilterOptions: function(){
+		let ops = ['unread', 'starred', 'inaddrbook', 'tags', 'attachment'];
+		for (let opsi = 0; opsi < ops.length; opsi++)
+			unifiedsearch.log('resetQFBFilter end, ' + ops[opsi] + '.checked = ' + document.getElementById('qfb-' + ops[opsi]).checked);
 	},
 	resetQFBFilterOption: function(optionName) {
 		document.getElementById('qfb-' + optionName).checked = false;
@@ -316,10 +324,6 @@ var unifiedsearch = {
 	},
 	/* Reset the filter options from Unified Search Widget: is like a double 'Esc' press */
 	clearUnifiedSearchWidget: function() {
-		this.log('bef-qfbox: ' + this.qfbox.value);
-		this.log('bef-gsbox: ' + this.gsbox.value);
-		this.log('bef-usbox: ' + this.usbox.value);
-
 		// Reset manually Quick Filter Bar options:
 		this.resetQFBFilter();
 		// Reset manually Unified Search Widget options:
@@ -327,10 +331,6 @@ var unifiedsearch = {
 		// Adding support for standard global search box too, if have filtering enabled
 		if (this.gsbox && this.options.enableFilteringInSearchBox) this.gsbox.value = '';
 		//this.synchronizeFilterTextWithSearchBox();
-
-		this.log('aft-qfbox: ' + this.qfbox.value);
-		this.log('aft-gsbox: ' + this.gsbox.value);
-		this.log('aft-usbox: ' + this.usbox.value);
 	},
 	
 	/* Unified search Widget control methods */
@@ -1002,7 +1002,7 @@ var unifiedsearch = {
 		*/
 		onLoadingFolder: function(aFolderDisplay) {
 			//unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
-			// Comprobar si el filtrado es persistente, a partir del estado del 'sticky' button
+			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
 			let sticky = document.getElementById('usw-sticky');
 			if (!sticky) return;
 			// With persistent filter (sticky.checked == true), filter criteria-options and text are preserved and filter
@@ -1013,6 +1013,22 @@ var unifiedsearch = {
 				// Next clear ensure that QFBar is reset (it have an auto reset, but only if is visible/opened)
 				// and then reset the USWidget and global search box -if need it- too.
 				unifiedsearch.clearUnifiedSearchWidget();
+		},
+		/* when the FolderDisplayWidget is actived: with this event, a change to a non-folder can be listening, 
+			something that with onLoadingFolder and anothers can no be do it.
+		*/
+		onMakeActive: function (aFolderDisplay, aWasInactive) {
+			// Check if we are viewing a folder that can be filtered:
+			let ok = aFolderDisplay.displayedFolder && !aFolderDisplay.displayedFolder.isServer;
+			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
+			let sticky = document.getElementById('usw-sticky');
+			if (!sticky) return;
+			// If we are not in a folder (maybe we are in account central, a root folder)
+			// And persist feature is disabled, filter options must be cleared:
+			if (!ok && !sticky.checked) unifiedsearch.clearUnifiedSearchWidget();
+			// If we are in a folder, and the previous state was inactive, we first reset the filter view state
+			//if (ok && aWasInactive)
+			//	QuickFilterBarMuxer.reflectFiltererResults(QuickFilterBarMuxer.activeFilterer, aFolderDisplay);
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
