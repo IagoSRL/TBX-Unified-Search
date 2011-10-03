@@ -34,11 +34,6 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-/*
-	KNOWED BUGS:
-		- 
- */
- 
 var unifiedsearch = {
 
 	/**** Modifing behavior of some built-in Thunderbird functions ****/
@@ -48,7 +43,7 @@ var unifiedsearch = {
 		QuickFilterBarMuxer.__original_showFilterBar = QuickFilterBarMuxer._showFilterBar;
 		QuickFilterBarMuxer._showFilterBar = function US_QFBM__showFilterBar(aShow) {
 			this.__original_showFilterBar(aShow);
-			if (!aShow) unifiedsearch.resetUSWFilter();
+			if (!aShow) unifiedsearch.clearUnifiedSearchWidget();
 		};
 		// onTabRestored: I save this function with another similar name to reuse it in the new implementation
 		// that raise an unifiedsearch function to mantain the uswidget synchronized with the TBQFBar (specially,
@@ -67,7 +62,7 @@ var unifiedsearch = {
 			let filterer = this.maybeActiveFilterer;
 			if (!filterer) // I remove this ;-) // || !filterer.visible)
 			  return;
-			  
+
 			unifiedsearch.resetUSWFilter(); // And I add this one.
 
 			// update the search if we were relaxing something
@@ -116,7 +111,32 @@ var unifiedsearch = {
 				QuickFilterBarMuxer.tabmail.currentTabInfo.folderDisplay);
 		}
 	},
-	
+	/* To replace 'resetFilter' that use the triple-Esc behavior to reset all values, we do here a manual reset of all QuickFilterBar options
+		just like in resetUSWFilter()
+	 */
+	resetQFBFilter: function(resetQsToo) {
+		if (!this.qfbox || !this.qfbar) return;
+		this.qfbox.value = '';
+		
+		let sticky = document.getElementById('qfb-sticky');
+
+		if(sticky)
+			sticky.checked = false;
+		this.resetQFBFilterOption('unread');
+		this.resetQFBFilterOption('starred');
+		this.resetQFBFilterOption('inaddrbook');
+		this.resetQFBFilterOption('tags');
+		this.resetQFBFilterOption('attachment');
+		if(resetQsToo){
+			this.resetQFBFilterOption('qs-sender');
+			this.resetQFBFilterOption('qs-recipients');
+			this.resetQFBFilterOption('qs-subject');
+			this.resetQFBFilterOption('qs-body');
+		}
+	},
+	resetQFBFilterOption: function(optionName) {
+		document.getElementById('qfb-' + optionName).checked = false;
+	},
 	/* Reset all the controls in the unified search widget to avoid filter */
 	resetUSWFilter: function(resetQsToo) {
 		if (!this.usbox || !this.uswidget) return;
@@ -146,6 +166,7 @@ var unifiedsearch = {
 			opt.doCommand();*/
 		document.getElementById('usm-' + optionName).checked = false;
 		document.getElementById('usb-' + optionName).checked = false;
+		// TODO: Investigate: With the new changes in synchro, events and new function resetQFBFilter, really next line is needed?
 		document.getElementById('qfb-' + optionName).checked = false;
 	},
 	
@@ -295,17 +316,21 @@ var unifiedsearch = {
 	},
 	/* Reset the filter options from Unified Search Widget: is like a double 'Esc' press */
 	clearUnifiedSearchWidget: function() {
-		// Reset widgets is not enough, textboxes must be empty before to avoid the 'flick' effect and bad synchro
-		if (this.qfbox) this.qfbox.value = '';
-		// Adding support for standard global search box too, if have filtering enabled
-		// (ideally, this code must not be here, or not needed, but I don't know why quick filter is not being reseted 
-		//  like expect -because of this the before manual box-value reset- and not is bien synchro with 'observes' feature)
-		if (this.gsbox && this.options.enableFilteringInSearchBox) this.gsbox.value = '';
-		// Reset widgets: like doble click over Quick Filter doble resetFilter is needed:
-		this.resetFilter();
-		this.resetFilter();
+		this.log('bef-qfbox: ' + this.qfbox.value);
+		this.log('bef-gsbox: ' + this.gsbox.value);
+		this.log('bef-usbox: ' + this.usbox.value);
+
+		// Reset manually Quick Filter Bar options:
+		this.resetQFBFilter();
 		// Reset manually Unified Search Widget options:
 		this.resetUSWFilter();
+		// Adding support for standard global search box too, if have filtering enabled
+		if (this.gsbox && this.options.enableFilteringInSearchBox) this.gsbox.value = '';
+		//this.synchronizeFilterTextWithSearchBox();
+
+		this.log('aft-qfbox: ' + this.qfbox.value);
+		this.log('aft-gsbox: ' + this.gsbox.value);
+		this.log('aft-usbox: ' + this.usbox.value);
 	},
 	
 	/* Unified search Widget control methods */
@@ -964,15 +989,15 @@ var unifiedsearch = {
 		}
 	},
 
-	/***************************************************************************/
-	/********** FolderDisplayListener for the Unified Search Widget ************/
+	/************************************************************/
+	/********** FolderDisplayListener ***************************/
 	/** for available events, see: 
 		http://mxr.mozilla.org/comm-central/source/mail/base/modules/dbViewWrapper.js#398
 		http://mxr.mozilla.org/comm-central/source/mail/base/content/folderDisplay.js#57 
 	*/
-	widgetFolderDisplayListener: {
+	folderDisplayListener: {
 		/** When Folder Display Widget is starting to load a folder.
-			This can be used like the 'selected-active-showed folder has changed' event
+			This can be used like the 'selected/active/showed folder has changed' event
 			is just what is needed here:
 		*/
 		onLoadingFolder: function(aFolderDisplay) {
@@ -980,9 +1005,13 @@ var unifiedsearch = {
 			// Comprobar si el filtrado es persistente, a partir del estado del 'sticky' button
 			let sticky = document.getElementById('usw-sticky');
 			if (!sticky) return;
-			// Si el filtrado es persistente, se preservan los criterios de filtro y se filtra la nueva carpeta/vista
-			// lo cual no es necesario hacer ya que se encarga el QFM de TB
+			// With persistent filter (sticky.checked == true), filter criteria-options and text are preserved and filter
+			//  is applied in the new active/showed folder: this is do it auto by TB, nothing to do here.
+			// But if is not persistent (sticky.checked == false), we ensure to reset criteria and text in all the
+			// widgets:
 			if (!sticky.checked)
+				// Next clear ensure that QFBar is reset (it have an auto reset, but only if is visible/opened)
+				// and then reset the USWidget and global search box -if need it- too.
 				unifiedsearch.clearUnifiedSearchWidget();
 		}
 	},
@@ -1022,18 +1051,9 @@ var unifiedsearch = {
 		// Observer changes in preferences
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		this.options.appPrefs.addObserver("", unifiedsearch, false);
-		// Observe when changes happend in current view (like user select another folder, or a filter is applied)
-		// to synchronize the search-box text with the quick-box text,
-		// (also knowed like: 'implementing' the persist button also in searchbox):
-		//this.observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-		//this.observerService.addObserver(unifiedsearch, "MsgCreateDBView", false);
-		// Listener to check when a different folder was selected: this allow us to re-synchronize textboxes:
-		FolderDisplayListenerManager.registerListener({
-			onLoadingFolder: function(aFolderDisplay, aIsOutbound){
-				unifiedsearch.synchronizeFilterTextWithSearchBox();
-				unifiedsearch.synchronizeFilterTextWithUnifiedSearchBox();
-			}
-		});
+		// Request listen changes in the Folder Display view, to know when a different folder is selected, a non-folder
+		// (like a search, a calendar tab, etc.) is showed and so on.
+		FolderDisplayListenerManager.registerListener(this.folderDisplayListener);
 		
 		// QFBar with the QFBox:
 		if (this.qfbox)
@@ -1142,9 +1162,6 @@ var unifiedsearch = {
 			this.toggleUnifiedSearchClearButton();
 			this.configureUnifiedSearchOptions();
 			//this.configureUnifiedSearchMenu(); // Not needed, setup in xul with 'popup' attribute.
-			// Request listen changes in the Folder Display view, to know when a different folder is selected, a non-folder
-			// (like a search, a calendar tab, etc.) is showed and so on.
-			FolderDisplayListenerManager.registerListener(this.widgetFolderDisplayListener);
 		}
 		//else
 		//	this.error("Unified Search Widget will not work: could not be configured, the element don't exists in the document or in the toolbar.");
