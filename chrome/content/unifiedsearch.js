@@ -76,6 +76,23 @@ var unifiedsearch = {
 			  this.cmdClose();
 			}
 		};
+		// Try to solve Bug 582576: filter options are not reseted when switch from a folder to account folder and go again
+		// to the same folder.
+		// Original handler for event onMakeActive is saved; their purpose is hide/show QFBar and QFBar-show-button when
+		// switch between normal folders and account folders.
+		// New version will try reset state when persist is off and apply the filter when persist is on
+		QuickFilterBarMuxer.__original_onMakeActive = QuickFilterBarMuxer.onMakeActive;
+		QuickFilterBarMuxer.onMakeActive = function US_QFBM_onMakeActive(aFolderDisplay, aWasInactive) {
+			this.__original_onMakeActive(aFolderDisplay, aWasInactive);
+			// The case in that previous aFolderDisplay is showing a normal folder is handled succesfully by onLoadingFolder,
+			// here will hand only when previous aFolderDisplay shows an account folder instead (this cannot be do it in onLoadingFolder
+			// because that event is not raised).
+			// Check if we are in a non-folder:
+			let isNotFolder = !aFolderDisplay.displayedFolder || aFolderDisplay.displayedFolder.isServer;
+			if (isNotFolder)
+				// Reset displayedFolder will force next onLoadingFolder to recreate the view
+				QuickFilterBarMuxer.activeFilterer.displayedFolder = null;
+		};
 	},
 
 	/*** Unified Search Operations Functions ***/
@@ -1018,14 +1035,14 @@ var unifiedsearch = {
 			something that with onLoadingFolder and anothers can no be do it.
 		*/
 		onMakeActive: function (aFolderDisplay, aWasInactive) {
-			// Check if we are viewing a folder that can be filtered:
-			let ok = aFolderDisplay.displayedFolder && !aFolderDisplay.displayedFolder.isServer;
+			// Check if we are in a non-folder:
+			let isNotFolder = !aFolderDisplay.displayedFolder || aFolderDisplay.displayedFolder.isServer;
 			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
 			let sticky = document.getElementById('usw-sticky');
 			if (!sticky) return;
 			// If we are not in a folder (maybe we are in account central, a root folder)
 			// And persist feature is disabled, filter options must be cleared:
-			if (!ok && !sticky.checked) unifiedsearch.clearUnifiedSearchWidget();
+			if (isNotFolder && !sticky.checked) unifiedsearch.clearUnifiedSearchWidget();
 			// If we are in a folder, and the previous state was inactive, we first reset the filter view state
 			//if (ok && aWasInactive)
 			//	QuickFilterBarMuxer.reflectFiltererResults(QuickFilterBarMuxer.activeFilterer, aFolderDisplay);
