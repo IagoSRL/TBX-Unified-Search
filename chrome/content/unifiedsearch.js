@@ -1110,9 +1110,9 @@ var unifiedsearch = {
 		if (this.qfbox)
 			this.initQFBox(aEvent);
 		else
-			document.addEventListener("DOMNodeInserted", function(aEvent) {
-				if (this.qfbar_isinitied || // If already was initied do nothing
-					!(aEvent.target && aEvent.target.id && aEvent.target.id == "qfb-qs-textbox")) // only if is the quick filter box
+			window.addEventListener("aftercustomization", function(aEvent) {
+				if (this.qfbar_isinitied)
+					// If already was initied do nothing
 					return;
 				unifiedsearch.initQFBox(aEvent);
 			}, false);
@@ -1121,9 +1121,9 @@ var unifiedsearch = {
 		if (this.gsbox)
 			this.initGSBox(aEvent);
 		else
-			document.addEventListener("DOMNodeInserted", function(aEvent) {
-				if (this.gsbox_isinitied || // If already was initied do nothing
-					!(aEvent.target && aEvent.target.id && aEvent.target.id == "gloda-search")) // only if is the global search box
+			window.addEventListener("aftercustomization", function(aEvent) {
+				if (this.gsbox_isinitied)
+					// If already was initied do nothing
 					return;
 				unifiedsearch.initGSBox(aEvent);
 			}, false);
@@ -1132,9 +1132,9 @@ var unifiedsearch = {
 		if (this.uswidget)
 			this.initUSWidget(aEvent);
 		else
-			document.addEventListener("DOMNodeInserted", function(aEvent) {
-				if (this.uswidget_isinitied || // If already was initied do nothing
-					!(aEvent.target && aEvent.target.id && aEvent.target.id == "uswidget")) // only if is the uswidget element
+			window.addEventListener("aftercustomization", function(aEvent) {
+				if (this.uswidget_isinitied)
+					// If already was initied do nothing
 					return;
 				unifiedsearch.initUSWidget(aEvent);
 			}, false);
