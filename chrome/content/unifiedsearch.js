@@ -1026,6 +1026,29 @@ var unifiedsearch = {
 			// ?
 		}
 	},
+	/* Shortcut Ctrl/Cmd+Shift+K was setted in XUL file, BUT since
+		Thunderbird 8 version, this shortcut is used to focus the
+		standard Quick Filter Box (that use Ctrl/Cmd+F shortcut
+		in the past), because of this, XUL keyset is overwrited
+		and this hack/workaround is needed to focus the 
+		Unified Search Widget when this shortcut is pressed
+	*/
+	configureUnifiedSearchWidgetShortcut: function(aEvent) {
+		// Trying to overwrite TB8 shortcut for USWidget:
+		window.addEventListener("keydown", function (aEvent) { 
+			if (aEvent.ctrlKey && aEvent.shiftKey &&
+				aEvent.keyCode == aEvent.DOM_VK_K) {
+				// We need know if widget exists yet (maybe was removed from the toolbar!)
+				let usb = unifiedsearch.usbox;
+				if (usb) {
+					usb.focus();
+					// usbox is focused! But then Quick Filter box will be focused but we will avoid it now!:
+					aEvent.preventDefault();
+					aEvent.stopPropagation();
+				}
+			}
+		}, false);
+	},
 
 	/************************************************************/
 	/********** FolderDisplayListener ***************************/
@@ -1213,6 +1236,7 @@ var unifiedsearch = {
 			this.toggleUnifiedSearchClearButton();
 			this.configureUnifiedSearchOptions();
 			//this.configureUnifiedSearchMenu(); // Not needed, setup in xul with 'popup' attribute.
+			this.configureUnifiedSearchWidgetShortcut();
 		}
 		//else
 		//	this.error("Unified Search Widget will not work: could not be configured, the element don't exists in the document or in the toolbar.");
