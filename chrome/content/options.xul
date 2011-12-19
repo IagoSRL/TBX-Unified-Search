@@ -26,36 +26,40 @@
 
     </preferences>
 
-	<vbox id="prefs-box" flex="1" align="stretch">
-		<groupbox>
-			<caption label="&quickFilterbox.title;"/>
-			<checkbox id="hideFilterBar" preference="hideFilterBar" label="&hideFilterBar.label;"/>
-			<checkbox id="hideFilterBox" preference="hideFilterBox" label="&hideFilterBox.label;"/>
-			<checkbox id="enableFilterTransfer" preference="enableFilterTransfer" label="&enableFilterTransfer.label;"/>
-			<label>&searchShortcuts.label;</label>
-			<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShortcut.altEnter;"/>
-			<checkbox id="searchCtrlEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
-			<checkbox id="searchEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
-			<checkbox id="rememberFilterOptions" preference="rememberFilterOptions" label="&rememberFilterOptions.label;"/>
-		</groupbox>
-		<groupbox>
-			<caption label="&globalSearchBox.title;"/>
-			<checkbox id="hideSearchBox" preference="hideSearchBox" label="&hideSearchBox.label;"/>
-			<checkbox id="enableSearchTransfer" preference="enableSearchTransfer" label="&enableSearchTransfer.label;"/>
-			<checkbox id="tabScrolling" preference="tabScrolling" label="&autoComplete.enableTabScrolling;"/>
-			<checkbox id="enableFilteringInSearchBox" preference="enableFilteringInSearchBox" label="&enableFilteringInSearchBox.label;"/>
-			<checkbox id="incompatibleFilteringAndAutoComplete" preference="incompatibleFilteringAndAutoComplete" label="&incompatibleFilteringAndAutoComplete.label;"/>
-			<checkbox id="autoShowFilterBar" preference="autoShowFilterBar" label="&autoShowFilterBar.label;"/>
-		</groupbox>
-		<groupbox>
-			<caption label="&autoComplete;"/>
-			<checkbox id="enableAutoCompleteInSearchBox" preference="enableAutoCompleteInSearchBox" label="&autoComplete.enableInSearchBox;"/>
-			<!--<checkbox id="enableAutoCompleteInFilterBox" preference="enableAutoCompleteInFilterBox" label="&autoComplete.enableInFilterBox;"/>-->
-			<label>&switchAutoComplete;</label>
-			<checkbox id="autoCompleteShortcutAltA" preference="autoCompleteShortcutAltA" label="&autoCompleteShortcut.altA;"/>
-			<checkbox id="autoCompleteShortcutCtrlA" preference="autoCompleteShortcutCtrlA" label="&autoCompleteShortcut.ctrlA;"/>
-		</groupbox>
-	</vbox>
+	<tabbox id="prefs-box" flex="1" align="stretch">
+		<tabs>
+			<tab label="&quickFilterbox.title;"/>
+			<tab label="&globalSearchBox.title;"/>
+			<tab label="&autoComplete;"/>
+		</tabs>
+		<tabpanels>
+			<tabpanel orient="vertical">
+				<checkbox id="hideFilterBar" preference="hideFilterBar" label="&hideFilterBar.label;"/>
+				<checkbox id="hideFilterBox" preference="hideFilterBox" label="&hideFilterBox.label;"/>
+				<checkbox id="enableFilterTransfer" preference="enableFilterTransfer" label="&enableFilterTransfer.label;"/>
+				<label>&searchShortcuts.label;</label>
+				<checkbox id="searchAltEnter" preference="searchAltEnter" label="&searchShortcut.altEnter;"/>
+				<checkbox id="searchCtrlEnter" preference="searchCtrlEnter" label="&searchShortcut.ctrlEnter;"/>
+				<checkbox id="searchEnter" preference="searchEnter" label="&searchShortcut.enter;"/>
+				<checkbox id="rememberFilterOptions" preference="rememberFilterOptions" label="&rememberFilterOptions.label;"/>
+			</tabpanel>
+			<tabpanel orient="vertical">
+				<checkbox id="hideSearchBox" preference="hideSearchBox" label="&hideSearchBox.label;"/>
+				<checkbox id="enableSearchTransfer" preference="enableSearchTransfer" label="&enableSearchTransfer.label;"/>
+				<checkbox id="tabScrolling" preference="tabScrolling" label="&autoComplete.enableTabScrolling;"/>
+				<checkbox id="enableFilteringInSearchBox" preference="enableFilteringInSearchBox" label="&enableFilteringInSearchBox.label;"/>
+				<checkbox id="incompatibleFilteringAndAutoComplete" preference="incompatibleFilteringAndAutoComplete" label="&incompatibleFilteringAndAutoComplete.label;"/>
+				<checkbox id="autoShowFilterBar" preference="autoShowFilterBar" label="&autoShowFilterBar.label;"/>
+			</tabpanel>
+			<tabpanel orient="vertical">
+				<checkbox id="enableAutoCompleteInSearchBox" preference="enableAutoCompleteInSearchBox" label="&autoComplete.enableInSearchBox;"/>
+				<!--<checkbox id="enableAutoCompleteInFilterBox" preference="enableAutoCompleteInFilterBox" label="&autoComplete.enableInFilterBox;"/>-->
+				<label>&switchAutoComplete;</label>
+				<checkbox id="autoCompleteShortcutAltA" preference="autoCompleteShortcutAltA" label="&autoCompleteShortcut.altA;"/>
+				<checkbox id="autoCompleteShortcutCtrlA" preference="autoCompleteShortcutCtrlA" label="&autoCompleteShortcut.ctrlA;"/>
+			</tabpanel>
+		</tabpanels>
+	</tabbox>
 
   </prefpane>
 </prefwindow>

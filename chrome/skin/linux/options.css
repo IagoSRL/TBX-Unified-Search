@@ -1,4 +1,13 @@
 /* To avoid some text to be hidden: */
 #prefs-box {
+}
+#prefs-box tabpanel {
+	max-width: 700px;
+	min-width: 400px;
+	min-height: 240px;
 	overflow: auto;
+}
+#prefs-box checkbox,
+#prefs-box label {
+	white-space: normal;
 }
