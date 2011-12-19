@@ -833,16 +833,16 @@ var unifiedsearch = {
 	/* Adds shortcuts to the filter options in the standard Quick Filter Box,
 		to behavior like the Unified Search Box (that includes shortcuts by default, but standard Thunderbird doesn't) */
 	configureShortcutsQFBox: function() {
-		document.getElementById('qfb-qs-sender').setAttribute('accesskey', 'S');
-		document.getElementById('qfb-qs-recipients').setAttribute('accesskey', 'R');
-		document.getElementById('qfb-qs-subject').setAttribute('accesskey', 'T');
-		document.getElementById('qfb-qs-body').setAttribute('accesskey', 'B');
+		document.getElementById('qfb-qs-sender').setAttribute('accesskey', document.getElementById('us-filter-sender-shortcut').value);
+		document.getElementById('qfb-qs-recipients').setAttribute('accesskey', document.getElementById('us-filter-recipients-shortcut').value);
+		document.getElementById('qfb-qs-subject').setAttribute('accesskey', document.getElementById('us-filter-subject-shortcut').value);
+		document.getElementById('qfb-qs-body').setAttribute('accesskey', document.getElementById('us-filter-body-shortcut').value);
 		
-		document.getElementById('qfb-unread').setAttribute('accesskey', 'U');
-		document.getElementById('qfb-starred').setAttribute('accesskey', 'D');
-		document.getElementById('qfb-inaddrbook').setAttribute('accesskey', 'C');
-		document.getElementById('qfb-tags').setAttribute('accesskey', 'G');
-		document.getElementById('qfb-attachment').setAttribute('accesskey', 'A');
+		document.getElementById('qfb-unread').setAttribute('accesskey', document.getElementById('us-filter-unread-shortcut').value);
+		document.getElementById('qfb-starred').setAttribute('accesskey', document.getElementById('us-filter-starred-shortcut').value);
+		document.getElementById('qfb-inaddrbook').setAttribute('accesskey', document.getElementById('us-filter-inaddrbook-shortcut').value);
+		document.getElementById('qfb-tags').setAttribute('accesskey', document.getElementById('us-filter-tags-shortcut').value);
+		document.getElementById('qfb-attachment').setAttribute('accesskey', document.getElementById('us-filter-attachment-shortcut').value);
 	},
 	/* This function will check if something filter text must be copied from the filter box to the search box,
 		to maintain the default TB behavior that preserve the last filter text when TB is closed,

@@ -22,6 +22,18 @@
 		<keyset>
 		  <key id="usw-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>		  
 		</keyset>
+  <box style="display:none">
+	<label id="us-filter-sender-shortcut" value="&unifiedsearch.widget.filter.sender.shortcut;"/>
+	<label id="us-filter-recipients-shortcut" value="&unifiedsearch.widget.filter.recipients.shortcut;"/>
+	<label id="us-filter-subject-shortcut" value="&unifiedsearch.widget.filter.subject.shortcut;"/>
+	<label id="us-filter-body-shortcut" value="&unifiedsearch.widget.filter.body.shortcut;"/>
+	<label id="us-filter-unread-shortcut" value="&unifiedsearch.widget.filter.unread.shortcut;"/>
+	<label id="us-filter-starred-shortcut" value="&unifiedsearch.widget.filter.starred.shortcut;"/>
+	<label id="us-filter-inaddrbook-shortcut" value="&unifiedsearch.widget.filter.inaddrbook.shortcut;"/>
+	<label id="us-filter-tags-shortcut" value="&unifiedsearch.widget.filter.tags.shortcut;"/>
+	<label id="us-filter-attachment-shortcut" value="&unifiedsearch.widget.filter.attachment.shortcut;"/>
+	<label id="us-filter-sticky-shortcut" value="&unifiedsearch.widget.filter.sticky.shortcut;"/>
+  </box>
 <toolbarpalette id="MailToolbarPalette">
 	<toolbaritem id="uswidget" class="chromeclass-toolbar-additional" align="center"
 				 title="&unifiedsearch.customize_title;"
