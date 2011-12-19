@@ -45,5 +45,5 @@
 <!ENTITY unifiedsearch.widget.filter.starred.shortcut "D">
 <!ENTITY unifiedsearch.widget.filter.inaddrbook.shortcut "C">
 <!ENTITY unifiedsearch.widget.filter.tags.shortcut "L">
-<!ENTITY unifiedsearch.widget.filter.attachment.shortcut "A">
+<!ENTITY unifiedsearch.widget.filter.attachment.shortcut "X">
 <!ENTITY unifiedsearch.widget.filter.sticky.shortcut "K">
