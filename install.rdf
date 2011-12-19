@@ -8,13 +8,13 @@
     <em:creator>Iago Lorenzo Salgueiro (IagoSRL@gmail.com)</em:creator>
     <em:contributor></em:contributor>
     <em:description>Unify the global search box and quick filter box, and enhance it!</em:description>
-    <em:aboutURL>chrome://unifiedsearch/content/about.xul</em:aboutURL>
+    <em:aboutURL></em:aboutURL>
     <em:optionsURL>chrome://unifiedsearch/content/options.xul</em:optionsURL>
     <em:targetApplication>
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id> <!-- Thunderbird -->
         <em:minVersion>3.1</em:minVersion>
-        <em:maxVersion>8.*</em:maxVersion>
+        <em:maxVersion>10.*</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
