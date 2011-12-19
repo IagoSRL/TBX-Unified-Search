@@ -33,3 +33,17 @@
      -->
 <!ENTITY unifiedsearch.doSearch.keyLabel.mac "&lt;&#x2318;+Enter&gt;">
 <!ENTITY unifiedsearch.clearwidget "Clear options (Esc+Esc)">
+
+<!-- Widget Shortcuts -->
+<!ENTITY unifiedsearch.widget.usemenu.shortcut "O">
+<!ENTITY unifiedsearch.widget.usebar.shortcut "O">
+<!ENTITY unifiedsearch.widget.filter.sender.shortcut "S">
+<!ENTITY unifiedsearch.widget.filter.recipients.shortcut "R">
+<!ENTITY unifiedsearch.widget.filter.subject.shortcut "T">
+<!ENTITY unifiedsearch.widget.filter.body.shortcut "B">
+<!ENTITY unifiedsearch.widget.filter.unread.shortcut "U">
+<!ENTITY unifiedsearch.widget.filter.starred.shortcut "D">
+<!ENTITY unifiedsearch.widget.filter.inaddrbook.shortcut "C">
+<!ENTITY unifiedsearch.widget.filter.tags.shortcut "G">
+<!ENTITY unifiedsearch.widget.filter.attachment.shortcut "A">
+<!ENTITY unifiedsearch.widget.filter.sticky.shortcut "K">

@@ -60,41 +60,41 @@
 				<toolbarbutton id="usb-qs-body"
 					observes="usm-qs-body" command="qfb-qs-body"
 					label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
-				<toolbarbutton id="usb-usemenu" accesskey="O"
+				<toolbarbutton id="usb-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
 					observes="usm-usemenu"
 					tooltiptext="&unifiedsearch.usemenu;"/>
 			</panel>
 			<menupopup id="usw-menu" position="after_start">
-				<menuitem id="usm-usebar" class="menuitem-iconic" accesskey="O" label="&unifiedsearch.usebar;"/>
+				<menuitem id="usm-usebar" class="menuitem-iconic" accesskey="&unifiedsearch.widget.usebar.shortcut;" label="&unifiedsearch.usebar;"/>
 				<menuseparator id="usw_separator_after_toggleglobal_id"/>
 				<menuitem id="usm-qs-sender"
 					observes="qfb-qs-sender" command="qfb-qs-sender"
-					label="&quickFilterBar.textFilter.sender.label;" accesskey="S" type="checkbox" closemenu="none"/>
+					label="&quickFilterBar.textFilter.sender.label;" accesskey="&unifiedsearch.widget.filter.sender.shortcut;" type="checkbox" closemenu="none"/>
 				<menuitem id="usm-qs-recipients"
 					observes="qfb-qs-recipients" command="qfb-qs-recipients"
-					label="&quickFilterBar.textFilter.recipients.label;" accesskey="R" type="checkbox" closemenu="none" />
+					label="&quickFilterBar.textFilter.recipients.label;" accesskey="&unifiedsearch.widget.filter.recipients.shortcut;" type="checkbox" closemenu="none" />
 				<menuitem id="usm-qs-subject"
 					observes="qfb-qs-subject" command="qfb-qs-subject"
-					label="&quickFilterBar.textFilter.subject.label;" accesskey="t" type="checkbox" closemenu="none"/>
+					label="&quickFilterBar.textFilter.subject.label;" accesskey="&unifiedsearch.widget.filter.subject.shortcut;" type="checkbox" closemenu="none"/>
 				<menuitem id="usm-qs-body"
 					observes="qfb-qs-body" command="qfb-qs-body"
-					label="&quickFilterBar.textFilter.body.label;" accesskey="B" type="checkbox" closemenu="none" />
+					label="&quickFilterBar.textFilter.body.label;" accesskey="&unifiedsearch.widget.filter.body.shortcut;" type="checkbox" closemenu="none" />
 				<menuseparator/>
 				<menuitem id="usm-unread"
 					observes="qfb-unread" command="qfb-unread"
-					type="checkbox" label="&quickFilterBar.unread.label;" accesskey="U" tooltiptext="&quickFilterBar.unread.tooltip;" class="menuitem-iconic" closemenu="none"/>
+					type="checkbox" label="&quickFilterBar.unread.label;" accesskey="&unifiedsearch.widget.filter.unread.shortcut;" tooltiptext="&quickFilterBar.unread.tooltip;" class="menuitem-iconic" closemenu="none"/>
 				<menuitem id="usm-starred"
 					observes="qfb-starred" command="qfb-starred"
-					type="checkbox" label="&quickFilterBar.starred.label;" accesskey="d" tooltiptext="&quickFilterBar.starred.tooltip;" class="menuitem-iconic" closemenu="none"/>
+					type="checkbox" label="&quickFilterBar.starred.label;" accesskey="&unifiedsearch.widget.filter.starred.shortcut;" tooltiptext="&quickFilterBar.starred.tooltip;" class="menuitem-iconic" closemenu="none"/>
 				<menuitem id="usm-inaddrbook"
 					observes="qfb-inaddrbook" command="qfb-inaddrbook"
-					type="checkbox" label="&quickFilterBar.inaddrbook.label;" accesskey="c" tooltiptext="&quickFilterBar.inaddrbook.tooltip;" class="menuitem-iconic" closemenu="none"/>
+					type="checkbox" label="&quickFilterBar.inaddrbook.label;" accesskey="&unifiedsearch.widget.filter.inaddrbook.shortcut;" tooltiptext="&quickFilterBar.inaddrbook.tooltip;" class="menuitem-iconic" closemenu="none"/>
 				<menuitem id="usm-tags"
 					observes="qfb-tags" command="qfb-tags"
-					type="checkbox" label="&quickFilterBar.tags.label;" accesskey="g" tooltiptext="&quickFilterBar.tags.tooltip;" class="menuitem-iconic" closemenu="none"/>
+					type="checkbox" label="&quickFilterBar.tags.label;" accesskey="&unifiedsearch.widget.filter.tags.shortcut;" tooltiptext="&quickFilterBar.tags.tooltip;" class="menuitem-iconic" closemenu="none"/>
 				<menuitem id="usm-attachment"
 					observes="qfb-attachment" command="qfb-attachment"
-					type="checkbox" label="&quickFilterBar.attachment.label;" accesskey="a" tooltiptext="&quickFilterBar.attachment.tooltip;" class="menuitem-iconic" closemenu="none"/>
+					type="checkbox" label="&quickFilterBar.attachment.label;" accesskey="&unifiedsearch.widget.filter.attachment.shortcut;" tooltiptext="&quickFilterBar.attachment.tooltip;" class="menuitem-iconic" closemenu="none"/>
 			</menupopup>
 			<tooltip id="usw-info" noautohide="false" position="before_start" orient="vertical"
 				label="&unifiedsearch.usw_info;"
@@ -118,8 +118,8 @@
 			<hbox class="textbox-input-box" id="usw-box-buttons">
 				<toolbarbutton
 					id="usw-sticky" crop="none" minwidth="16"
-					tooltiptext="&quickFilterBar.sticky.tooltip;"
-					type="checkbox" accesskey="K"
+					tooltiptext="&quickFilterBar.sticky.tooltip; (&unifiedsearch.widget.filter.sticky.shortcut;)"
+					type="checkbox" accesskey="&unifiedsearch.widget.filter.sticky.shortcut;"
 					observes="qfb-sticky"
 				/>
 				<toolbarbutton
