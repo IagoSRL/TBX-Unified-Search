@@ -100,6 +100,23 @@
 #usw-info {
 	background-color: #33DD00;
 }
+/* Filter state */
+#uswidget[filterActive="searching"] #usw-searchbox {
+	background-color: #ffffcc;
+}
+#uswidget[filterActive="matches"] #usw-searchbox {
+	background-color: #f2f9fc;
+}
+#uswidget[filterActive="nomatches"] #usw-searchbox {
+    background: -moz-repeating-linear-gradient(top left -45deg, #fff0f4,
+                #fff0f4 5px, white 5px, white 10px);
+}
+#uswidget[filterActive="matches"] #usw-results-label {
+	color: green;
+}
+#uswidget[filterActive="nomatches"] #usw-results-label {
+	color: #f66;
+}
 
 /** Customize window **/
 /*#CustomizeToolbarWindow #usw-box-buttons {

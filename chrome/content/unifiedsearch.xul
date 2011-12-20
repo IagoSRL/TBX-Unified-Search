@@ -42,6 +42,7 @@
 			<command id="cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
 			<command id="cmd_clearUnifiedSearchWidget" oncommand="unifiedsearch.cmd_clearUnifiedSearchWidget(event)"/>
 		</commandset>
+		<observes element="threadTree" attribute="filterActive"/>
 		<popupset>
 			<panel id="usw-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
 				<toolbarbutton id="usb-unread" type="checkbox" closemenu="none"
