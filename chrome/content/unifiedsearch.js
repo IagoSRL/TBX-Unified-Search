@@ -174,6 +174,9 @@ var unifiedsearch = {
 		if (!this.usbox || !this.uswidget) return;
 		if (this.uswidget.getAttribute("uswmode") == 'filter')
 			this.usbox.value = '';
+			
+		// Hide results popup:
+		this.toggleUnifiedSearchResults();
 
 		let sticky = document.getElementById('usw-sticky');
 		// TODO: Investigar por qué, al pulsar Esc se ejecuta varias veces ésta función
@@ -369,8 +372,6 @@ var unifiedsearch = {
 		this.clearAllFilteringOptions();
 		// Clear USBox text (because, if is in search mode, previous function will not clear the text)
 		if (this.usbox) this.usbox.value = '';
-		// Hide results popup:
-		this.toggleUnifiedSearchResults();
 	},
 	
 	/* Unified search Widget control methods */
