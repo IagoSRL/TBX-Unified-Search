@@ -44,7 +44,8 @@
 		</commandset>
 		<observes element="threadTree" attribute="filterActive"/>
 		<popupset>
-			<panel id="usw-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
+			<panel id="usw-bar" noautohide="false" noautofocus="true" position="after_end" orient="vertical" pack="end">
+			  <hbox id="usw-bar-options" pack="end">
 				<toolbarbutton id="usb-unread" type="checkbox" closemenu="none"
 					observes="usm-unread" command="qfb-unread"
 					tooltiptext="&quickFilterBar.unread.tooltip;"/>
@@ -76,6 +77,15 @@
 				<toolbarbutton id="usb-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
 					observes="usm-usemenu"
 					tooltiptext="&unifiedsearch.usemenu;"/>
+			 </hbox>
+			 <hbox id="usw-bar-more-options" pack="end">
+				<arrowscrollbox id="usw-bar-tags"
+								orient="horizontal"
+								collapsed="true"
+								observes="quick-filter-bar-tab-bar"
+								flex="2">
+				</arrowscrollbox>
+			 </hbox>
 			</panel>
 			<menupopup id="usw-menu" position="after_start">
 				<menuitem id="usm-usebar" class="menuitem-iconic" accesskey="&unifiedsearch.widget.usebar.shortcut;" label="&unifiedsearch.usebar;"/>
