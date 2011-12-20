@@ -849,6 +849,18 @@ var unifiedsearch = {
 		document.getElementById('qfb-tags').setAttribute('accesskey', document.getElementById('us-filter-tags-shortcut').value);
 		document.getElementById('qfb-attachment').setAttribute('accesskey', document.getElementById('us-filter-attachment-shortcut').value);
 	},
+	replaceQFBoxClearSearch: function() {
+		if (!this.qfbox) return;
+		this.qfbox.originalClearSearch = this.qfbox._clearSearch;
+		this.qfbox.clearSearch = function() {
+			// Do the original stuff
+			let ret = this.originalClearSearch();
+			if (ret)
+				// Reset USWidget filter too, to mantain in synchro:
+				unifiedsearch.resetUSWFilter();
+			return ret;
+		}
+	},
 	/* This function will check if something filter text must be copied from the filter box to the search box,
 		to maintain the default TB behavior that preserve the last filter text when TB is closed,
 		this is needed when: filtering in search box is enabled AND user is not in the search box.
@@ -1197,6 +1209,7 @@ var unifiedsearch = {
 			this.configureHideFilterBox();
 			this.configureHideFilterBar();
 			this.configureShortcutsQFBox();
+			this.replaceQFBoxClearSearch();
 		}
 	},
 	
