@@ -369,6 +369,8 @@ var unifiedsearch = {
 		this.clearAllFilteringOptions();
 		// Clear USBox text (because, if is in search mode, previous function will not clear the text)
 		if (this.usbox) this.usbox.value = '';
+		// Hide results popup:
+		this.toggleUnifiedSearchResults();
 	},
 	
 	/* Unified search Widget control methods */
@@ -573,6 +575,8 @@ var unifiedsearch = {
 			}
 			// Each change must check if clear button needs be showed or hidded:
 			unifiedsearch.toggleUnifiedSearchClearButton();
+			// Each cange must check if results tooltip needs be showed or hidded
+			unifiedsearch.toggleUnifiedSearchResults();
 		}
 		else if (aEvent.type == "keydown") {
 
@@ -990,9 +994,9 @@ var unifiedsearch = {
 	toggleUnifiedSearchClearButton: function () {
 		let uswclear = document.getElementById('usw-clear');
 		if (!this.usbox || !uswclear) return;
-		
+
 		// Show clear button if there is text or filter options actived, hide if not
-		if (this.usbox.value != '' ||
+		if (!/^\s*\s*$/g.test(this.usbox.value) ||
 			this.isUnifiedSearchFilterOptionChecked('unread') ||
 			this.isUnifiedSearchFilterOptionChecked('starred') ||
 			this.isUnifiedSearchFilterOptionChecked('inaddrbook') ||
@@ -1001,6 +1005,15 @@ var unifiedsearch = {
 			uswclear.display = '';
 		else
 			uswclear.display = 'none';
+	},
+	toggleUnifiedSearchResults: function (){
+		let results = document.getElementById('usw-results-tooltip');
+		if (!this.usbox || !results) return;
+
+		if (!/^\s*\s*$/g.test(this.usbox.value))
+			results.openPopup(this.usbox, results.getAttribute('position'), 0, 0, false, false);
+		else
+			results.hidePopup();
 	},
 	isUnifiedSearchFilterOptionChecked: function (optionName) {
 		return document.getElementById('usb-' + optionName).checked;

@@ -113,6 +113,9 @@
 				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
 				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
 		</popupset>
+		<tooltip position="before_start" orient="vertical" id="usw-results-tooltip" noautohide="true">
+			<label id="usw-results-label" observes="qfb-results-label" />
+		</tooltip>
 		<textbox id="usw-searchbox"
 			flex="1"
 			type="glodacomplete"
