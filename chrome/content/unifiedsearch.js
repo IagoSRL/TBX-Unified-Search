@@ -576,7 +576,7 @@ var unifiedsearch = {
 			}
 			// Each change must check if clear button needs be showed or hidded:
 			unifiedsearch.toggleUnifiedSearchClearButton();
-			// Each cange must check if results tooltip needs be showed or hidded
+			// Each change must check if results tooltip needs be showed or hidded
 			unifiedsearch.toggleUnifiedSearchResults();
 		}
 		else if (aEvent.type == "keydown") {
