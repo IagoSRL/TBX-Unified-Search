@@ -576,8 +576,6 @@ var unifiedsearch = {
 			}
 			// Each change must check if clear button needs be showed or hidded:
 			unifiedsearch.toggleUnifiedSearchClearButton();
-			// Each change must check if results tooltip needs be showed or hidded
-			unifiedsearch.toggleUnifiedSearchResults();
 		}
 		else if (aEvent.type == "keydown") {
 
@@ -1021,9 +1019,10 @@ var unifiedsearch = {
 	},
 	toggleUnifiedSearchResults: function (){
 		let results = document.getElementById('usw-results-tooltip');
+		let resultslabel = document.getElementById('usw-results-label');
 		if (!this.usbox || !results) return;
 
-		if (!/^\s*\s*$/g.test(this.usbox.value))
+		if (resultslabel.value && !/^\s*\s*$/g.test(resultslabel.value))
 			results.openPopup(this.usbox, results.getAttribute('position'), 0, 0, false, false);
 		else
 			results.hidePopup();
