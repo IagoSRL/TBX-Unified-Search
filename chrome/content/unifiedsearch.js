@@ -1108,10 +1108,9 @@ var unifiedsearch = {
 			let isNotFolder = !aFolderDisplay.displayedFolder || aFolderDisplay.displayedFolder.isServer;
 			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
 			let sticky = document.getElementById('usw-sticky');
-			if (!sticky) return;
 			// If we are not in a folder (maybe we are in account central, a root folder)
-			// And persist feature is disabled, filter options must be cleared:
-			if (isNotFolder && !sticky.checked) unifiedsearch.clearAllFilteringOptions();
+			// and persist feature is disabled, filter options must be cleared:
+			if (isNotFolder && sticky && !sticky.checked) unifiedsearch.clearAllFilteringOptions();
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
