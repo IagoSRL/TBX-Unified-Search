@@ -1088,7 +1088,7 @@ var unifiedsearch = {
 		*/
 		onLoadingFolder: function(aFolderDisplay) {
 			//unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
-			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
+			// Local access to the button that enable/disable persist feature (filter must be persisted between folders)
 			let sticky = document.getElementById('usw-sticky');
 			if (!sticky) return;
 			// With persistent filter (sticky.checked == true), filter criteria-options and text are preserved and filter
@@ -1101,7 +1101,7 @@ var unifiedsearch = {
 				unifiedsearch.clearAllFilteringOptions();
 		},
 		/* when the FolderDisplayWidget is actived: with this event, a change to a non-folder can be listening, 
-			something that with onLoadingFolder and anothers can no be do it.
+			something that with onLoadingFolder and anothers can not be do it.
 		*/
 		onMakeActive: function (aFolderDisplay, aWasInactive) {
 			// Check if we are in a non-folder:
