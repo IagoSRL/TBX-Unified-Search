@@ -114,7 +114,7 @@
 				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
 				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
 		</popupset>
-		<tooltip position="before_start" orient="vertical" id="usw-results-tooltip" noautohide="true">
+		<tooltip position="before_start" orient="vertical" id="usw-results-tooltip">
 			<label id="usw-results-label">
 				<observes element="qfb-results-label" attribute="value" onbroadcast="unifiedsearch.toggleUnifiedSearchResults();" />
 			</label>

@@ -645,6 +645,8 @@ var unifiedsearch = {
 				this.openUnifiedSearchBar(aEvent);
 			// Select the content:
 			usbox.select();
+            // Show the tooltip:
+            this.toggleUnifiedSearchResults();
 		}
 		else if (aEvent.type == "click") {
 			if (this.options.uswOptionsMode == "bar" && this.options.unifiedSearchWidgetMode == 'filter')
@@ -654,6 +656,8 @@ var unifiedsearch = {
 			if (this.options.uswOptionsMode == "bar")
 				this.hideUnifiedSearchBar(aEvent);
 			this.uswInfoClear();
+            // Force hide the tooltip:
+            this.toggleUnifiedSearchResults(false);
 		}
 	},
 	
@@ -1017,12 +1021,12 @@ var unifiedsearch = {
 		else
 			uswclear.display = 'none';
 	},
-	toggleUnifiedSearchResults: function (){
+	toggleUnifiedSearchResults: function (forceShow){
 		let results = document.getElementById('usw-results-tooltip');
 		let resultslabel = document.getElementById('usw-results-label');
 		if (!this.usbox || !results) return;
 
-		if (resultslabel.value && !/^\s*\s*$/g.test(resultslabel.value))
+		if (forceShow !== false && resultslabel.value && !/^\s*\s*$/g.test(resultslabel.value))
 			results.openPopup(this.usbox, results.getAttribute('position'), 0, 0, false, false);
 		else
 			results.hidePopup();

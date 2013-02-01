@@ -4,7 +4,7 @@
     <em:id>{FAD2EADC-7D70-11DF-8B33-89D1DED72085}</em:id>
     <em:type>2</em:type>
     <em:name>Unified Search</em:name>
-    <em:version>0.7.1</em:version>
+    <em:version>0.7.2</em:version>
     <em:creator>Iago Lorenzo Salgueiro (IagoSRL@gmail.com)</em:creator>
     <em:contributor></em:contributor>
     <em:description>Unify the global search box and quick filter box, and enhance it!</em:description>
@@ -14,7 +14,7 @@
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id> <!-- Thunderbird -->
         <em:minVersion>3.1</em:minVersion>
-        <em:maxVersion>10.*</em:maxVersion>
+        <em:maxVersion>18.*</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
