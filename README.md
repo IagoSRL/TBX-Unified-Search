@@ -5,11 +5,11 @@ Unified Search for Thunderbird Extension
 
 Description
 -----------
-Unified Search is an extension for Mozilla Thunderbird software created with technologies XUL, Javascript and CSS, that aims to enhance the search experience.
-This extension allow to unify the global search boxes of Thunderbird 3.1+: the global search (up right in Thunderbird window, ever visible, 'Search all messages...') and the quick filter box (in the filter bar, 'filter these messages...').
-It lets you either to apply a filter or to open a global search in both boxes, and hide one to use only the another preferred.
-You can preserve the two boxes if you want (see the options to show again the filter box that is disabled by default) and enjoy the extra features that the extension have added to each box.
-Plus, it adds a new widget to Thunderbird, called **Unified Search Widget**: you can choice it from the Toolbar Customize window (menu View->Toolbars->Customize..) and place it wherever you want. It's more compact that the standard quick filter bar, with all their options, and with search capabilities and a global autocomplete mode. You can replace the standard search box with this.
+Unified Search is an extension for Mozilla Thunderbird software created with technologies XUL, Javascript and CSS, that aims to enhance the search experience.  
+This extension allow to unify the global search boxes of Thunderbird 3.1+: the global search (up right in Thunderbird window, ever visible, 'Search all messages...') and the quick filter box (in the filter bar, 'filter these messages...').  
+It lets you either to apply a filter or to open a global search in both boxes, and hide one to use only the another preferred.  
+You can preserve the two boxes if you want (see the options to show again the filter box that is disabled by default) and enjoy the extra features that the extension have added to each box.  
+Plus, it adds a new widget to Thunderbird, called **Unified Search Widget**: you can choice it from the Toolbar Customize window (menu View->Toolbars->Customize..) and place it wherever you want. It's more compact that the standard quick filter bar, with all their options, and with search capabilities and a global autocomplete mode. You can replace the standard search box with this.  
 
 Web page
 --------
