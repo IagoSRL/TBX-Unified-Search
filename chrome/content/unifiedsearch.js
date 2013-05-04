@@ -103,8 +103,7 @@ var unifiedsearch = {
 	openGlobalSearch: function(aSearchedText) {
 		// From modules/quickFilterManager.js line 1136:
 		//upsell.hidePopup();
-		let tabmail = document.getElementById("tabmail");
-		tabmail.openTab("glodaFacet", {
+		this.tabmail.openTab("glodaFacet", {
 						  searcher: new GlodaMsgSearcher(null, aSearchedText)
 						});
 	},
@@ -172,7 +171,7 @@ var unifiedsearch = {
 	*/
 	resetUSWFilter: function(resetQsToo) {
 		if (!this.usbox || !this.uswidget) return;
-		if (this.uswidget.getAttribute("uswmode") == 'filter')
+		if (this.uswidget.uswmode == 'filter')
 			this.usbox.value = '';
 			
 		// Hide results popup:
@@ -310,7 +309,7 @@ var unifiedsearch = {
 				// Switch to Search mode:
 				this.options.unifiedSearchWidgetMode = 'search';
 				usbox.disableAutoComplete = false;
-				this.uswidget.setAttribute("uswmode", "search");
+				this.uswidget.uswmode = "search";
 				
 				// Prepare search:
 				// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
@@ -325,7 +324,7 @@ var unifiedsearch = {
 				// Switch to Filter mode:
 				this.options.unifiedSearchWidgetMode = 'filter';
 				usbox.disableAutoComplete = true;
-				this.uswidget.setAttribute("uswmode", "filter");
+				this.uswidget.uswmode = 'filter';
 				
 				// Prepare filter:
 				// Hide the autocomplete popup
@@ -561,7 +560,7 @@ var unifiedsearch = {
 			// This must be do it in 'keyup' event because in 'keydown' and 'keypress' events the input.value didn't have been processed
 			if (!aEvent.ctrlKey && !aEvent.altKey && !aEvent.metaKey &&
 				aEvent.keyCode != aEvent.DOM_VK_RETURN) {
-				// Mus be in 'filter' mode:
+				// Must be in 'filter' mode:
 				if (this.options.unifiedSearchWidgetMode == 'filter') {
 					this.filterFromUnifiedSearchBox(usbox);
 					
@@ -1078,6 +1077,27 @@ var unifiedsearch = {
 			}
 		}, false);
 	},
+	
+	/** Some utils for listeners **/
+	_updateUnifiedSearchWidgetMode: function(){
+		if (!this.uswidget) return;
+		// We check if 
+		if (this.uswidget.uswcanfilter) {
+			// Reset saved previous mode to allow a smart restoration of user choice about the widget mode
+			if (this.uswidget._filterDisabled) {
+				this.uswidget._filterDisabled = false;
+				if (this.uswidget.uswmode != 'filter')
+					this.switchUnifiedSearchAutoComplete();
+			}
+		} else {
+			// If widget is in filter mode, we need automatically change to search because cannot be
+			// used in current context/tab, but remembering it to restore later
+			if (this.uswidget.uswmode == 'filter') {
+				this.uswidget._filterDisabled = true;
+				this.switchUnifiedSearchAutoComplete();
+			}
+		}
+	},
 
 	/************************************************************/
 	/********** FolderDisplayListener ***************************/
@@ -1115,9 +1135,29 @@ var unifiedsearch = {
 			// If we are not in a folder (maybe we are in account central, a root folder)
 			// and persist feature is disabled, filter options must be cleared:
 			if (isNotFolder && sticky && !sticky.checked) unifiedsearch.clearAllFilteringOptions();
+			// Be aware of tabs that not allow 'messages filtering', avoiding errors from the widget:
+			unifiedsearch._updateUnifiedSearchWidgetMode();
 		}
 	},
 	/********** ENDS FolderDisplay Listener ************************************/
+	
+	/**************************************************/
+	/********** Tab Monitor ***************************/
+	/** for available events, see: 
+		http://mxr.mozilla.org/comm-central/source/mail/base/content/tabmail.xml#221
+	*/
+	tabMonitor: {
+		monitorName: 'unified-search',
+		onTabTitleChanged: function(aTab) { /* nothing to do, handler required */ },
+		onTabSwitched: function(aTab, aOldTab) {
+			unifiedsearch._updateUnifiedSearchWidgetMode();
+		},
+		onTabOpened: function(aTab, aIsFirstTab, aWasCurrentTab) { /* onTabSwitched do the stuff just after onTabOpened, handler required */ },
+		onTabClosing: function(aTab) { /* nothing to do, handler required */ },
+		onTabPersist: function(aTab) { /* nothing to persist, return null*/ return null },
+		onTabRestored: function(aTab, aState, aIsFirstTab) { /* nothing to restore, handler required */ }
+	},
+	/**************************************************/
 	
 	/* Main UI XUL Elements like accesor properties to simplify coding. Check ever if the
 		return value is null -this happens when the element is not in the toolbar after use
@@ -1146,6 +1186,11 @@ var unifiedsearch = {
 	get qfbox() {
 		return document.getElementById("qfb-qs-textbox");
 	},
+	// The Thunderbird tabmail element, it manages everything about tabs in the window
+	// See: http://mxr.mozilla.org/comm-central/source/mail/base/content/tabmail.xml
+	get tabmail() {
+		return document.getElementById("tabmail");
+	},
 	
 	/* Initializing Unified Search */
 	startup: function (aEvent) {
@@ -1153,9 +1198,10 @@ var unifiedsearch = {
 		// Observer changes in preferences
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		this.options.appPrefs.addObserver("", unifiedsearch, false);
-		// Request listen changes in the Folder Display view, to know when a different folder is selected, a non-folder
-		// (like a search, a calendar tab, etc.) is showed and so on.
+		// Request listen changes in the Folder Display view and tab changes to know when a different folder is selected, a non-folder
+		// or non folder tab (like a search, a calendar tab, etc.) is showed and so on.
 		FolderDisplayListenerManager.registerListener(this.folderDisplayListener);
+		this.tabmail.registerTabMonitor(this.tabMonitor);
 		
 		// QFBar with the QFBox:
 		if (this.qfbox)
@@ -1253,7 +1299,14 @@ var unifiedsearch = {
 			usbox.addEventListener(
 			"blur", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			
-			uswidget.setAttribute("uswmode", this.options.unifiedSearchWidgetMode);
+			// uswmode
+			uswidget.__defineGetter__('uswmode', function(){ return this.getAttribute('uswmode') });
+			uswidget.__defineSetter__('uswmode', function(val){ this.setAttribute('uswmode', val) });
+			uswidget.uswmode = this.options.unifiedSearchWidgetMode;
+			// uswcanfilter
+			uswidget.__defineGetter__('uswcanfilter', function(){
+				return ("quickFilter" in unifiedsearch.tabmail.currentTabInfo._ext);
+			});
 			
 			this.configureAutoCompleteTabScrollingInUnifiedSearchBox();
 			this.configureAutoCompleteEnableInUnifiedSearchBox();
