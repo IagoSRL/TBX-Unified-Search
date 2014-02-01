@@ -3,14 +3,6 @@
 
 <!DOCTYPE overlay SYSTEM "chrome://unifiedsearch/locale/unifiedsearch.dtd"
 [
-  <!ENTITY % messengerDTD SYSTEM "chrome://messenger/locale/messenger.dtd">
-  %messengerDTD;
-  <!ENTITY % msgViewPickerDTD SYSTEM "chrome://messenger/locale/msgViewPickerOverlay.dtd" >
-  %msgViewPickerDTD;
-  <!ENTITY % msgFolderPickerDTD SYSTEM "chrome://messenger/locale/msgFolderPickerOverlay.dtd" >
-  %msgFolderPickerDTD;
-  <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
-  %brandDTD;
   <!ENTITY % quickFilterBar SYSTEM "chrome://messenger/locale/quickFilterBar.dtd">
   %quickFilterBar;
 ]
