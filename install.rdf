@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
     <em:id>{FAD2EADC-7D70-11DF-8B33-89D1DED72085}</em:id>
@@ -7,6 +7,7 @@
     <em:version>0.7.3</em:version>
     <em:creator>Iago Lorenzo Salgueiro (IagoSRL@gmail.com)</em:creator>
     <em:contributor></em:contributor>
+    <em:translator>Onno Ekker (nl)</em:translator>
     <em:description>Unify the global search box and quick filter box, and enhance it!</em:description>
     <em:aboutURL></em:aboutURL>
     <em:optionsURL>chrome://unifiedsearch/content/options.xul</em:optionsURL>

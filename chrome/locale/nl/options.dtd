@@ -1,0 +1,28 @@
+<!ENTITY prefwindow.title "Unified Search voorkeuren">
+<!ENTITY pane1.title "Unified Search voorkeuren">
+
+<!ENTITY quickFilterbox.title "Opties Snelfilterveld">
+<!ENTITY globalSearchBox.title "Opties Globaal zoeken veld">
+
+<!ENTITY searchShortcuts.label "Start Globaal zoeken in het Snelfilterveld met de sneltoetsen:">
+<!ENTITY searchShortcut.altEnter "Alt + Enter">
+<!ENTITY searchShortcut.ctrlEnter "Control + Enter">
+<!ENTITY searchShortcut.enter "Enter">
+
+<!ENTITY autoComplete.enableTabScrolling "'Tab scrollen' inschakelen (doorloop de automatische aanvulsuggesties door op de &lt;Tab&gt; toets te drukken)">
+<!ENTITY autoComplete "Automatische aanvulsuggesties" >
+<!ENTITY switchAutoComplete "In- en uitschakelen van automatische aanvulsuggesties toestaan met de sneltoets: ">
+<!ENTITY autoCompleteShortcut.altA "Alt + A ('niet meer ondersteund': deze mogelijkheid zal verwijderd worden, omdat hij in sommige talen problemen veroorzaakt met sneltoetsen in het menu)">
+<!ENTITY autoCompleteShortcut.ctrlA "Control + A">
+<!ENTITY autoComplete.enableInSearchBox "Automatische aanvulsuggesties in het Globale zoeken veld inschakelen">
+<!ENTITY autoComplete.enableInFilterBox "Automatische aanvulsuggesties in het Snelfilterveld inschakelen">
+<!ENTITY enableSearchTransfer.label "Kopieer de tekst van het zoekveld naar het filterveld als u op Ctrl+F drukt (en pas het filter toe)">
+<!ENTITY enableFilterTransfer.label "Kopieer de tekst van het filterveld naar het zoekveld als u op Ctrl+K drukt (en laat de automatische aanvulsuggesties zien)">
+
+<!ENTITY rememberFilterOptions.label "Filtervoorkeuren onthouden (bewaart opties na een herstart, geldt ook voor de Unifies Search widget)">
+<!ENTITY hideFilterBox.label "Het Snelfilterveld verbergen en uitschakelen (u kunt daarvoor in de plaats het globaal zoeken veld gebruiken met de optie 'snel filteren' ingeschakeld)">
+<!ENTITY hideFilterBar.label "De Snelfilterbalk verbergen en uitschakelen (Dit verbergt het Snelfilterveld en zijn opties - U kunt het Unified Search widget daarvoor in de plaats gebruiken)">
+<!ENTITY hideSearchBox.label "Het Globaal zoeken veld verbergen en uitschakelen (U kunt het Snelfilterveld met de 'Globaal zoeken sneltoetsen' ingeschakeld daarvoor in de plaats gebruiken)">
+<!ENTITY enableFilteringInSearchBox.label "Schakel 'Snelfilteren' in het zoekveld in">
+<!ENTITY incompatibleFilteringAndAutoComplete.label "Automatisch aanvullen en 'Snelfilteren' moeten incompatibel zijn: als automatische aanvulsuggesties ingeschakeld zijn, dan wordt het filter niet toegepast en andersom ook">
+<!ENTITY autoShowFilterBar.label "Als filteren in het zoekveld ingeschakeld is, dan moet de filterbalk automatisch getoond worden and er een filter wordt toegepast en verborgen als er geen filter wordt toegepast">
