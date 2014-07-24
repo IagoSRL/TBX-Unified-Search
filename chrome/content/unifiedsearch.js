@@ -645,8 +645,8 @@ var unifiedsearch = {
 				this.openUnifiedSearchBar(aEvent);
 			// Select the content:
 			usbox.select();
-            // Show the tooltip:
-            this.toggleUnifiedSearchResults();
+        // Show the tooltip:
+        this.toggleUnifiedSearchResults();
 		}
 		else if (aEvent.type == "click") {
 			if (this.options.uswOptionsMode == "bar" && this.options.unifiedSearchWidgetMode == 'filter')
@@ -1189,11 +1189,49 @@ var unifiedsearch = {
 					return;
 				unifiedsearch.initUSWidget(aEvent);
 			}, false);
+    this.setupTooltip("usw-sticky");
+    this.setupTooltip("usb-usemenu");
 	},
 	shutdown: function (aEvent) {
 		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
 	},
+
+  setupTooltip: function (aId) {
+    var el = document.getElementById(aId);
+    var tooltiptext = el.getAttribute("tooltiptext");
+    var accesskey = el.getAttribute("accesskey");
+    if (tooltiptext.indexOf(accesskey) === -1) {
+      // Accesskey doesn't appear in tooltip, check case insensitive
+      var re = RegExp(accesskey, "i");
+      var match = tooltiptext.match(re);
+      if (match !== null) {
+        // Accesskey appears, but with wrong case
+        accesskey = tooltiptext.substr(match.index, match.index);
+      } else {
+        // Accesskey doesn't appear in tooltip
+        tooltiptext += " (" + accesskey + ")";
+      }
+    }
+    var htmltext = tooltiptext.replace(accesskey, "<u>"+accesskey+"</u>");
+    el.setAttribute("tooltipHTML", htmltext);
+    el.removeAttribute("tooltiptext");
+  },
+  onMouseTooltip: function(aEvent) {
+    //get the HTML tooltip string assigned to the element that the mouse is over (which will soon launch the tooltip)
+    var txt = aEvent.target.getAttribute("tooltipHTML");
+    // get the HTML div element that is inside the custom XUL tooltip
+    var div = document.getElementById("myHTMLTipDiv");
+    //clear the HTML div element of any prior shown custom HTML
+    while(div.firstChild)
+    	div.removeChild(div.firstChild);
+    //safely convert HTML string to a simple DOM object, stripping it of JavaScript and more complex tags
+    var injectHTML = Components.classes["@mozilla.org/feed-unescapehtml;1"]
+      .getService(Components.interfaces.nsIScriptableUnescapeHTML)
+      .parseFragment(txt, false, null, div);
+    //attach the DOM object to the HTML div element
+    div.appendChild(injectHTML);
+  },
 	
 	initQFBox: function (aEvent) {
 		if (this.qfbox) {

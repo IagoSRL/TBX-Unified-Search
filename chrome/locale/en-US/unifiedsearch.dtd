@@ -35,7 +35,7 @@
 <!ENTITY unifiedsearch.clearwidget "Clear options (Esc+Esc)">
 
 <!-- Widget Shortcuts -->
-<!ENTITY unifiedsearch.widget.usemenu.shortcut "O">
+<!ENTITY unifiedsearch.widget.usemenu.shortcut "o">
 <!ENTITY unifiedsearch.widget.usebar.shortcut "H">
 <!ENTITY unifiedsearch.widget.filter.sender.shortcut "S">
 <!ENTITY unifiedsearch.widget.filter.recipients.shortcut "R">
