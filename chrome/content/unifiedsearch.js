@@ -175,7 +175,7 @@ var unifiedsearch = {
 			this.usbox.value = '';
 			
 		// Hide results popup:
-		this.toggleUnifiedSearchResults();
+		this.toggleUnifiedSearchResults(false);
 
 		let sticky = document.getElementById('usw-sticky');
 		// TODO: Investigar por qué, al pulsar Esc se ejecuta varias veces ésta función
@@ -302,6 +302,12 @@ var unifiedsearch = {
 	switchUnifiedSearchAutoComplete: function(usbox) {
 		if (!usbox) usbox = this.usbox; // crazy? Not, I must review Why the param.
 		if (!this.uswidget || !usbox) return;
+		
+		// Lock change if filter was disabled
+		if (!this.uswidget.uswcanfilter &&
+			this.options.unifiedSearchWidgetMode == 'search')
+			return;
+
 		// What is the current mode? then, change it!
 		switch(this.options.unifiedSearchWidgetMode){
 			default:
@@ -1085,16 +1091,19 @@ var unifiedsearch = {
 		if (this.uswidget.uswcanfilter) {
 			// Reset saved previous mode to allow a smart restoration of user choice about the widget mode
 			if (this.uswidget._filterDisabled) {
-				this.uswidget._filterDisabled = false;
 				if (this.uswidget.uswmode != 'filter')
 					this.switchUnifiedSearchAutoComplete();
+				// Unlock filtering
+				this.uswidget._filterDisabled = false;
 			}
 		} else {
 			// If widget is in filter mode, we need automatically change to search because cannot be
 			// used in current context/tab, but remembering it to restore later
 			if (this.uswidget.uswmode == 'filter') {
-				this.uswidget._filterDisabled = true;
 				this.switchUnifiedSearchAutoComplete();
+				// Remember that the filter was disabled because
+				// cannot be used
+				this.uswidget._filterDisabled = true;
 			}
 		}
 	},
@@ -1154,7 +1163,7 @@ var unifiedsearch = {
 		},
 		onTabOpened: function(aTab, aIsFirstTab, aWasCurrentTab) { /* onTabSwitched do the stuff just after onTabOpened, handler required */ },
 		onTabClosing: function(aTab) { /* nothing to do, handler required */ },
-		onTabPersist: function(aTab) { /* nothing to persist, return null*/ return null },
+		onTabPersist: function(aTab) { /* nothing to persist, return null*/ return null; },
 		onTabRestored: function(aTab, aState, aIsFirstTab) { /* nothing to restore, handler required */ }
 	},
 	/**************************************************/
