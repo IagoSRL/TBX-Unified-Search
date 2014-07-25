@@ -1,10 +1,10 @@
 ﻿
 /*** Quick Filter Widget (QFW) ***/
-#uswidget {
+#unifiedsearch-widget {
 	height: 22px;
 }
 
-#usw-searchbox {
+#unifiedsearch-widget-searchbox {
 	font-style: normal !important;
 	height: 22px;
 	-moz-appearance: none !important;
@@ -15,106 +15,107 @@
   -moz-padding-end: 2px;
   -moz-padding-start: 2px;
 }
-#usw-searchbox:-moz-lwtheme:not([focused="true"]) {
+#unifiedsearch-widget-searchbox:-moz-lwtheme:not([focused="true"]) {
   opacity: .85;
 }
 
-#uswidget #usw-box-buttons > toolbarbutton {
+#unifiedsearch-widget #unifiedsearch-widget-box-buttons > toolbarbutton {
 	-moz-appearance: none !important;
 	padding: 0 2px;
 }
-#uswidget #usw-box-buttons > toolbarbutton[checked=true] {
+#unifiedsearch-widget #unifiedsearch-widget-box-buttons > toolbarbutton[checked=true] {
 	-moz-appearance: none !important;
 	padding: 0 2px !important;
 }
-#uswidget #usw-bar {
+#unifiedsearch-widget #unifiedsearch-widget-bar {
 	color: black;
 }
 /* Widget buttons */
-#usw-sticky {
+#unifiedsearch-widget-sticky {
 	list-style-image: url(chrome://unifiedsearch/skin/icons/pin-off.png);
 }
-#usw-sticky[checked=true] {
+#unifiedsearch-widget-sticky[checked=true] {
 	list-style-image: url(chrome://unifiedsearch/skin/icons/pin-on.png);
 }
-#usw-criteria {
+#unifiedsearch-widget-criteria {
 	list-style-image: url(chrome://global/skin/tree/columnpicker.gif); /* it's global, no problem */
 	/*height: 18px;*/
 }
-#usw-box-buttons {
+#unifiedsearch-widget-box-buttons {
 	cursor: default;
 }
-#usw-clear {
+#unifiedsearch-widget-clear {
 	list-style-image: url(chrome://unifiedsearch/skin/icons/search-close.png);
 	-moz-image-region: rect(0, 16px, 18px, 0) !important;
 }
 /* Widget Modes */
-#uswidget[uswmode='filter'] #usw-switchmode {
+#unifiedsearch-widget[uswmode='filter'] #unifiedsearch-widget-switchmode {
 	list-style-image: url(chrome://unifiedsearch/skin/icons/filter.png);
 	-moz-image-region: rect(0, 16px, 18px, 0) !important;
 }
-#uswidget[uswmode='search'] #usw-switchmode {
+#unifiedsearch-widget[uswmode='search'] #unifiedsearch-widget-switchmode {
 	list-style-image: url(chrome://global/skin/icons/Search-glass.png); /* it's global, no problem */
 	-moz-image-region: rect(0, 16px, 18px, 0) !important;
 }
-#uswidget[uswmode='search'] #usw-sticky {
+#unifiedsearch-widget[uswmode='search'] #unifiedsearch-widget-sticky {
 	visibility: hidden; /* no collapse, to maintain the widget with */
 }
 
 /* bar buttons images: */
-#usb-unread {
+#unifiedsearch-widget-bar-unread {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
   -moz-image-region: rect(0px 16px 16px 0px);
 }
-#usb-starred {
+#unifiedsearch-widget-bar-starred {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
   -moz-image-region: rect(0px 32px 16px 16px);
 }
-#usb-inaddrbook {
+#unifiedsearch-widget-bar-inaddrbook {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
   -moz-image-region: rect(0px 48px 16px 32px);
 }
-#usb-tags {
+#unifiedsearch-widget-bar-tags {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
   -moz-image-region: rect(0px 64px 16px 48px);
 }
-#usb-attachment {
+#unifiedsearch-widget-bar-attachment {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar.png");
   -moz-image-region: rect(0px 80px 16px 64px);
 }
-#usb-unread[checked=true], #usb-starred[checked=true] {
+#unifiedsearch-widget-bar-unread[checked=true],
+#unifiedsearch-widget-bar-starred[checked=true] {
   list-style-image: url("chrome://unifiedsearch/skin/icons/filterbar-on.png");
 }
 /* Criteria/options mode: */
-#usm-usebar {
+#unifiedsearch-widget-menu-usebar {
 /*	list-style-image: url("chrome://unifiedsearch/skin/icons/arrows.png");
 	-moz-image-region: rect(0, 11px, 11px, 0);*/
 	list-style-image: url("chrome://unifiedsearch/skin/icons/arrow-left.png");
 }
-#usb-usemenu {
+#unifiedsearch-widget-bar-usemenu {
 /*	list-style-image: url("chrome://unifiedsearch/skin/icons/arrows.png");
 	-moz-image-region: rect(0, 22px, 11px, 11px);*/
 	list-style-image: url("chrome://unifiedsearch/skin/icons/arrow-down.png");
 }
 /* User info / tooltips */
-#usw-info {
+#unifiedsearch-widget-info {
 	background-color: #33DD00;
 }
 /* Filter state */
-#uswidget[filterActive="searching"] #usw-searchbox {
+#unifiedsearch-widget[filterActive="searching"] #unifiedsearch-widget-searchbox {
 	background-color: #ffffcc;
 }
-#uswidget[filterActive="matches"] #usw-searchbox {
+#unifiedsearch-widget[filterActive="matches"] #unifiedsearch-widget-searchbox {
 	background-color: #f2f9fc;
 }
-#uswidget[filterActive="nomatches"] #usw-searchbox {
+#unifiedsearch-widget[filterActive="nomatches"] #unifiedsearch-widget-searchbox {
     background: -moz-repeating-linear-gradient(top left -45deg, #fff0f4,
                 #fff0f4 5px, white 5px, white 10px);
 }
-#uswidget[filterActive="matches"] #usw-results-label {
+#unifiedsearch-widget[filterActive="matches"] #unifiedsearch-widget-results-label {
 	color: green;
 }
-#uswidget[filterActive="nomatches"] #usw-results-label {
+#unifiedsearch-widget[filterActive="nomatches"] #unifiedsearch-widget-results-label {
 	color: #f66;
 }
 
@@ -125,9 +126,9 @@
 
 /* Fix issue#1: Disabling inherit behavior that hide label text when toolbar mode is selected to be only-icons, only for criteria options
 	that have not icon (sender, subject, recipients, body) */
-toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-sender .toolbarbutton-text,
-toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-subject .toolbarbutton-text,
-toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-recipients .toolbarbutton-text,
-toolbar[mode="icons"] toolbaritem#uswidget toolbarbutton#usb-qs-body .toolbarbutton-text {
+toolbar[mode="icons"] toolbaritem#unifiedsearch-widget toolbarbutton#unifiedsearch-widget-bar-qs-sender .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#unifiedsearch-widget toolbarbutton#unifiedsearch-widget-bar-qs-subject .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#unifiedsearch-widget toolbarbutton#unifiedsearch-widget-bar-qs-recipients .toolbarbutton-text,
+toolbar[mode="icons"] toolbaritem#unifiedsearch-widget toolbarbutton#unifiedsearch-widget-bar-qs-body .toolbarbutton-text {
 	display: inherit !important;
 }

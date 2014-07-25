@@ -103,7 +103,7 @@ var unifiedsearch = {
 	openGlobalSearch: function(aSearchedText) {
 		// From modules/quickFilterManager.js line 1136:
 		//upsell.hidePopup();
-		this.tabmail.openTab("glodaFacet", {
+		this.tabmail.openTab('glodaFacet', {
 						  searcher: new GlodaMsgSearcher(null, aSearchedText)
 						});
 	},
@@ -177,7 +177,7 @@ var unifiedsearch = {
 		// Hide results popup:
 		this.toggleUnifiedSearchResults(false);
 
-		let sticky = document.getElementById('usw-sticky');
+		let sticky = document.getElementById('unifiedsearch-widget-sticky');
 		// TODO: Investigar por qué, al pulsar Esc se ejecuta varias veces ésta función
 		//this.log('resetUSWFilter, sticky: ' + sticky.checked);
 		if(sticky)
@@ -196,11 +196,11 @@ var unifiedsearch = {
 		}
 	},
 	resetUSWFilterOption: function(optionName) {
-		/*let opt = document.getElementById('usm-' + optionName);
+		/*let opt = document.getElementById('unifiedsearch-widget-menu-' + optionName);
 		if(opt && opt.checked)
 			opt.doCommand();*/
-		document.getElementById('usm-' + optionName).checked = false;
-		document.getElementById('usb-' + optionName).checked = false;
+		document.getElementById('unifiedsearch-widget-menu-' + optionName).checked = false;
+		document.getElementById('unifiedsearch-widget-bar-' + optionName).checked = false;
 		// TODO: Investigate: With the new changes in synchro, events and new function resetQFBFilter, really next line is needed?
 		document.getElementById('qfb-' + optionName).checked = false;
 	},
@@ -302,7 +302,7 @@ var unifiedsearch = {
 	switchUnifiedSearchAutoComplete: function(usbox) {
 		if (!usbox) usbox = this.usbox; // crazy? Not, I must review Why the param.
 		if (!this.uswidget || !usbox) return;
-		
+
 		// Lock change if filter was disabled
 		if (!this.uswidget.uswcanfilter &&
 			this.options.unifiedSearchWidgetMode == 'search')
@@ -311,11 +311,11 @@ var unifiedsearch = {
 		// What is the current mode? then, change it!
 		switch(this.options.unifiedSearchWidgetMode){
 			default:
-			case "filter":
+			case 'filter':
 				// Switch to Search mode:
 				this.options.unifiedSearchWidgetMode = 'search';
 				usbox.disableAutoComplete = false;
-				this.uswidget.uswmode = "search";
+				this.uswidget.uswmode = 'search';
 				
 				// Prepare search:
 				// do the search to show autocomplete suggestions (is not auto when set to false 'disableAutoComplete')
@@ -323,10 +323,10 @@ var unifiedsearch = {
 				// Filter results must be cleared now
 				this.resetFilter();
 				// if the options mode bar is active and showed, close it
-				if (this.options.uswOptionsMode == "bar")
+				if (this.options.uswOptionsMode == 'bar')
 					unifiedsearch.hideUnifiedSearchBar();
 				break;
-			case "search":
+			case 'search':
 				// Switch to Filter mode:
 				this.options.unifiedSearchWidgetMode = 'filter';
 				usbox.disableAutoComplete = true;
@@ -338,7 +338,7 @@ var unifiedsearch = {
 				// Filter must be executed now
 				this.filterFromUnifiedSearchBox(usbox, true);
 				// if the options mode bar is active, must be showed now:
-				if (this.options.uswOptionsMode == "bar")
+				if (this.options.uswOptionsMode == 'bar')
 					unifiedsearch.openUnifiedSearchBar();
 				break;
 		}
@@ -385,8 +385,8 @@ var unifiedsearch = {
 		if (aEvent && aEvent.explicitOriginalTarget.id != this.usbox.id)
 			return;
 	
-		let usb = document.getElementById('usw-bar');
-		let criteria = document.getElementById('usw-criteria');
+		let usb = document.getElementById('unifiedsearch-widget-bar');
+		let criteria = document.getElementById('unifiedsearch-widget-criteria');
 		if (!usb || !criteria) return;
 
 		if (usb.state != 'open' && usb.state != 'showing') {
@@ -394,44 +394,44 @@ var unifiedsearch = {
 		}
 	},
 	hideUnifiedSearchBar: function() {
-		let usb = document.getElementById('usw-bar');
+		let usb = document.getElementById('unifiedsearch-widget-bar');
 		if (!usb) return;
 		if (usb.state != 'closed' && usb.state != 'hiding')
 			usb.hidePopup();
 	},
 	openUnifiedSearchOptionsPopup: function() {
 		if (!this.uswidget) return;
-		let criteria = document.getElementById('usw-criteria');
+		let criteria = document.getElementById('unifiedsearch-widget-criteria');
 		switch(this.options.uswOptionsMode){
 			case 'bar':
-				let uswbar = document.getElementById("usw-bar");
+				let uswbar = document.getElementById('unifiedsearch-widget-bar');
 				uswbar.openPopup(criteria, uswbar.getAttribute('position'), 0, 0, false, false);
 				break;
 			default:
 			case 'menu':
-				let uswmenu = document.getElementById("usw-menu");
+				let uswmenu = document.getElementById('unifiedsearch-widget-menu');
 				uswmenu.openPopup(criteria, uswmenu.getAttribute('position'), 0, 0, false, false);
 				break;
 		}
 	},
 	closeUnifiedSearchOptionsPopup: function() {
 		if (!this.uswidget) return;
-		document.getElementById("usw-" + this.options.uswOptionsMode).hidePopup();
+		document.getElementById('unifiedsearch-widget-' + this.options.uswOptionsMode).hidePopup();
 	},
 	uswInfoClear: function() {
-		let info = document.getElementById("usw-info");
+		let info = document.getElementById('unifiedsearch-widget-info');
 		if(!info) return;
 		info.hidePopup();
 	},
 	uswInfoAboutSearch: function() {
-		let info = document.getElementById("usw-info");
+		let info = document.getElementById('unifiedsearch-widget-info');
 		if(!info || !this.usbox) return;
 		info.openPopup(this.usbox, info.getAttribute('position'), 0, 0, false, false);
 	},
 
 	// Quick filter box key handler
 	quickFilterBoxHandler: function(aEvent, qfbox) {
-		if (aEvent.type == "keyup") {
+		if (aEvent.type == 'keyup') {
 			if (!aEvent.ctrlKey && !aEvent.altKey && !aEvent.metaKey && 
 				aEvent.keyCode != aEvent.DOM_VK_RETURN) {
 				// Update Filter text in unifiesearch-box
@@ -444,7 +444,7 @@ var unifiedsearch = {
 					unifiedsearch.options.incompatibleFilteringAndAutoComplete))
 					this.gsbox.value = qfbox.value;
 			}
-		} else if (aEvent.type == "keydown") {
+		} else if (aEvent.type == 'keydown') {
 			// 'Control' Modifier
 			if (aEvent.ctrlKey) {
 				// Press 'Enter'
@@ -496,7 +496,7 @@ var unifiedsearch = {
 	// Global search box key handler
 	globalSearchBoxHandler: function(aEvent, gsbox) {
 
-		if (aEvent.type == "keyup") {
+		if (aEvent.type == 'keyup') {
 			// This must be do it in 'keyup' event because in 'keydown' and 'keypress' events the input.value didn't have been processed
 			if (unifiedsearch.options.enableFilteringInSearchBox &&
 				!aEvent.ctrlKey && !aEvent.altKey && !aEvent.metaKey &&
@@ -514,7 +514,7 @@ var unifiedsearch = {
 					this.usbox.value = this.qfbox.value;
 			}
 		}
-		else if (aEvent.type == "keydown") {
+		else if (aEvent.type == 'keydown') {
 
 			if (aEvent.keyCode == aEvent.DOM_VK_RETURN && 
 				this.options.enableFilteringInSearchBox) {
@@ -562,7 +562,7 @@ var unifiedsearch = {
 	 * Is a mix of globalSearch and quickFilter handlers with modifications.
 	 */
 	unifiedSearchBoxHandler: function(aEvent, usbox) {
-		if (aEvent.type == "keyup") {
+		if (aEvent.type == 'keyup') {
 			// This must be do it in 'keyup' event because in 'keydown' and 'keypress' events the input.value didn't have been processed
 			if (!aEvent.ctrlKey && !aEvent.altKey && !aEvent.metaKey &&
 				aEvent.keyCode != aEvent.DOM_VK_RETURN) {
@@ -582,7 +582,7 @@ var unifiedsearch = {
 			// Each change must check if clear button needs be showed or hidded:
 			unifiedsearch.toggleUnifiedSearchClearButton();
 		}
-		else if (aEvent.type == "keydown") {
+		else if (aEvent.type == 'keydown') {
 
 			if (aEvent.ctrlKey) {
 				// Intercambiar filtrado/autocompletado-búsqueda:
@@ -618,7 +618,7 @@ var unifiedsearch = {
 				QuickFilterBarMuxer.cmdEscapeFilterStack();
 		}
 		// Do Search on *maybe something plus* 'Enter'; ever in keypress in bubble phase (fail in capturing phase)
-		else if (aEvent.type == "keypress") {
+		else if (aEvent.type == 'keypress') {
 			// Press Control + 'Enter': search
 			if (aEvent.ctrlKey && /*this.options.searchShortcut_ctrlEnter && */
 					aEvent.keyCode == aEvent.DOM_VK_RETURN) {
@@ -644,21 +644,21 @@ var unifiedsearch = {
 			}
 		}
 		/* Handlers that affect the uswidget popup options (vertical menu and horizontal bar) */
-		else if (aEvent.type == "focus") {
+		else if (aEvent.type == 'focus') {
 			// open popup with options:
-			if (this.options.uswOptionsMode == "bar" && this.options.unifiedSearchWidgetMode == 'filter')
+			if (this.options.uswOptionsMode == 'bar' && this.options.unifiedSearchWidgetMode == 'filter')
 				this.openUnifiedSearchBar(aEvent);
 			// Select the content:
 			usbox.select();
         // Show the tooltip:
         this.toggleUnifiedSearchResults();
 		}
-		else if (aEvent.type == "click") {
-			if (this.options.uswOptionsMode == "bar" && this.options.unifiedSearchWidgetMode == 'filter')
+		else if (aEvent.type == 'click') {
+			if (this.options.uswOptionsMode == 'bar' && this.options.unifiedSearchWidgetMode == 'filter')
 				this.openUnifiedSearchBar(aEvent);
 		}
-		else if (aEvent.type == "blur") {
-			if (this.options.uswOptionsMode == "bar")
+		else if (aEvent.type == 'blur') {
+			if (this.options.uswOptionsMode == 'bar')
 				this.hideUnifiedSearchBar(aEvent);
 			this.uswInfoClear();
             // Force hide the tooltip:
@@ -670,33 +670,33 @@ var unifiedsearch = {
 	observe: function(subject, topic, data) {
 		switch (topic) {
 			// Preferences values that changed
-			case "nsPref:changed":
+			case 'nsPref:changed':
 				switch (data)
 				{
-					case "extensions.unifiedsearch.autoComplete.enableTabScrolling":
+					case 'extensions.unifiedsearch.autoComplete.enableTabScrolling':
 						unifiedsearch.configureAutoCompleteTabScrolling();
 						break;
-					case "extensions.unifiedsearch.autoComplete.enableInSearchBox":
+					case 'extensions.unifiedsearch.autoComplete.enableInSearchBox':
 						unifiedsearch.configureAutoCompleteEnableInSearchBox();
 						break;
-					case "extensions.unifiedsearch.unifiedSearchWidget.mode":
+					case 'extensions.unifiedsearch.unifiedSearchWidget.mode':
 						unifiedsearch.configureAutoCompleteEnableInUnifiedSearchBox();
 						break;
-					case "extensions.unifiedsearch.autoComplete.enableInFilterBox":
+					case 'extensions.unifiedsearch.autoComplete.enableInFilterBox':
 						unifiedsearch.configureAutoCompleteEnableInFilterBox();
 						break;
-					case "extensions.unifiedsearch.filterBox.hide":
+					case 'extensions.unifiedsearch.filterBox.hide':
 						unifiedsearch.configureHideFilterBox();
 						break;
-					case "extensions.unifiedsearch.filterBar.hide":
+					case 'extensions.unifiedsearch.filterBar.hide':
 						unifiedsearch.configureHideFilterBar();
 						break;
-					case "extensions.unifiedsearch.searchBox.hide":
-					case "mailnews.database.global.indexer.enabled":
-					case "extensions.unifiedsearch.searchBox.enableFiltering":
+					case 'extensions.unifiedsearch.searchBox.hide':
+					case 'mailnews.database.global.indexer.enabled':
+					case 'extensions.unifiedsearch.searchBox.enableFiltering':
 						unifiedsearch.configureHideSearchBox();
 						break;
-					case "extensions.unifiedsearch.widget.optionsMode":
+					case 'extensions.unifiedsearch.widget.optionsMode':
 						unifiedsearch.configureUnifiedSearchOptionsMode();
 						break;
 				}
@@ -705,55 +705,55 @@ var unifiedsearch = {
 	},
 	
 	options: {
-		prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.unifiedsearch."),
-		get searchShortcut_altEnter() { return this.prefs.getBoolPref("searchShortcut.altEnter") },
-		get searchShortcut_ctrlEnter() { return this.prefs.getBoolPref("searchShortcut.ctrlEnter") },
-		get searchShortcut_enter() { return this.prefs.getBoolPref("searchShortcut.enter") },
-		get autoComplete_enableTabScrolling() { return this.prefs.getBoolPref("autoComplete.enableTabScrolling") },
-		get autoCompleteShortcut_altA() { return this.prefs.getBoolPref("autoCompleteShortcut.altA") },
-		get autoCompleteShortcut_ctrlA() { return this.prefs.getBoolPref("autoCompleteShortcut.ctrlA") },
-		get enableSearchTransfer() { return this.prefs.getBoolPref("enableSearchTransfer") },
-		get enableFilterTransfer() { return this.prefs.getBoolPref("enableFilterTransfer") },
-		get enableAutoCompleteInSearchBox() { return this.prefs.getBoolPref("autoComplete.enableInSearchBox") },
-		set enableAutoCompleteInSearchBox(val) { this.prefs.setBoolPref("autoComplete.enableInSearchBox", val) },
-		//get enableAutoCompleteInUnifiedSearchBox() { return this.prefs.getBoolPref("autoComplete.enableInUnifiedSearchBox") },
-		//set enableAutoCompleteInUnifiedSearchBox(val) { this.prefs.setBoolPref("autoComplete.enableInUnifiedSearchBox", val); return val; },
-		get enableAutoCompleteInFilterBox() { return this.prefs.getBoolPref("autoComplete.enableInFilterBox") },
-		set enableAutoCompleteInFilterBox(val) { this.prefs.setBoolPref("autoComplete.enableInFilterBox", val) },
-		get enableFilteringInSearchBox() { return this.prefs.getBoolPref("searchBox.enableFiltering") },
-		get incompatibleFilteringAndAutoComplete() { return this.prefs.getBoolPref("searchBox.incompatibleFilteringAndAutoComplete") },
-		get hideFilterBox() { return this.prefs.getBoolPref("filterBox.hide") },
-		get hideFilterBar() { return this.prefs.getBoolPref("filterBar.hide") },
-		get hideSearchBox() { return this.prefs.getBoolPref("searchBox.hide") },
-		get autoShowFilterBar() { return this.prefs.getBoolPref("filterBar.autoShow") },
-		get rememberFilterOptions() { return this.prefs.getBoolPref("filterBar.rememberFilterOptions") },
+		prefs: Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch('extensions.unifiedsearch.'),
+		get searchShortcut_altEnter() { return this.prefs.getBoolPref('searchShortcut.altEnter') },
+		get searchShortcut_ctrlEnter() { return this.prefs.getBoolPref('searchShortcut.ctrlEnter') },
+		get searchShortcut_enter() { return this.prefs.getBoolPref('searchShortcut.enter') },
+		get autoComplete_enableTabScrolling() { return this.prefs.getBoolPref('autoComplete.enableTabScrolling') },
+		get autoCompleteShortcut_altA() { return this.prefs.getBoolPref('autoCompleteShortcut.altA') },
+		get autoCompleteShortcut_ctrlA() { return this.prefs.getBoolPref('autoCompleteShortcut.ctrlA') },
+		get enableSearchTransfer() { return this.prefs.getBoolPref('enableSearchTransfer') },
+		get enableFilterTransfer() { return this.prefs.getBoolPref('enableFilterTransfer') },
+		get enableAutoCompleteInSearchBox() { return this.prefs.getBoolPref('autoComplete.enableInSearchBox') },
+		set enableAutoCompleteInSearchBox(val) { this.prefs.setBoolPref('autoComplete.enableInSearchBox', val) },
+		//get enableAutoCompleteInUnifiedSearchBox() { return this.prefs.getBoolPref('autoComplete.enableInUnifiedSearchBox') },
+		//set enableAutoCompleteInUnifiedSearchBox(val) { this.prefs.setBoolPref('autoComplete.enableInUnifiedSearchBox', val); return val; },
+		get enableAutoCompleteInFilterBox() { return this.prefs.getBoolPref('autoComplete.enableInFilterBox') },
+		set enableAutoCompleteInFilterBox(val) { this.prefs.setBoolPref('autoComplete.enableInFilterBox', val) },
+		get enableFilteringInSearchBox() { return this.prefs.getBoolPref('searchBox.enableFiltering') },
+		get incompatibleFilteringAndAutoComplete() { return this.prefs.getBoolPref('searchBox.incompatibleFilteringAndAutoComplete') },
+		get hideFilterBox() { return this.prefs.getBoolPref('filterBox.hide') },
+		get hideFilterBar() { return this.prefs.getBoolPref('filterBar.hide') },
+		get hideSearchBox() { return this.prefs.getBoolPref('searchBox.hide') },
+		get autoShowFilterBar() { return this.prefs.getBoolPref('filterBar.autoShow') },
+		get rememberFilterOptions() { return this.prefs.getBoolPref('filterBar.rememberFilterOptions') },
 		get uswOptionsMode() { 
-			let val = this.prefs.getComplexValue("widget.optionsMode", Components.interfaces.nsISupportsString).toString();
+			let val = this.prefs.getComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString).toString();
 			// Avoiding bad configuration: if a non-valid options was setted, 'menu' is returned as default:
 			return val != 'bar' ? 'menu' : 'bar';
 		},
 		set uswOptionsMode(val) {
-			let str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
 			str.data = val;
-			this.prefs.setComplexValue("widget.optionsMode", Components.interfaces.nsISupportsString, str);
+			this.prefs.setComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString, str);
 			return val;
 		},
-		get unifiedSearchWidgetMode() { 
-			let val = this.prefs.getComplexValue("unifiedSearchWidget.mode", Components.interfaces.nsISupportsString).toString() 
+		get unifiedSearchWidgetMode() {
+			let val = this.prefs.getComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString).toString() 
 			// Avoiding bad configuration: if a non-valid options was setted, 'filter' is returned as default:
 			return val != 'search' ? 'filter' : 'search';
 		},
 		set unifiedSearchWidgetMode(val) { 
-			let str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
 			str.data = val;
-			this.prefs.setComplexValue("unifiedSearchWidget.mode", Components.interfaces.nsISupportsString, str);
+			this.prefs.setComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString, str);
 			return val;
 		},
 		
 		/**** The options with the prefix 'app_' in the name, are preferences of the 
 				application -thunderbird-, not from this extension ****/
-		appPrefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch(""),
-		get app_glodaSearchEnabled() { return this.appPrefs.getBoolPref("mailnews.database.global.indexer.enabled") }
+		appPrefs: Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch(''),
+		get app_glodaSearchEnabled() { return this.appPrefs.getBoolPref('mailnews.database.global.indexer.enabled') }
 	},
 	
 	/*****************************************************************************************/
@@ -781,9 +781,9 @@ var unifiedsearch = {
 	configureHideFilterBox: function() {
 		if (!this.qfbox) return;
 		if (this.options.hideFilterBox)
-			this.qfbox.style.visibility = "collapse";
+			this.qfbox.style.visibility = 'collapse';
 		else
-			this.qfbox.style.visibility = "visible";
+			this.qfbox.style.visibility = 'visible';
 	},
 	configureHideSearchBox: function() {
 		if (!this.gsbox) return;
@@ -801,17 +801,17 @@ var unifiedsearch = {
 		if (this.options.hideSearchBox ||
 			(!this.options.app_glodaSearchEnabled &&
 			!this.options.enableFilteringInSearchBox))
-			this.gsbox.style.visibility = "collapse";
+			this.gsbox.style.visibility = 'collapse';
 		else
-			this.gsbox.style.visibility = "visible";
+			this.gsbox.style.visibility = 'visible';
 	},
 	/* Configurator for a new configuration option that allow hide/show the standard Quick Filter Bar, including the button in the 
 		tabs bar that allow show/hide the bar.
 		Second attempt: use display css property, 'none' or 'inherit', no incompatible issues found
 	*/
 	configureHideFilterBar: function() {
-		let qfb_button = document.getElementById("qfb-show-filter-bar");
-		let qfb = document.getElementById("quick-filter-bar");
+		let qfb_button = document.getElementById('qfb-show-filter-bar');
+		let qfb = document.getElementById('quick-filter-bar');
 		if (!qfb_button || !qfb) return;
 
 		if (this.options.hideFilterBar) {
@@ -828,8 +828,8 @@ var unifiedsearch = {
 		that do some similar, showing again the bar and the button after Unified Search hide it.
 	*/
 	configureHideFilterBar_usingVisibility: function() {
-		let qfb_button = document.getElementById("qfb-show-filter-bar");
-		let qfb = document.getElementById("quick-filter-bar");
+		let qfb_button = document.getElementById('qfb-show-filter-bar');
+		let qfb = document.getElementById('quick-filter-bar');
 		if (!qfb_button || !qfb || !gFolderDisplay) return;
 
 		if (this.options.hideFilterBar) {
@@ -845,16 +845,16 @@ var unifiedsearch = {
 	/* Adds shortcuts to the filter options in the standard Quick Filter Box,
 		to behavior like the Unified Search Box (that includes shortcuts by default, but standard Thunderbird doesn't) */
 	configureShortcutsQFBox: function() {
-		document.getElementById('qfb-qs-sender').setAttribute('accesskey', document.getElementById('us-filter-sender-shortcut').value);
-		document.getElementById('qfb-qs-recipients').setAttribute('accesskey', document.getElementById('us-filter-recipients-shortcut').value);
-		document.getElementById('qfb-qs-subject').setAttribute('accesskey', document.getElementById('us-filter-subject-shortcut').value);
-		document.getElementById('qfb-qs-body').setAttribute('accesskey', document.getElementById('us-filter-body-shortcut').value);
+		document.getElementById('qfb-qs-sender').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-sender-shortcut').value);
+		document.getElementById('qfb-qs-recipients').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-recipients-shortcut').value);
+		document.getElementById('qfb-qs-subject').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-subject-shortcut').value);
+		document.getElementById('qfb-qs-body').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-body-shortcut').value);
 		
-		document.getElementById('qfb-unread').setAttribute('accesskey', document.getElementById('us-filter-unread-shortcut').value);
-		document.getElementById('qfb-starred').setAttribute('accesskey', document.getElementById('us-filter-starred-shortcut').value);
-		document.getElementById('qfb-inaddrbook').setAttribute('accesskey', document.getElementById('us-filter-inaddrbook-shortcut').value);
-		document.getElementById('qfb-tags').setAttribute('accesskey', document.getElementById('us-filter-tags-shortcut').value);
-		document.getElementById('qfb-attachment').setAttribute('accesskey', document.getElementById('us-filter-attachment-shortcut').value);
+		document.getElementById('qfb-unread').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-unread-shortcut').value);
+		document.getElementById('qfb-starred').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-starred-shortcut').value);
+		document.getElementById('qfb-inaddrbook').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-inaddrbook-shortcut').value);
+		document.getElementById('qfb-tags').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-tags-shortcut').value);
+		document.getElementById('qfb-attachment').setAttribute('accesskey', document.getElementById('unifiedsearch-filter-attachment-shortcut').value);
 	},
 	replaceQFBoxClearSearch: function() {
 		if (!this.qfbox) return;
@@ -899,34 +899,35 @@ var unifiedsearch = {
 		// but some extra must be do it here in order that all works fine:
 		
 		/* The observes property/attribute is setted in the xul file, but for builded TB elements must be setted by code, here: */
-		document.getElementById("qfb-unread").observes = "usb-unread";
-		document.getElementById("qfb-starred").observes = "usb-starred";
-		document.getElementById("qfb-inaddrbook").observes = "usb-inaddrbook";
-		document.getElementById("qfb-tags").observes = "usb-tags";
-		document.getElementById("qfb-attachment").observes = "usb-attachment";
-		document.getElementById("qfb-qs-sender").observes = "usb-qs-sender";
-		document.getElementById("qfb-qs-recipients").observes = "usb-qs-recipients";
-		document.getElementById("qfb-qs-subject").observes = "usb-qs-subject";
-		document.getElementById("qfb-qs-body").observes = "usb-qs-body";
+		// TODO REVIEW: is need? maybe the source of button problems with TB-31?
+		document.getElementById('qfb-unread').observes = 'unifiedsearch-widget-bar-unread';
+		document.getElementById('qfb-starred').observes = 'unifiedsearch-widget-bar-starred';
+		document.getElementById('qfb-inaddrbook').observes = 'unifiedsearch-widget-bar-inaddrbook';
+		document.getElementById('qfb-tags').observes = 'unifiedsearch-widget-bar-tags';
+		document.getElementById('qfb-attachment').observes = 'unifiedsearch-widget-bar-attachment';
+		document.getElementById('qfb-qs-sender').observes = 'unifiedsearch-widget-bar-qs-sender';
+		document.getElementById('qfb-qs-recipients').observes = 'unifiedsearch-widget-bar-qs-recipients';
+		document.getElementById('qfb-qs-subject').observes = 'unifiedsearch-widget-bar-qs-subject';
+		document.getElementById('qfb-qs-body').observes = 'unifiedsearch-widget-bar-qs-body';
 		
-		// The sticky is problematic: with only 'observes' the usw-sticky don't work, it's something like if the command
+		// The sticky is problematic: with only 'observes' the unifiedsearch-widget-sticky don't work, it's something like if the command
 		// in the qfb-sticky is not raised/executed, and the state is not preserved (but this same is success in the
 		// others buttons !?). Implement a manual execute command here to workaround the bug:
-		//document.getElementById("qfb-sticky").observes = "usw-sticky";
-		let qfbSticky = document.getElementById("qfb-sticky");
-		let uswSticky = document.getElementById("usw-sticky");
-		uswSticky.addEventListener("command", function(aEvent) { qfbSticky.checked = this.checked; qfbSticky.doCommand('');}, true);
+		//document.getElementById("qfb-sticky").observes = "unifiedsearch-widget-sticky";
+		let qfbSticky = document.getElementById('qfb-sticky');
+		let uswSticky = document.getElementById('unifiedsearch-widget-sticky');
+		uswSticky.addEventListener('command', function(aEvent) { qfbSticky.checked = this.checked; qfbSticky.doCommand('');}, true);
 		
 		// Menu Buttons have a problem: there are no a built-in checked property, add it to our controls:
-		this.addCheckedPropertyToMenuButton('usm-unread');
-		this.addCheckedPropertyToMenuButton('usm-starred');
-		this.addCheckedPropertyToMenuButton('usm-inaddrbook');
-		this.addCheckedPropertyToMenuButton('usm-tags');
-		this.addCheckedPropertyToMenuButton('usm-attachment');
-		this.addCheckedPropertyToMenuButton('usm-qs-sender');
-		this.addCheckedPropertyToMenuButton('usm-qs-recipients');
-		this.addCheckedPropertyToMenuButton('usm-qs-subject');
-		this.addCheckedPropertyToMenuButton('usm-qs-body');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-unread');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-starred');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-inaddrbook');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-tags');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-attachment');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-qs-sender');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-qs-recipients');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-qs-subject');
+		this.addCheckedPropertyToMenuButton('unifiedsearch-widget-menu-qs-body');
 	},
 	addCheckedPropertyToMenuButton: function(menuBtnId) {
 		let menuBtn = document.getElementById(menuBtnId);
@@ -937,9 +938,9 @@ var unifiedsearch = {
 	},
 	configureUnifiedSearchMenu: function() {
 		if (!this.uswidget) return;
-		let menuBtn = document.getElementById('usw-criteria');
-		menuBtn.addEventListener("click", function(aEvent) {
-			//document.getElementById('usw-menu').openPopup(this, 'after_start', 0, 0, false, false);
+		let menuBtn = document.getElementById('unifiedsearch-widget-criteria');
+		menuBtn.addEventListener('click', function(aEvent) {
+			//document.getElementById('unifiedsearch-widget-menu').openPopup(this, 'after_start', 0, 0, false, false);
 			// avoid click event in searchbox that open try to open the options bar and block menu interaction
 			aEvent.stopPropagation();
 			aEvent.preventDefault();
@@ -947,42 +948,42 @@ var unifiedsearch = {
 	},
 	configureUnifiedSearchOptionsMode: function() {
 		if (!this.uswidget) return;
-		let uswc = document.getElementById('usw-criteria');
-		// usw-bar or usw-menu
-		uswc.setAttribute('popup', 'usw-' + this.options.uswOptionsMode);
+		let uswc = document.getElementById('unifiedsearch-widget-criteria');
+		// *-bar or *-menu
+		uswc.setAttribute('popup', 'unifiedsearch-widget-' + this.options.uswOptionsMode);
 	},
 	configureUnifiedSearchOptionsModeSwitch: function() {
 		if (!this.uswidget) return;
-		let usebar = document.getElementById('usm-usebar');
-		let usemenu = document.getElementById('usb-usemenu');
-		usebar.addEventListener("command", function(aEvent) {
+		let usebar = document.getElementById('unifiedsearch-widget-menu-usebar');
+		let usemenu = document.getElementById('unifiedsearch-widget-bar-usemenu');
+		usebar.addEventListener('command', function(aEvent) {
 			// 1- close current popup
-			let criteria = document.getElementById('usw-criteria');
+			let criteria = document.getElementById('unifiedsearch-widget-criteria');
 			// open=false don't work, why?
 			//criteria.open = false;
-			let uswmenu = document.getElementById("usw-menu");
+			let uswmenu = document.getElementById('unifiedsearch-widget-menu');
 			uswmenu.hidePopup();
 			// 2- change the mode
-			unifiedsearch.options.uswOptionsMode = "bar";
+			unifiedsearch.options.uswOptionsMode = 'bar';
 			// 3- open the new popup
-			let uswbar = document.getElementById("usw-bar");
-			criteria.setAttribute('popup', 'usw-bar');
+			let uswbar = document.getElementById('unifiedsearch-widget-bar');
+			criteria.setAttribute('popup', 'unifiedsearch-widget-bar');
 			uswbar.openPopup(criteria, uswbar.getAttribute('position'), 0, 0, false, false);
 			// Use the open property fails! need manual 'openPopup'
 			//criteria.open = true;
 		}, false);
-		usemenu.addEventListener("command", function(aEvent) {
+		usemenu.addEventListener('command', function(aEvent) {
 			// 1- close current popup
-			let criteria = document.getElementById('usw-criteria');
+			let criteria = document.getElementById('unifiedsearch-widget-criteria');
 			// open=false don't work, why?
 			//criteria.open = false;
-			let uswbar = document.getElementById("usw-bar");
+			let uswbar = document.getElementById('unifiedsearch-widget-bar');
 			uswbar.hidePopup();
 			// 2- change the mode
-			unifiedsearch.options.uswOptionsMode = "menu";
+			unifiedsearch.options.uswOptionsMode = 'menu';
 			// 3- open the new popup
-			let uswmenu = document.getElementById("usw-menu");
-			criteria.setAttribute('popup', 'usw-menu');
+			let uswmenu = document.getElementById('unifiedsearch-widget-menu');
+			criteria.setAttribute('popup', 'unifiedsearch-widget-menu');
 			uswmenu.openPopup(criteria, uswmenu.getAttribute('position'), 0, 0, false, false);
 			// Use the open property fails! need manual 'openPopup'
 			//criteria.open = true;
@@ -993,26 +994,26 @@ var unifiedsearch = {
 	configureUnifiedSearchEmptyText: function() {
 		if (!this.usbox) return;
 		this.usbox.setAttribute(
-            "emptytext",
-            this.usbox.getAttribute("emptytextbase")
-                 .replace("#1", this.usbox.getAttribute(
+            'emptytext',
+            this.usbox.getAttribute('emptytextbase')
+                 .replace('#1', this.usbox.getAttribute(
                                   Application.platformIsMac ?
-                                  "keyLabelMac" : "keyLabelNonMac")));
+                                  'keyLabelMac' : 'keyLabelNonMac')));
 		// Compatibility with TB-5.0+ (the new attribute is 'placeholder' like in HTML5):
 		this.usbox.setAttribute('placeholder', this.usbox.getAttribute('emptytext'));
 	},
 	configureUnifiedSearchTooltipText: function() {
 		if (!this.usbox) return;
-		let info = document.getElementById('usw-info');
+		let info = document.getElementById('unifiedsearch-widget-info');
 		info.setAttribute('label',
             info.getAttribute('label')
-                 .replace("#1", info.getAttribute(
+                 .replace('#1', info.getAttribute(
                                   Application.platformIsMac ?
-                                  "keyLabelMac" : "keyLabelNonMac")));
+                                  'keyLabelMac' : 'keyLabelNonMac')));
 	},
 	// TODO: don't work well (filter options don't raise the command event; ever give a 'show' state)
 	toggleUnifiedSearchClearButton: function () {
-		let uswclear = document.getElementById('usw-clear');
+		let uswclear = document.getElementById('unifiedsearch-widget-clear');
 		if (!this.usbox || !uswclear) return;
 
 		// Show clear button if there is text or filter options activated, hide if not
@@ -1027,8 +1028,8 @@ var unifiedsearch = {
 			uswclear.display = 'none';
 	},
 	toggleUnifiedSearchResults: function (forceShow){
-		let results = document.getElementById('usw-results-tooltip');
-		let resultslabel = document.getElementById('usw-results-label');
+		let results = document.getElementById('unifiedsearch-widget-results-tooltip');
+		let resultslabel = document.getElementById('unifiedsearch-widget-results-label');
 		if (!this.usbox || !results) return;
 
 		if (forceShow !== false && resultslabel.value && !/^\s*\s*$/g.test(resultslabel.value))
@@ -1037,7 +1038,7 @@ var unifiedsearch = {
 			results.hidePopup();
 	},
 	isUnifiedSearchFilterOptionChecked: function (optionName) {
-		return document.getElementById('usb-' + optionName).checked;
+		return document.getElementById('unifiedsearch-widget-bar-' + optionName).checked;
 	},
 	configureUnifiedSearchOptions: function () {
 		this.configureUnifiedSearchOptionObserveCommand('unread');
@@ -1047,11 +1048,11 @@ var unifiedsearch = {
 		this.configureUnifiedSearchOptionObserveCommand('attachment');
 	},
 	configureUnifiedSearchOptionObserveCommand: function (optionName) {
-		document.getElementById('usb-' + optionName).addEventListener("command", function(aEvent) { unifiedsearch.toggleUnifiedSearchClearButton(); }, true);
+		document.getElementById('unifiedsearch-widget-bar-' + optionName).addEventListener('command', function(aEvent) { unifiedsearch.toggleUnifiedSearchClearButton(); }, true);
 	},
 	// TODO: override search shortcut (Ctrl+K) if global search is hidded.
 	configureGlobalWidgetShortcut: function() {
-		if (!this.gsbox || this.gsbox.style.visibility != "visible") {
+		if (!this.gsbox || this.gsbox.style.visibility != 'visible') {
 			// GSBox is not working, active shortcut for unified search widget
 			// ?
 		}
@@ -1069,7 +1070,7 @@ var unifiedsearch = {
 	*/
 	configureUnifiedSearchWidgetShortcut: function(aEvent) {
 		// Trying to overwrite TB8 shortcut for USWidget:
-		window.addEventListener("keydown", function (aEvent) { 
+		window.addEventListener('keydown', function (aEvent) { 
 			if (aEvent.ctrlKey && aEvent.shiftKey &&
 				aEvent.keyCode == aEvent.DOM_VK_K) {
 				// We need know if widget exists yet (maybe was removed from the toolbar!)
@@ -1086,6 +1087,7 @@ var unifiedsearch = {
 	
 	/** Some utils for listeners **/
 	_updateUnifiedSearchWidgetMode: function(){
+
 		if (!this.uswidget) return;
 		// We check if 
 		if (this.uswidget.uswcanfilter) {
@@ -1122,7 +1124,7 @@ var unifiedsearch = {
 		onLoadingFolder: function(aFolderDisplay) {
 			//unifiedsearch.log('onLoadingFolder: ' + aFolderDisplay.displayedFolder.prettiestName);
 			// Local access to the button that enable/disable persist feature (filter must be persisted between folders)
-			let sticky = document.getElementById('usw-sticky');
+			let sticky = document.getElementById('unifiedsearch-widget-sticky');
 			if (!sticky) return;
 			// With persistent filter (sticky.checked == true), filter criteria-options and text are preserved and filter
 			//  is applied in the new active/showed folder: this is do it auto by TB, nothing to do here.
@@ -1140,7 +1142,7 @@ var unifiedsearch = {
 			// Check if we are in a non-folder:
 			let isNotFolder = !aFolderDisplay.displayedFolder || aFolderDisplay.displayedFolder.isServer;
 			// Local acces to the button that enable/disable persist feature (filter must be persisted between folders)
-			let sticky = document.getElementById('usw-sticky');
+			let sticky = document.getElementById('unifiedsearch-widget-sticky');
 			// If we are not in a folder (maybe we are in account central, a root folder)
 			// and persist feature is disabled, filter options must be cleared:
 			if (isNotFolder && sticky && !sticky.checked) unifiedsearch.clearAllFilteringOptions();
@@ -1156,7 +1158,7 @@ var unifiedsearch = {
 		http://mxr.mozilla.org/comm-central/source/mail/base/content/tabmail.xml#221
 	*/
 	tabMonitor: {
-		monitorName: 'unified-search',
+		monitorName: 'unifiedsearch',
 		onTabTitleChanged: function(aTab) { /* nothing to do, handler required */ },
 		onTabSwitched: function(aTab, aOldTab) {
 			unifiedsearch._updateUnifiedSearchWidgetMode();
@@ -1173,32 +1175,32 @@ var unifiedsearch = {
 		'customize' button-.*/
 	// Unified search Widget: toolbaritem that contains the usbox, usmenu, usbar and anothers buttons and elements.
 	get uswidget() {
-		return document.getElementById("uswidget");
+		return document.getElementById('unifiedsearch-widget');
 	},
 	// Unified search widget textBox for input filter/search keywords
 	get usbox() {
-		return document.getElementById("usw-searchbox");
+		return document.getElementById('unifiedsearch-widget-searchbox');
 	},
 	// The Thunderbird built-in Global Search toolbaritem that contains the global search textbox
 	get gswidget() {
-		return document.getElementById("gloda-search");
+		return document.getElementById('gloda-search');
 	},
 	// The Thunderbird built-in Global Search textBox
 	get gsbox() {
-		return document.getElementById("searchInput");
+		return document.getElementById('searchInput');
 	},
 	// The Thunderbird built-in Quick Filter Bar that contains filter options and quick filter textbox
 	get qfbar() {
-		return document.getElementById("quick-filter-bar");
+		return document.getElementById('quick-filter-bar');
 	},
 	// The Thunderbird built-in Quick Filter textBox located in the Quick Filter Bar
 	get qfbox() {
-		return document.getElementById("qfb-qs-textbox");
+		return document.getElementById('qfb-qs-textbox');
 	},
 	// The Thunderbird tabmail element, it manages everything about tabs in the window
 	// See: http://mxr.mozilla.org/comm-central/source/mail/base/content/tabmail.xml
 	get tabmail() {
-		return document.getElementById("tabmail");
+		return document.getElementById('tabmail');
 	},
 	
 	/* Initializing Unified Search */
@@ -1206,7 +1208,7 @@ var unifiedsearch = {
 		this.modTBBuiltIn();
 		// Observer changes in preferences
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		this.options.appPrefs.addObserver("", unifiedsearch, false);
+		this.options.appPrefs.addObserver('', unifiedsearch, false);
 		// Request listen changes in the Folder Display view and tab changes to know when a different folder is selected, a non-folder
 		// or non folder tab (like a search, a calendar tab, etc.) is showed and so on.
 		FolderDisplayListenerManager.registerListener(this.folderDisplayListener);
@@ -1216,7 +1218,7 @@ var unifiedsearch = {
 		if (this.qfbox)
 			this.initQFBox(aEvent);
 		else
-			window.addEventListener("aftercustomization", function(aEvent) {
+			window.addEventListener('aftercustomization', function(aEvent) {
 				if (this.qfbar_isinitied)
 					// If already was initied do nothing
 					return;
@@ -1227,7 +1229,7 @@ var unifiedsearch = {
 		if (this.gsbox)
 			this.initGSBox(aEvent);
 		else
-			window.addEventListener("aftercustomization", function(aEvent) {
+			window.addEventListener('aftercustomization', function(aEvent) {
 				if (this.gsbox_isinitied)
 					// If already was initied do nothing
 					return;
@@ -1238,50 +1240,50 @@ var unifiedsearch = {
 		if (this.uswidget)
 			this.initUSWidget(aEvent);
 		else
-			window.addEventListener("aftercustomization", function(aEvent) {
+			window.addEventListener('aftercustomization', function(aEvent) {
 				if (this.uswidget_isinitied)
 					// If already was initied do nothing
 					return;
 				unifiedsearch.initUSWidget(aEvent);
 			}, false);
-    this.setupTooltip("usw-sticky");
-    this.setupTooltip("usb-usemenu");
+    this.setupTooltip('unifiedsearch-widget-sticky');
+    this.setupTooltip('unifiedsearch-widget-bar-usemenu');
 	},
 	shutdown: function (aEvent) {
-		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
-		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver("", this);
+		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver('', this);
+		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver('', this);
 	},
 
   setupTooltip: function (aId) {
     var el = document.getElementById(aId);
-    var tooltiptext = el.getAttribute("tooltiptext");
-    var accesskey = el.getAttribute("accesskey");
+    var tooltiptext = el.getAttribute('tooltiptext');
+    var accesskey = el.getAttribute('accesskey');
     if (tooltiptext.indexOf(accesskey) === -1) {
       // Accesskey doesn't appear in tooltip, check case insensitive
-      var re = RegExp(accesskey, "i");
+      var re = RegExp(accesskey, 'i');
       var match = tooltiptext.match(re);
       if (match !== null) {
         // Accesskey appears, but with wrong case
         accesskey = tooltiptext.substr(match.index, match.index);
       } else {
         // Accesskey doesn't appear in tooltip
-        tooltiptext += " (" + accesskey + ")";
+        tooltiptext += ' (' + accesskey + ')';
       }
     }
-    var htmltext = tooltiptext.replace(accesskey, "<u>"+accesskey+"</u>");
-    el.setAttribute("tooltipHTML", htmltext);
-    el.removeAttribute("tooltiptext");
+    var htmltext = tooltiptext.replace(accesskey, '<u>' + accesskey + '</u>');
+    el.setAttribute('tooltipHTML', htmltext);
+    el.removeAttribute('tooltiptext');
   },
   onMouseTooltip: function(aEvent) {
     //get the HTML tooltip string assigned to the element that the mouse is over (which will soon launch the tooltip)
-    var txt = aEvent.target.getAttribute("tooltipHTML");
+    var txt = aEvent.target.getAttribute('tooltipHTML');
     // get the HTML div element that is inside the custom XUL tooltip
-    var div = document.getElementById("myHTMLTipDiv");
+    var div = document.getElementById('myHTMLTipDiv');
     //clear the HTML div element of any prior shown custom HTML
     while(div.firstChild)
     	div.removeChild(div.firstChild);
     //safely convert HTML string to a simple DOM object, stripping it of JavaScript and more complex tags
-    var injectHTML = Components.classes["@mozilla.org/feed-unescapehtml;1"]
+    var injectHTML = Components.classes['@mozilla.org/feed-unescapehtml;1']
       .getService(Components.interfaces.nsIScriptableUnescapeHTML)
       .parseFragment(txt, false, null, div);
     //attach the DOM object to the HTML div element
@@ -1292,10 +1294,10 @@ var unifiedsearch = {
 		if (this.qfbox) {
 			this.qfbox_isinitied = true;
 			
-			this.qfbox.addEventListener("keyup", function (aEvent) {
+			this.qfbox.addEventListener('keyup', function (aEvent) {
 				unifiedsearch.quickFilterBoxHandler(aEvent, this) 
 			}, false);
-			this.qfbox.addEventListener("keydown", function (aEvent) {
+			this.qfbox.addEventListener('keydown', function (aEvent) {
 				unifiedsearch.quickFilterBoxHandler(aEvent, this) 
 			}, false);
 						
@@ -1312,10 +1314,10 @@ var unifiedsearch = {
 		if (this.gsbox) {
 			this.gsbox_isinitied = true;
 			
-			this.gsbox.addEventListener("keyup", function (aEvent) {
+			this.gsbox.addEventListener('keyup', function (aEvent) {
 				unifiedsearch.globalSearchBoxHandler(aEvent, this);
 			}, false);
-			this.gsbox.addEventListener("keydown", function (aEvent) {
+			this.gsbox.addEventListener('keydown', function (aEvent) {
 				unifiedsearch.globalSearchBoxHandler(aEvent, this) 
 			}, false);
 			
@@ -1334,17 +1336,17 @@ var unifiedsearch = {
 			this.uswidget_isinitied = true;
 
 			usbox.addEventListener(
-			"keydown", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
+			'keydown', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			usbox.addEventListener(
-			"keyup", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
+			'keyup', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			usbox.addEventListener(
-			"keypress", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, false); // false!!!!
+			'keypress', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, false); // false!!!!
 			usbox.addEventListener(
-			"focus", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
+			'focus', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			usbox.addEventListener(
-			"click", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
+			'click', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			usbox.addEventListener(
-			"blur", function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
+			'blur', function (aEvent) { unifiedsearch.unifiedSearchBoxHandler(aEvent, this) }, true);
 			
 			// uswmode
 			uswidget.__defineGetter__('uswmode', function(){ return this.getAttribute('uswmode') });
@@ -1352,7 +1354,7 @@ var unifiedsearch = {
 			uswidget.uswmode = this.options.unifiedSearchWidgetMode;
 			// uswcanfilter
 			uswidget.__defineGetter__('uswcanfilter', function(){
-				return ("quickFilter" in unifiedsearch.tabmail.currentTabInfo._ext);
+				return ('quickFilter' in unifiedsearch.tabmail.currentTabInfo._ext);
 			});
 			
 			this.configureAutoCompleteTabScrollingInUnifiedSearchBox();
@@ -1368,7 +1370,7 @@ var unifiedsearch = {
 			this.configureUnifiedSearchWidgetShortcut();
 		}
 		//else
-		//	this.error("Unified Search Widget will not work: could not be configured, the element don't exists in the document or in the toolbar.");
+		//	this.error('Unified Search Widget will not work: could not be configured, the element don't exists in the document or in the toolbar.');
 	},
 	
 	// Events handlers wrappers for load and unload the extension (to avoid problems with 'this' reference)
@@ -1402,7 +1404,7 @@ var unifiedsearch = {
 	/* Callback is a function with a nsITimer like unique parameter;
 		delay in miliseconds */
 	setCallbackTimeout: function (callback, delay) {
-		let timer = Components.classes["@mozilla.org/timer;1"]
+		let timer = Components.classes['@mozilla.org/timer;1']
                     .createInstance(Components.interfaces.nsITimer);
 		timer.initWithCallback({notify: callback}, 
 			delay, 
@@ -1411,7 +1413,7 @@ var unifiedsearch = {
 	/* Functor is a valid javascript function that will be executed without params;
 		delay in miliseconds*/
 	setSecureTimeout: function (functor, delay) {
-		let timer = Components.classes["@mozilla.org/timer;1"]
+		let timer = Components.classes['@mozilla.org/timer;1']
                     .createInstance(Components.interfaces.nsITimer);
 		timer.initWithCallback({notify: function(aTimer){functor()}}, 
 			delay, 
@@ -1427,20 +1429,20 @@ var unifiedsearch = {
 	},
 	tryGet: function(obj, attr){
 		try{return obj[attr];}
-		catch(ex){return "UNACCESIBLE";}
+		catch(ex){return 'UNACCESIBLE';}
 	},
 	logObject: function(obj){
 		for(var attr in obj)
-			this.log(attr + "=" + this.tryGet(obj, attr));
+			this.log(attr + '=' + this.tryGet(obj, attr));
 	},
 	logObjectAttributes: function(obj){
 		for(var iattr = 0; iattr < obj.attributes.length; iattr++)
-			this.log(obj.id + ":attribute::" + obj.attributes.item(iattr).nodeName + ": " + obj.attributes.item(iattr).nodeValue);
+			this.log(obj.id + ':attribute::' + obj.attributes.item(iattr).nodeName + ': ' + obj.attributes.item(iattr).nodeValue);
 	},
 	logWidgetBinding: function(widget){
 		let st = window.getComputedStyle(widget, null);
 		this.log('Binding: ' + widget.MozBinding);
 	}
 }
-window.addEventListener("load", unifiedsearch.onLoad, false);
-window.addEventListener("unload", unifiedsearch.onUnLoad, false);
+window.addEventListener('load', unifiedsearch.onLoad, false);
+window.addEventListener('unload', unifiedsearch.onUnLoad, false);
