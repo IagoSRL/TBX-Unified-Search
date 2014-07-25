@@ -67,7 +67,7 @@
 					label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
 				<toolbarbutton id="unifiedsearch-widget-bar-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
           onmouseover="unifiedsearch.onMouseTooltip(event)"
-          tooltip="myHTMLTip"
+          tooltip="unifiedsearch-sharedtooltip"
 					observes="unifiedsearch-widget-menu-usemenu"
 					tooltiptext="&unifiedsearch.usemenu;"/>
 			</panel>
@@ -107,8 +107,8 @@
 				label="&unifiedsearch.usw_info;"
 				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
 				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
-      <tooltip id="myHTMLTip">
-        <html:div id="myHTMLTipDiv" type="content"/>
+      <tooltip id="unifiedsearch-sharedtooltip">
+        <html:div id="unifiedsearch-sharedtooltip-div" type="content"/>
       </tooltip>
 		</popupset>
 		<tooltip position="before_start" orient="vertical" id="unifiedsearch-widget-results-tooltip">
@@ -134,7 +134,7 @@
 				<toolbarbutton
 					id="unifiedsearch-widget-sticky" crop="none" minwidth="16"
           onmouseover="unifiedsearch.onMouseTooltip(event)"
-          tooltip="myHTMLTip"
+          tooltip="unifiedsearch-sharedtooltip"
 					type="checkbox" accesskey="&unifiedsearch.widget.filter.sticky.shortcut;"
 					observes="qfb-sticky"
         />

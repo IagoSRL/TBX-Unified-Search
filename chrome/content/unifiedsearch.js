@@ -1278,7 +1278,7 @@ var unifiedsearch = {
     //get the HTML tooltip string assigned to the element that the mouse is over (which will soon launch the tooltip)
     var txt = aEvent.target.getAttribute('tooltipHTML');
     // get the HTML div element that is inside the custom XUL tooltip
-    var div = document.getElementById('myHTMLTipDiv');
+    var div = document.getElementById('unifiedsearch-sharedtooltip-div');
     //clear the HTML div element of any prior shown custom HTML
     while(div.firstChild)
     	div.removeChild(div.firstChild);
