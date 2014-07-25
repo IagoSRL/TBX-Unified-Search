@@ -3,21 +3,13 @@
 
 <!DOCTYPE overlay SYSTEM "chrome://unifiedsearch/locale/unifiedsearch.dtd"
 [
-  <!ENTITY % messengerDTD SYSTEM "chrome://messenger/locale/messenger.dtd">
-  %messengerDTD;
-  <!ENTITY % msgViewPickerDTD SYSTEM "chrome://messenger/locale/msgViewPickerOverlay.dtd" >
-  %msgViewPickerDTD;
-  <!ENTITY % msgFolderPickerDTD SYSTEM "chrome://messenger/locale/msgFolderPickerOverlay.dtd" >
-  %msgFolderPickerDTD;
-  <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
-  %brandDTD;
   <!ENTITY % quickFilterBar SYSTEM "chrome://messenger/locale/quickFilterBar.dtd">
   %quickFilterBar;
 ]
 >
 <overlay id="unifiedsearch-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-		 xmlns:x="http://www.w3.org/1999/xhtml">
+		 xmlns:html="http://www.w3.org/1999/xhtml">
   <script type="application/javascript" src="chrome://unifiedsearch/content/unifiedsearch.js"/>
 		<keyset>
 		  <key id="usw-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>		  
@@ -74,6 +66,8 @@
 					observes="usm-qs-body" command="qfb-qs-body"
 					label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
 				<toolbarbutton id="usb-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
+          onmouseover="unifiedsearch.onMouseTooltip(event)"
+          tooltip="myHTMLTip"
 					observes="usm-usemenu"
 					tooltiptext="&unifiedsearch.usemenu;"/>
 			</panel>
@@ -113,6 +107,9 @@
 				label="&unifiedsearch.usw_info;"
 				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
 				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
+      <tooltip id="myHTMLTip">
+        <html:div id="myHTMLTipDiv" type="content"/>
+      </tooltip>
 		</popupset>
 		<tooltip position="before_start" orient="vertical" id="usw-results-tooltip">
 			<label id="usw-results-label">
@@ -136,10 +133,11 @@
 			<hbox class="textbox-input-box" id="usw-box-buttons">
 				<toolbarbutton
 					id="usw-sticky" crop="none" minwidth="16"
-					tooltiptext="&quickFilterBar.sticky.tooltip; (&unifiedsearch.widget.filter.sticky.shortcut;)"
+          onmouseover="unifiedsearch.onMouseTooltip(event)"
+          tooltip="myHTMLTip"
 					type="checkbox" accesskey="&unifiedsearch.widget.filter.sticky.shortcut;"
 					observes="qfb-sticky"
-				/>
+        />
 				<toolbarbutton
 					id="usw-clear"
 					tooltiptext="&unifiedsearch.clearwidget;"

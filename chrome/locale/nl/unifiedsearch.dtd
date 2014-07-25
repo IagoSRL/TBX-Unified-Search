@@ -1,0 +1,49 @@
+<!ENTITY unifiedsearch.title "Unified Search">
+<!ENTITY unifiedsearch.usw_info "#1 om te zoeken">
+<!ENTITY unifiedsearch.switchmode "Wissel tussen Filter en Globaal zoeken met automatisch aanvullen (Control+A)">
+<!ENTITY unifiedsearch.usw_criteria "Toon menu of balk met snelfilter opties ('Pijl omlaag' toets)">
+<!ENTITY unifiedsearch.usebar "Wijzig in horizontale balk">
+<!ENTITY unifiedsearch.usemenu "Wijzig in vertikaal menu">
+<!ENTITY unifiedsearch.customize_title "Unified Search widget">
+
+<!ENTITY unifiedsearch.uswbox_emptytext "Filter en zoek berichten... #1">
+<!-- LOCALIZATION NOTE (unifiedsearch.keyLabel.nonmac):
+     The description of the key-binding to get into the global search box on
+     windows and linux (which use the control key).  We use the key defined in
+     the quickSearchCmd.key entity defined above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.keyLabel.nonmac "&lt;Ctrl+Shift+K&gt;">
+<!-- LOCALIZATION NOTE (unifiedsearch.keyLabel.mac):
+     The description of the key-binding to get into the global search box on mac
+     systems.  We use the key defined in the quickSearchCmd.key entity defined
+     above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.keyLabel.mac "&lt;&#x2318;+Shift+K&gt;">
+
+<!-- LOCALIZATION NOTE (unifiedsearch.doSearch.keyLabel.nonmac):
+     The description of the key-binding to get into the global search box on
+     windows and linux (which use the control key).  We use the key defined in
+     the quickSearchCmd.key entity defined above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.doSearch.keyLabel.nonmac "&lt;Ctrl+Enter&gt;">
+<!-- LOCALIZATION NOTE (unifiedsearch.doSearch.keyLabel.mac):
+     The description of the key-binding to get into the global search box on mac
+     systems.  We use the key defined in the quickSearchCmd.key entity defined
+     above, the letter should match it.
+     -->
+<!ENTITY unifiedsearch.doSearch.keyLabel.mac "&lt;&#x2318;+Enter&gt;">
+<!ENTITY unifiedsearch.clearwidget "Opties wissen (Esc+Esc)">
+
+<!-- Widget Shortcuts -->
+<!ENTITY unifiedsearch.widget.usemenu.shortcut "v">
+<!ENTITY unifiedsearch.widget.usebar.shortcut "h">
+<!ENTITY unifiedsearch.widget.filter.sender.shortcut "z">
+<!ENTITY unifiedsearch.widget.filter.recipients.shortcut "v">
+<!ENTITY unifiedsearch.widget.filter.subject.shortcut "O">
+<!ENTITY unifiedsearch.widget.filter.body.shortcut "b">
+<!ENTITY unifiedsearch.widget.filter.unread.shortcut "n">
+<!ENTITY unifiedsearch.widget.filter.starred.shortcut "s">
+<!ENTITY unifiedsearch.widget.filter.inaddrbook.shortcut "C">
+<!ENTITY unifiedsearch.widget.filter.tags.shortcut "L">
+<!ENTITY unifiedsearch.widget.filter.attachment.shortcut "a">
+<!ENTITY unifiedsearch.widget.filter.sticky.shortcut "F">

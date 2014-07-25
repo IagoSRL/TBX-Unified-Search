@@ -3,6 +3,7 @@ skin      unifiedsearch   classic/1.0   chrome/skin/classic/
 skin      unifiedsearch   classic/1.0   chrome/skin/linux/ OS=Linux
 locale    unifiedsearch   en-US         chrome/locale/en-US/
 locale    unifiedsearch   es-ES         chrome/locale/es-ES/
+locale    unifiedsearch   nl            chrome/locale/nl/
 
 overlay chrome://messenger/content/messenger.xul   chrome://unifiedsearch/content/unifiedsearch.xul
 style	chrome://global/content/customizeToolbar.xul	chrome://unifiedsearch/skin/overlay.css
