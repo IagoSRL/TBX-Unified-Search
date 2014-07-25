@@ -1009,7 +1009,7 @@ var unifiedsearch = {
 		let uswclear = document.getElementById('usw-clear');
 		if (!this.usbox || !uswclear) return;
 
-		// Show clear button if there is text or filter options actived, hide if not
+		// Show clear button if there is text or filter options activated, hide if not
 		if (!/^\s*\s*$/g.test(this.usbox.value) ||
 			this.isUnifiedSearchFilterOptionChecked('unread') ||
 			this.isUnifiedSearchFilterOptionChecked('starred') ||
