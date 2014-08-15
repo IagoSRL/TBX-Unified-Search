@@ -4,7 +4,7 @@
     <em:id>{FAD2EADC-7D70-11DF-8B33-89D1DED72085}</em:id>
     <em:type>2</em:type>
     <em:name>Unified Search</em:name>
-    <em:version>0.7.4</em:version>
+    <em:version>0.7.5</em:version>
     <em:creator>Iago Lorenzo Salgueiro (IagoSRL@gmail.com)</em:creator>
     <em:contributor></em:contributor>
     <em:translator>Onno Ekker (nl)</em:translator>
@@ -14,8 +14,8 @@
     <em:targetApplication>
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id> <!-- Thunderbird -->
-        <em:minVersion>3.1</em:minVersion>
-        <em:maxVersion>30.*</em:maxVersion>
+        <em:minVersion>31.*</em:minVersion>
+        <em:maxVersion>34.*</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
