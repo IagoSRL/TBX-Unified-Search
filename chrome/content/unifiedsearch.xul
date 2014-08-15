@@ -28,7 +28,7 @@
     <toolbarpalette id="MailToolbarPalette">
         <toolbaritem id="unifiedsearch-widget" class="chromeclass-toolbar-additional" align="center"
                      title="&unifiedsearch.customize_title;"
-                     flex="1" insertbefore="searchInput">
+                     flex="1">
             <commandset>
                 <command id="unifiedsearch-cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
                 <command id="unifiedsearch-cmd_clearUnifiedSearchWidget" oncommand="unifiedsearch.cmd_clearUnifiedSearchWidget(event)"/>

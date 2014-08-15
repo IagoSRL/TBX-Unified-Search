@@ -33,6 +33,9 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
+ 
+Components.utils.import("chrome://unifiedsearch/content/MdnUtils.js");
+var mdnUtils = new MdnUtils(window, document);
 
 var unifiedsearch = {
 
@@ -749,6 +752,14 @@ var unifiedsearch = {
 			this.prefs.setComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString, str);
 			return val;
 		},
+        get firstRunDone() {
+            var prefName = 'firstRunDone';
+            var v = this.prefs.getBoolPref(prefName);
+            if (!v) {
+                this.prefs.setBoolPref(prefName, true);
+            }
+            return v;
+        },
 		
 		/**** The options with the prefix 'app_' in the name, are preferences of the 
 				application -thunderbird-, not from this extension ****/
@@ -1205,7 +1216,21 @@ var unifiedsearch = {
 	
 	/* Initializing Unified Search */
 	startup: function (aEvent) {
-		this.modTBBuiltIn();
+		
+        // Some tasks must be done only on first run
+        this.firstRun = !this.options.firstRunDone;
+        
+        if (this.firstRun) {
+            try {
+                // Put the Widget in the main toolbar by default
+                mdnUtils.installButton('mail-bar3', 'unifiedsearch-widget');
+            } catch(iex) {
+                this.log('UnifiedSearchWidget, Error adding buttton to toolbar (mdnUtils.installButton): ' + iex);
+            }
+            this.log('UnifiedSearchWidget added to toolbar? ' + (this.uswidget !== null));
+        }
+        
+        this.modTBBuiltIn();
 		// Observer changes in preferences
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		this.options.appPrefs.addObserver('', unifiedsearch, false);
@@ -1213,7 +1238,7 @@ var unifiedsearch = {
 		// or non folder tab (like a search, a calendar tab, etc.) is showed and so on.
 		FolderDisplayListenerManager.registerListener(this.folderDisplayListener);
 		this.tabmail.registerTabMonitor(this.tabMonitor);
-		
+
 		// QFBar with the QFBox:
 		if (this.qfbox)
 			this.initQFBox(aEvent);
