@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://unifiedsearch/skin/overlay.css" type="text/css"?>
-
 <!DOCTYPE overlay SYSTEM "chrome://unifiedsearch/locale/unifiedsearch.dtd"
 [
   <!ENTITY % quickFilterBar SYSTEM "chrome://messenger/locale/quickFilterBar.dtd">
@@ -10,151 +9,145 @@
 <overlay id="unifiedsearch-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		 xmlns:html="http://www.w3.org/1999/xhtml">
-  <script type="application/javascript" src="chrome://unifiedsearch/content/unifiedsearch.js"/>
-		<keyset>
-		  <key id="unifiedsearch-widget-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>		  
-		</keyset>
-  <box style="display:none">
-	<label id="unifiedsearch-filter-sender-shortcut" value="&unifiedsearch.widget.filter.sender.shortcut;"/>
-	<label id="unifiedsearch-filter-recipients-shortcut" value="&unifiedsearch.widget.filter.recipients.shortcut;"/>
-	<label id="unifiedsearch-filter-subject-shortcut" value="&unifiedsearch.widget.filter.subject.shortcut;"/>
-	<label id="unifiedsearch-filter-body-shortcut" value="&unifiedsearch.widget.filter.body.shortcut;"/>
-	<label id="unifiedsearch-filter-unread-shortcut" value="&unifiedsearch.widget.filter.unread.shortcut;"/>
-	<label id="unifiedsearch-filter-starred-shortcut" value="&unifiedsearch.widget.filter.starred.shortcut;"/>
-	<label id="unifiedsearch-filter-inaddrbook-shortcut" value="&unifiedsearch.widget.filter.inaddrbook.shortcut;"/>
-	<label id="unifiedsearch-filter-tags-shortcut" value="&unifiedsearch.widget.filter.tags.shortcut;"/>
-	<label id="unifiedsearch-filter-attachment-shortcut" value="&unifiedsearch.widget.filter.attachment.shortcut;"/>
-	<label id="unifiedsearch-filter-sticky-shortcut" value="&unifiedsearch.widget.filter.sticky.shortcut;"/>
-  </box>
-<toolbarpalette id="MailToolbarPalette">
-	<toolbaritem id="unifiedsearch-widget" class="chromeclass-toolbar-additional" align="center"
-				 title="&unifiedsearch.customize_title;"
-                 flex="1" insertbefore="searchInput">
-		<commandset>
-			<command id="unifiedsearch-cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
-			<command id="unifiedsearch-cmd_clearUnifiedSearchWidget" oncommand="unifiedsearch.cmd_clearUnifiedSearchWidget(event)"/>
-		</commandset>
-		<observes element="threadTree" attribute="filterActive"/>
-		<popupset>
-			<panel id="unifiedsearch-widget-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
-				<toolbarbutton id="unifiedsearch-widget-bar-unread" type="checkbox" closemenu="none"
-					observes="unifiedsearch-widget-menu-unread" command="qfb-unread"
-					tooltiptext="&quickFilterBar.unread.tooltip;"/>
-				<toolbarbutton id="unifiedsearch-widget-bar-starred" type="checkbox" closemenu="none"
-					observes="unifiedsearch-widget-menu-starred" command="qfb-starred"
-					tooltiptext="&quickFilterBar.starred.tooltip;"/>
-				<toolbarbutton id="unifiedsearch-widget-bar-inaddrbook" type="checkbox" closemenu="none"
-					observes="unifiedsearch-widget-menu-inaddrbook" command="qfb-inaddrbook"
-					tooltiptext="&quickFilterBar.inaddrbook.tooltip;"/>
-				<toolbarbutton id="unifiedsearch-widget-bar-tags" type="checkbox" closemenu="none"
-					observes="unifiedsearch-widget-menu-tags" command="qfb-tags"
-					tooltiptext="&quickFilterBar.tags.tooltip;"/>
-				<toolbarbutton id="unifiedsearch-widget-bar-attachment" type="checkbox" closemenu="none"
-					observes="unifiedsearch-widget-menu-attachment" command="qfb-attachment"
-					tooltiptext="&quickFilterBar.attachment.tooltip;"/>
-				<toolbarseparator/>
-				<toolbarbutton id="unifiedsearch-widget-bar-qs-sender"
-					observes="unifiedsearch-widget-menu-qs-sender" command="qfb-qs-sender"
-					label="&quickFilterBar.textFilter.sender.label;" type="checkbox" closemenu="none" />
-				<toolbarbutton id="unifiedsearch-widget-bar-qs-recipients"
-					observes="unifiedsearch-widget-menu-qs-recipients" command="qfb-qs-recipients"
-					label="&quickFilterBar.textFilter.recipients.label;" type="checkbox" closemenu="none" />
-				<toolbarbutton id="unifiedsearch-widget-bar-qs-subject"
-					observes="unifiedsearch-widget-menu-qs-subject" command="qfb-qs-subject"
-					label="&quickFilterBar.textFilter.subject.label;" type="checkbox" closemenu="none" />
-				<toolbarbutton id="unifiedsearch-widget-bar-qs-body"
-					observes="unifiedsearch-widget-menu-qs-body" command="qfb-qs-body"
-					label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
-				<toolbarbutton id="unifiedsearch-widget-bar-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
-          onmouseover="unifiedsearch.onMouseTooltip(event)"
-          tooltip="unifiedsearch-sharedtooltip"
-					observes="unifiedsearch-widget-menu-usemenu"
-					tooltiptext="&unifiedsearch.usemenu;"/>
-			</panel>
-			<menupopup id="unifiedsearch-widget-menu" position="after_start">
-				<menuitem id="unifiedsearch-widget-menu-usebar" class="menuitem-iconic" accesskey="&unifiedsearch.widget.usebar.shortcut;" label="&unifiedsearch.usebar;"/>
-				<menuseparator id="unifiedsearch-widget-separator_after_toggleglobal_id"/>
-				<menuitem id="unifiedsearch-widget-menu-qs-sender"
-					observes="qfb-qs-sender" command="qfb-qs-sender"
-					label="&quickFilterBar.textFilter.sender.label;" accesskey="&unifiedsearch.widget.filter.sender.shortcut;" type="checkbox" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-qs-recipients"
-					observes="qfb-qs-recipients" command="qfb-qs-recipients"
-					label="&quickFilterBar.textFilter.recipients.label;" accesskey="&unifiedsearch.widget.filter.recipients.shortcut;" type="checkbox" closemenu="none" />
-				<menuitem id="unifiedsearch-widget-menu-qs-subject"
-					observes="qfb-qs-subject" command="qfb-qs-subject"
-					label="&quickFilterBar.textFilter.subject.label;" accesskey="&unifiedsearch.widget.filter.subject.shortcut;" type="checkbox" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-qs-body"
-					observes="qfb-qs-body" command="qfb-qs-body"
-					label="&quickFilterBar.textFilter.body.label;" accesskey="&unifiedsearch.widget.filter.body.shortcut;" type="checkbox" closemenu="none" />
-				<menuseparator/>
-				<menuitem id="unifiedsearch-widget-menu-unread"
-					observes="qfb-unread" command="qfb-unread"
-					type="checkbox" label="&quickFilterBar.unread.label;" accesskey="&unifiedsearch.widget.filter.unread.shortcut;" tooltiptext="&quickFilterBar.unread.tooltip;" class="menuitem-iconic" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-starred"
-					observes="qfb-starred" command="qfb-starred"
-					type="checkbox" label="&quickFilterBar.starred.label;" accesskey="&unifiedsearch.widget.filter.starred.shortcut;" tooltiptext="&quickFilterBar.starred.tooltip;" class="menuitem-iconic" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-inaddrbook"
-					observes="qfb-inaddrbook" command="qfb-inaddrbook"
-					type="checkbox" label="&quickFilterBar.inaddrbook.label;" accesskey="&unifiedsearch.widget.filter.inaddrbook.shortcut;" tooltiptext="&quickFilterBar.inaddrbook.tooltip;" class="menuitem-iconic" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-tags"
-					observes="qfb-tags" command="qfb-tags"
-					type="checkbox" label="&quickFilterBar.tags.label;" accesskey="&unifiedsearch.widget.filter.tags.shortcut;" tooltiptext="&quickFilterBar.tags.tooltip;" class="menuitem-iconic" closemenu="none"/>
-				<menuitem id="unifiedsearch-widget-menu-attachment"
-					observes="qfb-attachment" command="qfb-attachment"
-					type="checkbox" label="&quickFilterBar.attachment.label;" accesskey="&unifiedsearch.widget.filter.attachment.shortcut;" tooltiptext="&quickFilterBar.attachment.tooltip;" class="menuitem-iconic" closemenu="none"/>
-			</menupopup>
-			<tooltip id="unifiedsearch-widget-info" noautohide="false" position="before_start" orient="vertical"
-				label="&unifiedsearch.usw_info;"
-				keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
-				keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
-      <tooltip id="unifiedsearch-sharedtooltip">
-        <html:div id="unifiedsearch-sharedtooltip-div" type="content"/>
-      </tooltip>
-		</popupset>
-		<tooltip position="before_start" orient="vertical" id="unifiedsearch-widget-results-tooltip">
-			<label id="unifiedsearch-widget-results-label">
-				<observes element="qfb-results-label" attribute="value" onbroadcast="unifiedsearch.toggleUnifiedSearchResults();" />
-			</label>
-		</tooltip>
-		<textbox id="unifiedsearch-widget-searchbox"
-			flex="1"
-			type="glodacomplete"
-			searchbutton="true"
-			autocompletesearch="gloda"
-			autocompletepopup="PopupGlodaAutocomplete"
-			autocompletesearchparam="global"
-			enablehistory="false"
-			timeout="200"
-			emptytext=""
-			emptytextbase="&unifiedsearch.uswbox_emptytext;"
-			keyLabelNonMac="&unifiedsearch.keyLabel.nonmac;"
-			keyLabelMac="&unifiedsearch.keyLabel.mac;"
-			>
-			<hbox class="textbox-input-box" id="unifiedsearch-widget-box-buttons">
-				<toolbarbutton
-					id="unifiedsearch-widget-sticky" crop="none" minwidth="16"
-          onmouseover="unifiedsearch.onMouseTooltip(event)"
-          tooltip="unifiedsearch-sharedtooltip"
-					type="checkbox" accesskey="&unifiedsearch.widget.filter.sticky.shortcut;"
-					observes="qfb-sticky"
-        />
-				<toolbarbutton
-					id="unifiedsearch-widget-clear"
-					tooltiptext="&unifiedsearch.clearwidget;"
-					command="unifiedsearch-cmd_clearUnifiedSearchWidget"
-				/>
-				<toolbarbutton
-					id="unifiedsearch-widget-switchmode"
-					tooltiptext="&unifiedsearch.switchmode;"
-					command="unifiedsearch-cmd_switchUSWidgetMode"
-				/>
-				<toolbarbutton
-					id="unifiedsearch-widget-criteria" crop="none" minwidth="16" popup="unifiedsearch-widget-menu"
-					tooltiptext="&unifiedsearch.usw_criteria;"
-				/>
-			</hbox>
-		</textbox>
-	</toolbaritem>
-</toolbarpalette>
-  
+    <script type="application/javascript" src="chrome://unifiedsearch/content/unifiedsearch.js" />
+    <keyset>
+        <key id="unifiedsearch-widget-boxfocus" modifiers="accel shift" key="K" oncommand="unifiedsearch.cmd_uswboxFocus(event);"/>		  
+    </keyset>
+    <box style="display:none">
+        <label id="unifiedsearch-filter-sender-shortcut" value="&unifiedsearch.widget.filter.sender.shortcut;"/>
+        <label id="unifiedsearch-filter-recipients-shortcut" value="&unifiedsearch.widget.filter.recipients.shortcut;"/>
+        <label id="unifiedsearch-filter-subject-shortcut" value="&unifiedsearch.widget.filter.subject.shortcut;"/>
+        <label id="unifiedsearch-filter-body-shortcut" value="&unifiedsearch.widget.filter.body.shortcut;"/>
+        <label id="unifiedsearch-filter-unread-shortcut" value="&unifiedsearch.widget.filter.unread.shortcut;"/>
+        <label id="unifiedsearch-filter-starred-shortcut" value="&unifiedsearch.widget.filter.starred.shortcut;"/>
+        <label id="unifiedsearch-filter-inaddrbook-shortcut" value="&unifiedsearch.widget.filter.inaddrbook.shortcut;"/>
+        <label id="unifiedsearch-filter-tags-shortcut" value="&unifiedsearch.widget.filter.tags.shortcut;"/>
+        <label id="unifiedsearch-filter-attachment-shortcut" value="&unifiedsearch.widget.filter.attachment.shortcut;"/>
+        <label id="unifiedsearch-filter-sticky-shortcut" value="&unifiedsearch.widget.filter.sticky.shortcut;"/>
+    </box>
+    <toolbarpalette id="MailToolbarPalette">
+        <toolbaritem id="unifiedsearch-widget" class="chromeclass-toolbar-additional" align="center"
+                     title="&unifiedsearch.customize_title;"
+                     flex="1" insertbefore="searchInput">
+            <commandset>
+                <command id="unifiedsearch-cmd_switchUSWidgetMode" oncommand="unifiedsearch.cmd_switchUSWidgetMode(event)"/>
+                <command id="unifiedsearch-cmd_clearUnifiedSearchWidget" oncommand="unifiedsearch.cmd_clearUnifiedSearchWidget(event)"/>
+            </commandset>
+            <observes element="threadTree" attribute="filterActive"/>
+            <popupset>
+                <panel id="unifiedsearch-widget-bar" noautohide="false" noautofocus="true" position="after_end" orient="horizontal" pack="end">
+                    <toolbarbutton id="unifiedsearch-widget-bar-unread" type="checkbox" closemenu="none"
+                        observes="unifiedsearch-widget-menu-unread" command="qfb-unread"
+                        tooltiptext="&quickFilterBar.unread.tooltip;"/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-starred" type="checkbox" closemenu="none"
+                        observes="unifiedsearch-widget-menu-starred" command="qfb-starred"
+                        tooltiptext="&quickFilterBar.starred.tooltip;"/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-inaddrbook" type="checkbox" closemenu="none"
+                        observes="unifiedsearch-widget-menu-inaddrbook" command="qfb-inaddrbook"
+                        tooltiptext="&quickFilterBar.inaddrbook.tooltip;"/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-tags" type="checkbox" closemenu="none"
+                        observes="unifiedsearch-widget-menu-tags" command="qfb-tags"
+                        tooltiptext="&quickFilterBar.tags.tooltip;"/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-attachment" type="checkbox" closemenu="none"
+                        observes="unifiedsearch-widget-menu-attachment" command="qfb-attachment"
+                        tooltiptext="&quickFilterBar.attachment.tooltip;"/>
+                    <toolbarseparator/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-qs-sender"
+                        observes="unifiedsearch-widget-menu-qs-sender" command="qfb-qs-sender"
+                        label="&quickFilterBar.textFilter.sender.label;" type="checkbox" closemenu="none" />
+                    <toolbarbutton id="unifiedsearch-widget-bar-qs-recipients"
+                        observes="unifiedsearch-widget-menu-qs-recipients" command="qfb-qs-recipients"
+                        label="&quickFilterBar.textFilter.recipients.label;" type="checkbox" closemenu="none" />
+                    <toolbarbutton id="unifiedsearch-widget-bar-qs-subject"
+                        observes="unifiedsearch-widget-menu-qs-subject" command="qfb-qs-subject"
+                        label="&quickFilterBar.textFilter.subject.label;" type="checkbox" closemenu="none" />
+                    <toolbarbutton id="unifiedsearch-widget-bar-qs-body"
+                        observes="unifiedsearch-widget-menu-qs-body" command="qfb-qs-body"
+                        label="&quickFilterBar.textFilter.body.label;" type="checkbox" closemenu="none"/>
+                    <toolbarbutton id="unifiedsearch-widget-bar-usemenu" accesskey="&unifiedsearch.widget.usemenu.shortcut;"
+                        onmouseover="unifiedsearch.onMouseTooltip(event)"
+                        tooltip="unifiedsearch-sharedtooltip"
+                        observes="unifiedsearch-widget-menu-usemenu"
+                        tooltiptext="&unifiedsearch.usemenu;"/>
+                </panel>
+                <menupopup id="unifiedsearch-widget-menu" position="after_start">
+                    <menuitem id="unifiedsearch-widget-menu-usebar" class="menuitem-iconic" accesskey="&unifiedsearch.widget.usebar.shortcut;" label="&unifiedsearch.usebar;"/>
+                    <menuseparator id="unifiedsearch-widget-separator_after_toggleglobal_id"/>
+                    <menuitem id="unifiedsearch-widget-menu-qs-sender"
+                        observes="qfb-qs-sender" command="qfb-qs-sender"
+                        label="&quickFilterBar.textFilter.sender.label;" accesskey="&unifiedsearch.widget.filter.sender.shortcut;" type="checkbox" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-qs-recipients"
+                        observes="qfb-qs-recipients" command="qfb-qs-recipients"
+                        label="&quickFilterBar.textFilter.recipients.label;" accesskey="&unifiedsearch.widget.filter.recipients.shortcut;" type="checkbox" closemenu="none" />
+                    <menuitem id="unifiedsearch-widget-menu-qs-subject"
+                        observes="qfb-qs-subject" command="qfb-qs-subject"
+                        label="&quickFilterBar.textFilter.subject.label;" accesskey="&unifiedsearch.widget.filter.subject.shortcut;" type="checkbox" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-qs-body"
+                        observes="qfb-qs-body" command="qfb-qs-body"
+                        label="&quickFilterBar.textFilter.body.label;" accesskey="&unifiedsearch.widget.filter.body.shortcut;" type="checkbox" closemenu="none" />
+                    <menuseparator/>
+                    <menuitem id="unifiedsearch-widget-menu-unread"
+                        observes="qfb-unread" command="qfb-unread"
+                        type="checkbox" label="&quickFilterBar.unread.label;" accesskey="&unifiedsearch.widget.filter.unread.shortcut;" tooltiptext="&quickFilterBar.unread.tooltip;" class="menuitem-iconic" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-starred"
+                        observes="qfb-starred" command="qfb-starred"
+                        type="checkbox" label="&quickFilterBar.starred.label;" accesskey="&unifiedsearch.widget.filter.starred.shortcut;" tooltiptext="&quickFilterBar.starred.tooltip;" class="menuitem-iconic" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-inaddrbook"
+                        observes="qfb-inaddrbook" command="qfb-inaddrbook"
+                        type="checkbox" label="&quickFilterBar.inaddrbook.label;" accesskey="&unifiedsearch.widget.filter.inaddrbook.shortcut;" tooltiptext="&quickFilterBar.inaddrbook.tooltip;" class="menuitem-iconic" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-tags"
+                        observes="qfb-tags" command="qfb-tags"
+                        type="checkbox" label="&quickFilterBar.tags.label;" accesskey="&unifiedsearch.widget.filter.tags.shortcut;" tooltiptext="&quickFilterBar.tags.tooltip;" class="menuitem-iconic" closemenu="none"/>
+                    <menuitem id="unifiedsearch-widget-menu-attachment"
+                        observes="qfb-attachment" command="qfb-attachment"
+                        type="checkbox" label="&quickFilterBar.attachment.label;" accesskey="&unifiedsearch.widget.filter.attachment.shortcut;" tooltiptext="&quickFilterBar.attachment.tooltip;" class="menuitem-iconic" closemenu="none"/>
+                </menupopup>
+                <tooltip id="unifiedsearch-widget-info" noautohide="false" position="before_start" orient="vertical"
+                    label="&unifiedsearch.usw_info;"
+                    keyLabelNonMac="&unifiedsearch.doSearch.keyLabel.nonmac;"
+                    keyLabelMac="&unifiedsearch.doSearch.keyLabel.mac;" />
+                <tooltip id="unifiedsearch-sharedtooltip">
+                    <html:div id="unifiedsearch-sharedtooltip-div" type="content"/>
+                </tooltip>
+            </popupset>
+            <tooltip position="before_start" orient="vertical" id="unifiedsearch-widget-results-tooltip">
+                <label id="unifiedsearch-widget-results-label">
+                    <observes element="qfb-results-label" attribute="value" onbroadcast="unifiedsearch.toggleUnifiedSearchResults();" />
+                </label>
+            </tooltip>
+            <textbox id="unifiedsearch-widget-searchbox"
+                flex="1"
+                type="glodacomplete"
+                searchbutton="true"
+                autocompletesearch="gloda"
+                autocompletepopup="PopupGlodaAutocomplete"
+                autocompletesearchparam="global"
+                enablehistory="false"
+                timeout="200"
+                emptytext=""
+                emptytextbase="&unifiedsearch.uswbox_emptytext;"
+                keyLabelNonMac="&unifiedsearch.keyLabel.nonmac;"
+                keyLabelMac="&unifiedsearch.keyLabel.mac;">
+                <hbox class="textbox-input-box" id="unifiedsearch-widget-box-buttons">
+                    <toolbarbutton
+                        id="unifiedsearch-widget-sticky" crop="none" minwidth="16"
+                        onmouseover="unifiedsearch.onMouseTooltip(event)"
+                        tooltip="unifiedsearch-sharedtooltip"
+                        type="checkbox" accesskey="&unifiedsearch.widget.filter.sticky.shortcut;"
+                        observes="qfb-sticky" />
+                    <toolbarbutton
+                        id="unifiedsearch-widget-clear"
+                        tooltiptext="&unifiedsearch.clearwidget;"
+                        command="unifiedsearch-cmd_clearUnifiedSearchWidget" />
+                    <toolbarbutton
+                        id="unifiedsearch-widget-switchmode"
+                        tooltiptext="&unifiedsearch.switchmode;"
+                        command="unifiedsearch-cmd_switchUSWidgetMode" />
+                    <toolbarbutton
+                        id="unifiedsearch-widget-criteria" crop="none" minwidth="16" popup="unifiedsearch-widget-menu"
+                        tooltiptext="&unifiedsearch.usw_criteria;" />
+                </hbox>
+            </textbox>
+        </toolbaritem>
+    </toolbarpalette>
 </overlay>
