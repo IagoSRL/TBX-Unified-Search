@@ -54,7 +54,7 @@
 	-moz-image-region: rect(0, 16px, 18px, 0) !important;
 }
 #unifiedsearch-widget[uswmode='search'] #unifiedsearch-widget-switchmode {
-	list-style-image: url(chrome://global/skin/icons/Search-glass.png); /* it's global, no problem */
+	list-style-image: url(chrome://unifiedsearch/skin/icons/search-glass.png); /* it's no longer global */
 	-moz-image-region: rect(0, 16px, 18px, 0) !important;
 }
 #unifiedsearch-widget[uswmode='search'] #unifiedsearch-widget-sticky {

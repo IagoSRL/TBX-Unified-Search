@@ -34,7 +34,11 @@
  *
  * ***** END LICENSE BLOCK ***** */
  
-Components.utils.import("chrome://unifiedsearch/content/MdnUtils.js");
+try {
+  Components.utils.import("resource://gre/modules/AppConstants.jsm"); // Gecko 45+, STEEL (Application) is removed in Gecko 57
+} catch(ex) { };
+
+Components.utils.import("chrome://unifiedsearch/content/mdnUtils.js");
 var mdnUtils = new MdnUtils(window, document);
 
 var unifiedsearch = {
@@ -266,19 +270,19 @@ var unifiedsearch = {
 		
 		// Study the showPopup function in gsbox.popup
 		//for (let ip in gsbox.popup)
-		//	Application.console.log("PopUp: " + ip + "=" + gsbox.popup[ip]);
+		//	console.log("PopUp: " + ip + "=" + gsbox.popup[ip]);
 		
 		//let popup = document.getElementById("PopupGlodaAutocomplete");
-		/*Application.console.log("Popup: " + gsbox.popup.id);
+		/*console.log("Popup: " + gsbox.popup.id);
 		let st = window.getComputedStyle(qfbox, null);
 		gsbox.popup.style.position = "absolute";
 		gsbox.popup.style.display = "block";
 		gsbox.popup.style.top = qfbox.offsetTop;
 		gsbox.popup.style.left = qfbox.offsetLeft;
-		Application.console.log("left: " + st.left);
-		Application.console.log("pop: " + gsbox.popup.style.position);
-		Application.console.log("pop: " + gsbox.popup.style.left);
-		Application.console.log("pop: " + gsbox.popup.style.top);*/
+		console.log("left: " + st.left);
+		console.log("pop: " + gsbox.popup.style.position);
+		console.log("pop: " + gsbox.popup.style.left);
+		console.log("pop: " + gsbox.popup.style.top);*/
 	},
 	switchSearchAutoComplete: function(gsbox) {
 		this.options.enableAutoCompleteInSearchBox = !(gsbox.disableAutoComplete = !gsbox.disableAutoComplete);
@@ -1004,23 +1008,40 @@ var unifiedsearch = {
 		(in fact, the code is extracted from there). */
 	configureUnifiedSearchEmptyText: function() {
 		if (!this.usbox) return;
-		this.usbox.setAttribute(
-            'emptytext',
-            this.usbox.getAttribute('emptytextbase')
-                 .replace('#1', this.usbox.getAttribute(
-                                  Application.platformIsMac ?
-                                  'keyLabelMac' : 'keyLabelNonMac')));
+		if (typeof AppConstants !== "undefined") {
+			this.usbox.setAttribute(
+				'emptytext',
+				this.usbox.getAttribute('emptytextbase')
+					 .replace('#1', this.usbox.getAttribute(
+									  AppConstants.platformIsMac ?
+									  'keyLabelMac' : 'keyLabelNonMac')));
+		} else {
+			this.usbox.setAttribute(
+				'emptytext',
+				this.usbox.getAttribute('emptytextbase')
+					 .replace('#1', this.usbox.getAttribute(
+									  Application.platformIsMac ?
+									  'keyLabelMac' : 'keyLabelNonMac')));
+		}
 		// Compatibility with TB-5.0+ (the new attribute is 'placeholder' like in HTML5):
 		this.usbox.setAttribute('placeholder', this.usbox.getAttribute('emptytext'));
 	},
 	configureUnifiedSearchTooltipText: function() {
 		if (!this.usbox) return;
 		let info = document.getElementById('unifiedsearch-widget-info');
-		info.setAttribute('label',
-            info.getAttribute('label')
-                 .replace('#1', info.getAttribute(
-                                  Application.platformIsMac ?
-                                  'keyLabelMac' : 'keyLabelNonMac')));
+		if (typeof AppConstants !== "undefined") {
+			info.setAttribute('label',
+				info.getAttribute('label')
+					 .replace('#1', info.getAttribute(
+									  AppConstants.platformIsMac ?
+									  'keyLabelMac' : 'keyLabelNonMac')));
+		} else {
+			info.setAttribute('label',
+				info.getAttribute('label')
+					 .replace('#1', info.getAttribute(
+									  Application.platformIsMac ?
+									  'keyLabelMac' : 'keyLabelNonMac')));
+		}
 	},
 	// TODO: don't work well (filter options don't raise the command event; ever give a 'show' state)
 	toggleUnifiedSearchClearButton: function () {
@@ -1232,7 +1253,7 @@ var unifiedsearch = {
         
         this.modTBBuiltIn();
 		// Observer changes in preferences
-		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
 		this.options.appPrefs.addObserver('', unifiedsearch, false);
 		// Request listen changes in the Folder Display view and tab changes to know when a different folder is selected, a non-folder
 		// or non folder tab (like a search, a calendar tab, etc.) is showed and so on.
@@ -1275,8 +1296,8 @@ var unifiedsearch = {
     this.setupTooltip('unifiedsearch-widget-bar-usemenu');
 	},
 	shutdown: function (aEvent) {
-		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver('', this);
-		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch2).removeObserver('', this);
+		this.options.prefs.QueryInterface(Components.interfaces.nsIPrefBranch).removeObserver('', this);
+		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch).removeObserver('', this);
 	},
 
   setupTooltip: function (aId) {
@@ -1447,7 +1468,7 @@ var unifiedsearch = {
 	
 	/* Debug helpers */
 	log: function(text){
-		Application.console.log(text);
+    console.log(text);
 	},
 	error: function(text){
 		Components.utils.reportError(text);
