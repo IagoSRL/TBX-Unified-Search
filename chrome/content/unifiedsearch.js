@@ -735,25 +735,21 @@ var unifiedsearch = {
 		get autoShowFilterBar() { return this.prefs.getBoolPref('filterBar.autoShow') },
 		get rememberFilterOptions() { return this.prefs.getBoolPref('filterBar.rememberFilterOptions') },
 		get uswOptionsMode() { 
-			let val = this.prefs.getComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString).toString();
-			// Avoiding bad configuration: if a non-valid options was setted, 'menu' is returned as default:
+			let val = this.prefs.getStringPref('widget.optionsMode');
+			// Avoiding bad configuration: if a non-valid options was set, 'menu' is returned as default:
 			return val != 'bar' ? 'menu' : 'bar';
 		},
 		set uswOptionsMode(val) {
-			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
-			str.data = val;
-			this.prefs.setComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString, str);
+			this.prefs.setStringPref('widget.optionsMode', val);
 			return val;
 		},
 		get unifiedSearchWidgetMode() {
-			let val = this.prefs.getComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString).toString() 
-			// Avoiding bad configuration: if a non-valid options was setted, 'filter' is returned as default:
+			let val = this.prefs.getStringPref('unifiedSearchWidget.mode');
+			// Avoiding bad configuration: if a non-valid options was set, 'filter' is returned as default:
 			return val != 'search' ? 'filter' : 'search';
 		},
 		set unifiedSearchWidgetMode(val) { 
-			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
-			str.data = val;
-			this.prefs.setComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString, str);
+			this.prefs.setStringPref('unifiedSearchWidget.mode', val);
 			return val;
 		},
         get firstRunDone() {
