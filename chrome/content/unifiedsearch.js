@@ -735,35 +735,53 @@ var unifiedsearch = {
 		get autoShowFilterBar() { return this.prefs.getBoolPref('filterBar.autoShow') },
 		get rememberFilterOptions() { return this.prefs.getBoolPref('filterBar.rememberFilterOptions') },
 		get uswOptionsMode() { 
-			let val = this.prefs.getComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString).toString();
-			// Avoiding bad configuration: if a non-valid options was setted, 'menu' is returned as default:
+			let val = null;
+			if (typeof this.prefs.getStringPref === "function") {
+				val = this.prefs.getStringPref('widget.optionsMode');
+			} else {
+				val = this.prefs.getComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString).toString();
+			}
+			// Avoiding bad configuration: if a non-valid options was set, 'menu' is returned as default:
 			return val != 'bar' ? 'menu' : 'bar';
 		},
 		set uswOptionsMode(val) {
-			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
-			str.data = val;
-			this.prefs.setComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString, str);
+			if (typeof this.prefs.setStringPref === "function") {
+				this.prefs.setStringPref('widget.optionsMode', val);
+			} else {
+	 			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
+				str.data = val;
+				this.prefs.setComplexValue('widget.optionsMode', Components.interfaces.nsISupportsString, str);
+			}
 			return val;
 		},
 		get unifiedSearchWidgetMode() {
-			let val = this.prefs.getComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString).toString() 
-			// Avoiding bad configuration: if a non-valid options was setted, 'filter' is returned as default:
+			let val = null
+			if (typeof this.prefs.getStringPref === "function") {
+				val = this.prefs.getStringPref('unifiedSearchWidget.mode');
+			} else {
+				val = this.prefs.getComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString).toString()
+			}
+			// Avoiding bad configuration: if a non-valid options was set, 'filter' is returned as default:
 			return val != 'search' ? 'filter' : 'search';
 		},
-		set unifiedSearchWidgetMode(val) { 
-			let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
-			str.data = val;
-			this.prefs.setComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString, str);
+		set unifiedSearchWidgetMode(val) {
+			if (typeof this.prefs.setStringPref === "function") {
+				this.prefs.setStringPref('unifiedSearchWidget.mode', val);
+			} else {
+				let str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
+				str.data = val;
+				this.prefs.setComplexValue('unifiedSearchWidget.mode', Components.interfaces.nsISupportsString, str);
+			}
 			return val;
 		},
-        get firstRunDone() {
-            var prefName = 'firstRunDone';
-            var v = this.prefs.getBoolPref(prefName);
-            if (!v) {
-                this.prefs.setBoolPref(prefName, true);
-            }
-            return v;
-        },
+		get firstRunDone() {
+			var prefName = 'firstRunDone';
+			var v = this.prefs.getBoolPref(prefName);
+			if (!v) {
+				this.prefs.setBoolPref(prefName, true);
+			}
+			return v;
+		},
 		
 		/**** The options with the prefix 'app_' in the name, are preferences of the 
 				application -thunderbird-, not from this extension ****/
@@ -1238,20 +1256,20 @@ var unifiedsearch = {
 	/* Initializing Unified Search */
 	startup: function (aEvent) {
 		
-        // Some tasks must be done only on first run
-        this.firstRun = !this.options.firstRunDone;
-        
-        if (this.firstRun) {
-            try {
-                // Put the Widget in the main toolbar by default
-                mdnUtils.installButton('mail-bar3', 'unifiedsearch-widget');
-            } catch(iex) {
-                this.log('UnifiedSearchWidget, Error adding buttton to toolbar (mdnUtils.installButton): ' + iex);
-            }
-            this.log('UnifiedSearchWidget added to toolbar? ' + (this.uswidget !== null));
-        }
-        
-        this.modTBBuiltIn();
+    // Some tasks must be done only on first run
+    this.firstRun = !this.options.firstRunDone;
+
+		if (this.firstRun) {
+			try {
+				// Put the Widget in the main toolbar by default
+				mdnUtils.installButton('mail-bar3', 'unifiedsearch-widget');
+			} catch(iex) {
+				this.log('UnifiedSearchWidget, Error adding buttton to toolbar (mdnUtils.installButton): ' + iex);
+			}
+			this.log('UnifiedSearchWidget added to toolbar? ' + (this.uswidget !== null));
+		}
+
+    this.modTBBuiltIn();
 		// Observer changes in preferences
 		this.options.appPrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
 		this.options.appPrefs.addObserver('', unifiedsearch, false);
